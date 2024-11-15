@@ -5,7 +5,6 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, useRouter } from "expo-router";
 
 import Theme from "@/assets/theme";
-import db from "@/database/db";
 import useSession from "@/utils/useSession";
 
 export default function Post({
@@ -26,7 +25,7 @@ export default function Post({
   const submitVote = async (vote) => {
     setIsLoading(true);
 
-    const data = await db
+    /*const data = await db
       .from("likes")
       .select("id")
       .eq("user_id", session.user.id)
@@ -38,7 +37,7 @@ export default function Post({
       like = { id: data.data[0].id, ...like };
     }
 
-    await db.from("likes").upsert(like);
+    await db.from("likes").upsert(like);*/
 
     setIsLoading(false);
   };

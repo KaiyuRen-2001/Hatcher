@@ -6,23 +6,15 @@
 
 import { useEffect, useState } from "react";
 
-import db from "@/database/db";
+import { getUser } from "@/database/db";
 
 export default function useSession() {
   const [session, setSession] = useState(null);
 
   useEffect(() => {
-    db.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
+    getUser().then((user) => {
+      setSession({ user: user });
     });
-
-    const {
-      data: { subscription },
-    } = db.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-
-    return () => subscription.unsubscribe();
   }, []);
 
   return session;

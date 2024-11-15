@@ -4,7 +4,6 @@ import { Stack, useRouter } from "expo-router";
 import { TouchableOpacity } from "react-native";
 
 import Theme from "@/assets/theme";
-import db from "@/database/db";
 import useSession from "@/utils/useSession";
 
 export default function NewPost() {
@@ -18,13 +17,13 @@ export default function NewPost() {
   const submitPost = async () => {
     setIsLoading(true);
 
-    const post = {
+    /*const post = {
       username: username ? username : "Anonymous",
       text: inputText,
       user_id: session.user.id,
     };
 
-    await db.from("posts").upsert(post);
+    await db.from("posts").upsert(post);*/
 
     setIsLoading(false);
     router.back();

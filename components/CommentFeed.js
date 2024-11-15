@@ -4,7 +4,6 @@ import { StyleSheet, FlatList, RefreshControl } from "react-native";
 import Theme from "@/assets/theme";
 import Comment from "./Comment";
 import Loading from "./Loading";
-import db from "@/database/db";
 import useSession from "@/utils/useSession";
 
 import timeAgo from "@/utils/timeAgo";
@@ -19,11 +18,11 @@ export default function CommentFeed({ postId }) {
   const fetchComments = async () => {
     setIsLoading(true);
 
-    const data = await db
+    /*const data = await db
       .from("comments")
       .select("username, timestamp, text")
       .eq("post_id", postId);
-    setComments(data.data);
+    setComments(data.data);*/
 
     setIsLoading(false);
     setIsRefreshing(false);

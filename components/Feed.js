@@ -4,7 +4,6 @@ import { StyleSheet, FlatList, RefreshControl } from "react-native";
 import Theme from "@/assets/theme";
 import Post from "@/components/Post";
 import Loading from "@/components/Loading";
-import db from "@/database/db";
 import useSession from "@/utils/useSession";
 
 import timeAgo from "@/utils/timeAgo";
@@ -22,7 +21,7 @@ export default function Feed({
   const fetchPosts = async () => {
     setIsLoading(true);
 
-    const votes = await db
+    /*const votes = await db
       .from("likes")
       .select("post_id, vote")
       .eq("user_id", session.user.id);
@@ -50,7 +49,7 @@ export default function Feed({
       return { vote: vote, ...post };
     });
 
-    setPosts(postsWithVotes);
+    setPosts(postsWithVotes);*/
 
     setIsLoading(false);
     setIsRefreshing(false);

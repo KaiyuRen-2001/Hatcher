@@ -9,7 +9,6 @@ import {
   Keyboard,
 } from "react-native";
 import { useLocalSearchParams, Stack } from "expo-router";
-import db from "@/database/db";
 import useSession from "@/utils/useSession";
 
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -36,7 +35,7 @@ export default function Details() {
       user_id: session.user.id,
     };
 
-    await db.from("comments").upsert(comment);
+    /*await db.from("comments").upsert(comment);*/
 
     setIsLoading(false);
     setInputText("");

@@ -6,7 +6,6 @@ import Theme from "@/assets/theme";
 import Feed from "@/components/Feed";
 import Loading from "@/components/Loading";
 
-import db from "@/database/db";
 import useSession from "@/utils/useSession";
 
 export default function Profile() {
@@ -15,13 +14,13 @@ export default function Profile() {
 
   const signOut = async () => {
     try {
-      const { error } = await db.auth.signOut();
+      /*const { error } = await db.auth.signOut();
       if (error) {
         Alert.alert(error.message);
       } else {
         router.navigate("/");
         Alert.alert("Sign out successful.");
-      }
+      }*/
     } catch (err) {
       console.log(err);
     }
