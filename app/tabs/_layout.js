@@ -28,7 +28,7 @@ export default function Layout() {
       <Tabs.Screen
         name="feed"
         options={{
-          tabBarLabel: "Feed",
+          tabBarLabel: "Home",
           headerShown: false,
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons
@@ -36,6 +36,16 @@ export default function Layout() {
               size={size}
               color={color}
             />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="explore"
+        options={{
+          headerShown: false,
+          tabBarLabel: "Explore",
+          tabBarIcon: ({ size, color }) => (
+            <FontAwesome size={size} name="user" color={color} />
           ),
         }}
       />
