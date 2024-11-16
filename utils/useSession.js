@@ -6,14 +6,17 @@
 
 import { useEffect, useState } from "react";
 
-import { getUser } from "@/database/db";
+import { getUser, setInitialData } from "@/database/db";
 
 export default function useSession() {
   const [session, setSession] = useState(null);
 
   useEffect(() => {
-    getUser().then((user) => {
-      setSession({ user: user });
+    setInitialData().then(() => {
+      getUser().then((user) => {
+        console.log(user);
+        setSession({ user: user });
+      });
     });
   }, []);
 
