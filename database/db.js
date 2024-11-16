@@ -10,9 +10,7 @@ export const setInitialData = async () => {
         id: 1,
       })
     );
-    console.log("srt");
   } catch (error) {
-    console.log("error");
     // Error saving data
   }
 };

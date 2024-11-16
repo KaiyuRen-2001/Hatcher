@@ -14,7 +14,6 @@ export default function useSession() {
   useEffect(() => {
     setInitialData().then(() => {
       getUser().then((user) => {
-        console.log(user);
         setSession({ user: user });
       });
     });
