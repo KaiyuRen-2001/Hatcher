@@ -15,9 +15,9 @@ export default function Layout() {
       }}
     >
       <Stack.Screen
-        name="myprofile"
+        name="list"
         options={{
-          title: "My Profile",
+          title: "Explore New Groups",
         }}
       />
       <Stack.Screen name="details" />
