@@ -3,7 +3,6 @@ import {
   createStaticNavigation,
   NavigationIndependentTree,
 } from "@react-navigation/native";
-import FeedDetails from "@/app/tabs/profile/details";
 import Home from "@/app/tabs/feed/home";
 import Theme from "@/assets/theme";
 

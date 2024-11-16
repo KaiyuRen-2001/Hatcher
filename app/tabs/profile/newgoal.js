@@ -1,5 +1,5 @@
 import Details from "@/components/Details";
 
-export default function FeedDetails() {
+export default function NewGoal() {
   return <Details />;
 }

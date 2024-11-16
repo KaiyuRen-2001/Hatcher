@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import { useRouter } from "expo-router";
 
@@ -35,8 +36,16 @@ export default function Profile() {
       <View style={styles.userContainer}>
         <View style={styles.userTextContainer}>
           <Text style={styles.title}>Logged in as: </Text>
-          <TouchableOpacity onPress={() => signOut()}>
-            <Text style={styles.buttonText}>Sign out</Text>
+          <TouchableOpacity
+            onPress={() => router.navigate("/tabs/profile/newgoal")}
+          >
+            <View style={styles.postButton}>
+              <FontAwesome
+                size={32}
+                name="plus"
+                color={Theme.colors.textPrimary}
+              />
+            </View>
           </TouchableOpacity>
         </View>
         <Text style={styles.text}>{session.user.email}</Text>
@@ -51,6 +60,18 @@ export default function Profile() {
 }
 
 const styles = StyleSheet.create({
+  postButton: {
+    backgroundColor: Theme.colors.iconHighlighted,
+    height: 48,
+    width: 48,
+    borderRadius: 24,
+    alignItems: "center",
+    justifyContent: "center",
+    // FontAwesome 'plus' icon is a bit off-center, so we manually center it by
+    // tweaking the padding
+    paddingTop: 2,
+    paddingLeft: 1,
+  },
   container: {
     flex: 1,
     backgroundColor: Theme.colors.backgroundPrimary,

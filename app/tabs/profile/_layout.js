@@ -20,7 +20,14 @@ export default function Layout() {
           title: "My Profile",
         }}
       />
-      <Stack.Screen name="details" />
+      <Stack.Screen
+        name="newgoal"
+        options={{
+          title: "New Goal",
+          headerBackTitle: "Back",
+          headerTintColor: Theme.colors.textPrimary,
+        }}
+      />
     </Stack>
   );
 }
