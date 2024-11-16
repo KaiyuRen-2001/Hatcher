@@ -23,7 +23,7 @@ export default function Layout() {
       <Stack.Screen
         name="newgoal"
         options={{
-          title: "New Goal",
+          title: "Create New Goal",
           headerBackTitle: "Back",
           headerTintColor: Theme.colors.textPrimary,
         }}
