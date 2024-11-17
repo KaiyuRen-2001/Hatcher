@@ -14,6 +14,8 @@ export const setInitialData = async () => {
       })
     );
 
+    await AsyncStorage.setItem("goals", JSON.stringify([]));
+
     await AsyncStorage.setItem(
       "groups",
       JSON.stringify([
