@@ -47,7 +47,7 @@ export default function Profile() {
         </View>
       </View>
       <View style={styles.goalsTitle}>
-        <Text style={styles.title}>Goals</Text>
+        <Text style={styles.goalsTitleText}>Goals</Text>
         <TouchableOpacity
           onPress={() => router.navigate("/tabs/profile/newgoal")}
         >
@@ -90,10 +90,10 @@ const styles = StyleSheet.create({
   },
   goalsTitle: {
     flexDirection: "row",
-    paddingTop: 16,
+    padding: 16,
     width: "100%",
-    justifyContent: "space-around",
-    alignItems: "center",
+    justifyContent: "flex-start",
+    alignItems: "flex-end",
   },
   container: {
     flex: 1,
@@ -101,8 +101,9 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.colors.backgroundPrimary,
   },
   feed: {
+    paddingLeft: 32,
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   profilePicture: {
     width: "40%",
@@ -127,12 +128,18 @@ const styles = StyleSheet.create({
   },
   title: {
     color: Theme.colors.textPrimary,
-    fontSize: Theme.sizes.textLarge,
+    fontSize: Theme.sizes.textExtraLarge,
     fontWeight: "bold",
+  },
+  goalsTitleText: {
+    color: Theme.colors.textPrimary,
+    fontSize: Theme.sizes.textExtraLarge,
+    fontWeight: "bold",
+    marginRight: 8,
   },
   text: {
     color: Theme.colors.textPrimary,
-    fontSize: Theme.sizes.textMedium,
+    fontSize: Theme.sizes.textLarge,
   },
   buttonText: {
     fontWeight: "bold",

@@ -21,5 +21,6 @@ export default {
     iconMedium: 32,
     textMedium: 16,
     textLarge: 20,
+    textExtraLarge: 32,
   },
 };
