@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import { useRouter } from "expo-router";
@@ -34,22 +34,22 @@ export default function Profile() {
   return (
     <View style={styles.container}>
       <View style={styles.userContainer}>
+        <Image
+          style={styles.profilePicture}
+          source={require("@/assets/user.png")} // TODO do not hard code
+        ></Image>
         <View style={styles.userTextContainer}>
-          <Text style={styles.title}>Logged in as: </Text>
-          <TouchableOpacity
-            onPress={() => router.navigate("/tabs/profile/newgoal")}
-          >
-            <View style={styles.postButton}>
-              <FontAwesome
-                size={32}
-                name="plus"
-                color={Theme.colors.textPrimary}
-              />
-            </View>
-          </TouchableOpacity>
+          <Text style={styles.title}>{session.user.username}</Text>
+          <Text style={styles.text}>{session.user.name}</Text>
         </View>
-        <Text style={styles.text}>{session.user.email}</Text>
       </View>
+      <TouchableOpacity
+        onPress={() => router.navigate("/tabs/profile/newgoal")}
+      >
+        <View style={styles.postButton}>
+          <FontAwesome size={32} name="plus" color={Theme.colors.textPrimary} />
+        </View>
+      </TouchableOpacity>
       <Text style={[styles.title, styles.postTitle]}>My Posts</Text>
       <Feed
         navigateToComments={"/tabs/profile/details"}
@@ -74,30 +74,38 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    flexDirection: "column",
     backgroundColor: Theme.colors.backgroundPrimary,
+  },
+  profilePicture: {
+    width: "40%",
+    padding: 8,
+    aspectRatio: 1,
   },
   postTitle: {
     padding: 12,
   },
   userContainer: {
     width: "100%",
+    flexDirection: "row",
     marginTop: 12,
+    alignItems: "center",
     paddingHorizontal: 12,
   },
   userTextContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
     marginBottom: 8,
+    marginLeft: 8,
   },
   title: {
     color: Theme.colors.textPrimary,
-    fontSize: Theme.sizes.textMedium,
+    fontSize: Theme.sizes.textLarge,
     fontWeight: "bold",
   },
   text: {
     color: Theme.colors.textPrimary,
     fontSize: Theme.sizes.textMedium,
-    paddingLeft: 8,
   },
   buttonText: {
     fontWeight: "bold",

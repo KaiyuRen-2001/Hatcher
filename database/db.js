@@ -10,7 +10,7 @@ export const setInitialData = async () => {
         name: "James Landay",
         username: "landay",
         id: 1,
-        picture: null,
+        picture: "@/assets/user.png",
       })
     );
 
