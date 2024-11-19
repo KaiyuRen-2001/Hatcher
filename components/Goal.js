@@ -1,5 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 
+import Tag from "@/components/Tag";
+
 import Theme from "@/assets/theme";
 
 export default function Goal({ name, catagory, confidence }) {
@@ -7,7 +9,9 @@ export default function Goal({ name, catagory, confidence }) {
     <TouchableOpacity style={styles.container}>
       <View style={styles.body}>
         <Text style={styles.name}>{name}</Text>
-        <Text style={styles.catagory}>{catagory}</Text>
+        <View style={styles.catagory}>
+          <Tag title={catagory} icon={null} />
+        </View>
       </View>
       <Image
         style={styles.eggPicture}
@@ -43,9 +47,7 @@ const styles = StyleSheet.create({
     fontSize: Theme.sizes.textLarge,
   },
   catagory: {
-    color: Theme.colors.textPrimary,
     paddingLeft: 8,
     paddingTop: 4,
-    fontSize: Theme.sizes.textMedium,
   },
 });
