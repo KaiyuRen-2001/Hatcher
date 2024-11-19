@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { useState } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import { useRouter } from "expo-router";
@@ -12,6 +13,8 @@ import useSession from "@/utils/useSession";
 export default function Profile() {
   const session = useSession();
   const router = useRouter();
+
+  const [goals, setGoals] = useState([]);
 
   const signOut = async () => {
     try {
@@ -43,14 +46,27 @@ export default function Profile() {
           <Text style={styles.text}>{session.user.name}</Text>
         </View>
       </View>
-      <TouchableOpacity
-        onPress={() => router.navigate("/tabs/profile/newgoal")}
-      >
-        <View style={styles.postButton}>
-          <FontAwesome size={32} name="plus" color={Theme.colors.textPrimary} />
-        </View>
-      </TouchableOpacity>
-      <Text style={[styles.title, styles.postTitle]}>My Posts</Text>
+      <View style={styles.goalsTitle}>
+        <Text style={styles.title}>Goals</Text>
+        <TouchableOpacity
+          onPress={() => router.navigate("/tabs/profile/newgoal")}
+        >
+          <View style={styles.postButton}>
+            <FontAwesome
+              size={32}
+              name="plus"
+              color={Theme.colors.textPrimary}
+            />
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.feed}>
+        {goals.length ? (
+          <Text style={styles.text}>Goals here</Text>
+        ) : (
+          <Text style={styles.text}>Click + to add goals.</Text>
+        )}
+      </View>
       <Feed
         navigateToComments={"/tabs/profile/details"}
         fetchUsersPostsOnly={true}
@@ -72,10 +88,21 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     paddingLeft: 1,
   },
+  goalsTitle: {
+    flexDirection: "row",
+    paddingTop: 16,
+    width: "100%",
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
   container: {
     flex: 1,
     flexDirection: "column",
     backgroundColor: Theme.colors.backgroundPrimary,
+  },
+  feed: {
+    flexDirection: "row",
+    justifyContent: "center",
   },
   profilePicture: {
     width: "40%",
