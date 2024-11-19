@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import Tag from "@/components/Tag";
 
@@ -10,7 +11,16 @@ export default function Goal({ name, catagory, confidence }) {
       <View style={styles.body}>
         <Text style={styles.name}>{name}</Text>
         <View style={styles.catagory}>
-          <Tag title={catagory} icon={null} />
+          <Tag
+            title={catagory}
+            icon={
+              <FontAwesome
+                name="files-o"
+                size={Theme.sizes.iconSmall}
+                color={Theme.colors.iconPrimary}
+              />
+            }
+          />
         </View>
       </View>
       <Image
