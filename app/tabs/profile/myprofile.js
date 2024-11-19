@@ -1,11 +1,10 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
-import { useState } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import { useRouter } from "expo-router";
 
 import Theme from "@/assets/theme";
-import Feed from "@/components/Feed";
+import GoalsList from "@/components/GoalsList";
 import Loading from "@/components/Loading";
 
 import useSession from "@/utils/useSession";
@@ -13,8 +12,6 @@ import useSession from "@/utils/useSession";
 export default function Profile() {
   const session = useSession();
   const router = useRouter();
-
-  const [goals, setGoals] = useState([]);
 
   const signOut = async () => {
     try {
@@ -61,16 +58,8 @@ export default function Profile() {
         </TouchableOpacity>
       </View>
       <View style={styles.feed}>
-        {goals.length ? (
-          <Text style={styles.text}>Goals here</Text>
-        ) : (
-          <Text style={styles.text}>Click + to add goals.</Text>
-        )}
+        <GoalsList />
       </View>
-      <Feed
-        navigateToComments={"/tabs/profile/details"}
-        fetchUsersPostsOnly={true}
-      />
     </View>
   );
 }
@@ -102,6 +91,7 @@ const styles = StyleSheet.create({
   },
   feed: {
     paddingLeft: 32,
+    flex: 1,
     flexDirection: "row",
     justifyContent: "flex-start",
   },
