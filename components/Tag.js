@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     padding: 4,
     paddingHorizontal: 8,
     marginRight: "auto",
-    backgroundColor: Theme.colors.iconSecondary,
+    backgroundColor: Theme.colors.backgroundSecondary,
     borderRadius: 8,
   },
   title: {

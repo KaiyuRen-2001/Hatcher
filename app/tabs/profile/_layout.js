@@ -21,6 +21,14 @@ export default function Layout() {
         }}
       />
       <Stack.Screen
+        name="goaldetails"
+        options={{
+          title: "Goal",
+          headerBackTitle: "Back",
+          headerTintColor: Theme.colors.textPrimary,
+        }}
+      />
+      <Stack.Screen
         name="newgoal"
         options={{
           presentation: "modal",

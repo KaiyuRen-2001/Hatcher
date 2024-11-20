@@ -2,7 +2,7 @@ export default {
   // Feel free to customize these colors!
   colors: {
     backgroundPrimary: "#798F68",
-    backgroundSecondary: "#EFF6DF",
+    backgroundSecondary: "#8ea879",
 
     textPrimary: "#F6FAEC",
     textSecondary: "#95b080",
@@ -10,7 +10,7 @@ export default {
     textHighlighted: "#F2DD71",
 
     iconPrimary: "#F6FAEC",
-    iconSecondary: "#8ea879",
+    iconSecondary: "#95b080",
     iconHighlighted: "#F2DD71",
 
     tabBarActive: "#FFFFFF",

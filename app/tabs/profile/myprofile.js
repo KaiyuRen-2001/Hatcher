@@ -50,7 +50,7 @@ export default function Profile() {
         >
           <View style={styles.postButton}>
             <FontAwesome
-              size={32}
+              size={28}
               name="plus"
               color={Theme.colors.textPrimary}
             />
@@ -67,8 +67,8 @@ export default function Profile() {
 const styles = StyleSheet.create({
   postButton: {
     backgroundColor: Theme.colors.iconHighlighted,
-    height: 48,
-    width: 48,
+    height: 36,
+    width: 36,
     borderRadius: 24,
     alignItems: "center",
     justifyContent: "center",
@@ -79,10 +79,11 @@ const styles = StyleSheet.create({
   },
   goalsTitle: {
     flexDirection: "row",
-    padding: 16,
+    paddingTop: 16,
+    paddingLeft: 24,
     width: "100%",
     justifyContent: "flex-start",
-    alignItems: "flex-end",
+    alignItems: "center",
   },
   container: {
     flex: 1,
@@ -109,6 +110,10 @@ const styles = StyleSheet.create({
     marginTop: 12,
     alignItems: "center",
     paddingHorizontal: 16,
+    paddingBottom: 16,
+    borderBottomStyle: "solid",
+    borderBottomWidth: 1,
+    borderBottomColor: Theme.colors.backgroundSecondary,
   },
   userTextContainer: {
     flexDirection: "column",
