@@ -7,12 +7,14 @@ import Slider from "@react-native-community/slider";
 import Tag from "@/components/Tag";
 import Theme from "@/assets/theme";
 import { updateGoal } from "@/database/db";
+import getImages from "@/utils/images";
 
 export default function GoalDetails() {
   const { id, name, catagory, confidence } = useLocalSearchParams();
   const [currentConfidence, setCurrentConfidence] = useState(confidence);
   const [sliderValue, setSliderValue] = useState(confidence);
   const diasableSave = Boolean(sliderValue == currentConfidence);
+  const images = getImages();
 
   const onValueChange = (val) => {
     setSliderValue(val);
@@ -49,14 +51,14 @@ export default function GoalDetails() {
       <Image
         style={styles.eggPicture}
         resizeMode="contain"
-        source={require("@/assets/confidence3.png")} // TODO do not hard code
+        source={images[sliderValue]} // TODO do not hard code
       ></Image>
       <View style={styles.textAndSlider}>
         <Text style={styles.confidenceText}>Adjust your confidence level</Text>
         <Slider
           style={{ width: 300, height: 40 }}
           minimumValue={0}
-          maximumValue={4}
+          maximumValue={3}
           step={1}
           value={sliderValue}
           onValueChange={onValueChange}

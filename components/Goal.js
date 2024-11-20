@@ -5,8 +5,11 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Tag from "@/components/Tag";
 
 import Theme from "@/assets/theme";
+import getImages from "@/utils/images";
 
 export default function Goal({ id, name, catagory, confidence }) {
+  const images = getImages();
+
   return (
     <Link
       href={{
@@ -40,7 +43,7 @@ export default function Goal({ id, name, catagory, confidence }) {
         <Image
           style={styles.eggPicture}
           resizeMode="contain"
-          source={require("@/assets/confidence3.png")} // TODO do not hard code
+          source={images[confidence]} // TODO do not hard code
         ></Image>
       </TouchableOpacity>
     </Link>

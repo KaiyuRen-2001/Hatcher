@@ -17,12 +17,17 @@ export const setInitialData = async () => {
     await AsyncStorage.setItem(
       "goals",
       JSON.stringify([
-        { name: "Add skills section", catagory: "Resume Prep", confidence: 0 },
         {
           id: 1,
+          name: "Add skills section",
+          catagory: "Resume Prep",
+          confidence: 0,
+        },
+        {
+          id: 2,
           name: "Learn my greatest weakness",
           catagory: "Interview",
-          confidence: 0,
+          confidence: 2,
         },
       ])
     );
