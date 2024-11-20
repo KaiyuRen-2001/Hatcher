@@ -108,13 +108,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 12,
     alignItems: "center",
-    paddingHorizontal: 12,
+    paddingHorizontal: 16,
   },
   userTextContainer: {
     flexDirection: "column",
     justifyContent: "space-between",
     marginBottom: 8,
-    marginLeft: 8,
+    marginLeft: 16,
   },
   title: {
     color: Theme.colors.textPrimary,

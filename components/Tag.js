@@ -14,13 +14,12 @@ export default function Tag({ title, icon }) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    borderStyle: "solid",
+    borderStyle: "none",
     alignItems: "center",
-    borderWidth: 1,
     padding: 4,
     paddingHorizontal: 8,
     marginRight: "auto",
-    borderColor: Theme.colors.iconSecondary,
+    backgroundColor: Theme.colors.iconSecondary,
     borderRadius: 8,
   },
   title: {

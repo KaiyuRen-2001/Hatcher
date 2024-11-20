@@ -26,7 +26,7 @@ export default function Goal({ name, catagory, confidence }) {
       <Image
         style={styles.eggPicture}
         resizeMode="contain"
-        source={require("@/assets/confidence0.png")} // TODO do not hard code
+        source={require("@/assets/confidence3.png")} // TODO do not hard code
       ></Image>
     </TouchableOpacity>
   );

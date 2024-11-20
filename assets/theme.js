@@ -5,12 +5,12 @@ export default {
     backgroundSecondary: "#EFF6DF",
 
     textPrimary: "#F6FAEC",
-    textSecondary: "#E1ECB3",
+    textSecondary: "#95b080",
     textTertiary: "#E1ECB3",
     textHighlighted: "#F2DD71",
 
     iconPrimary: "#F6FAEC",
-    iconSecondary: "#E1ECB3",
+    iconSecondary: "#8ea879",
     iconHighlighted: "#F2DD71",
 
     tabBarActive: "#FFFFFF",
