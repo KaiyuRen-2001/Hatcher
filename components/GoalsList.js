@@ -44,6 +44,7 @@ export default function GoalsList() {
       data={goals}
       renderItem={({ item }) => (
         <Goal
+          id={item.id}
           name={item.name}
           catagory={item.catagory}
           confidence={item.confidence}

@@ -19,6 +19,7 @@ export const setInitialData = async () => {
       JSON.stringify([
         { name: "Add skills section", catagory: "Resume Prep", confidence: 0 },
         {
+          id: 1,
           name: "Learn my greatest weakness",
           catagory: "Interview",
           confidence: 0,
@@ -123,6 +124,25 @@ export const getGoals = async () => {
     const goals = JSON.parse(goalsString);
 
     return goals;
+  } catch (error) {
+    // Error saving data
+  }
+};
+
+export const updateGoal = async (newGoal) => {
+  try {
+    const goalsString = await AsyncStorage.getItem("goals");
+    const goals = JSON.parse(goalsString);
+
+    const updatedGoals = goals.reduce((acc, goal) => {
+      if (goal.id == newGoal.id) {
+        return [...acc, newGoal];
+      } else {
+        return [...acc, goal];
+      }
+    }, []);
+
+    await AsyncStorage.setItem("goals", JSON.stringify(updatedGoals));
   } catch (error) {
     // Error saving data
   }

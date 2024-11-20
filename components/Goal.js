@@ -6,12 +6,13 @@ import Tag from "@/components/Tag";
 
 import Theme from "@/assets/theme";
 
-export default function Goal({ name, catagory, confidence }) {
+export default function Goal({ id, name, catagory, confidence }) {
   return (
     <Link
       href={{
         pathname: "/tabs/profile/goaldetails",
         params: {
+          id: id,
           name: name,
           catagory: catagory,
           confidence: confidence,
