@@ -50,6 +50,7 @@ export default function GoalsList() {
           onRefresh={() => {
             setIsRefreshing(true);
             // fetchGoals();
+            setIsRefreshing(false);
           }}
           tintColor={Theme.colors.textPrimary} // only applies to iOS
         />

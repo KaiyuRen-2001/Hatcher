@@ -36,7 +36,7 @@ export default function Profile() {
       <View style={styles.userContainer}>
         <Image
           style={styles.profilePicture}
-          source={require("@/assets/user.png")} // TODO do not hard code
+          source={require("@/assets/james.png")} // TODO do not hard code
         ></Image>
         <View style={styles.userTextContainer}>
           <Text style={styles.title}>{session.user.username}</Text>
