@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Image } from "react-native";
 import { useState, useContext } from "react";
 import { useLocalSearchParams } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -8,6 +8,7 @@ import Tag from "@/components/Tag";
 import Theme from "@/assets/theme";
 import getImages from "@/utils/images";
 import { GoalsContext } from "@/components/storageContext";
+import Button from "@/components/Button";
 
 export default function GoalDetails() {
   const { id, name, catagory, confidence } = useLocalSearchParams();
@@ -68,33 +69,12 @@ export default function GoalDetails() {
           maximumTrackTintColor={Theme.colors.iconPrimary}
           thumbTintColor={Theme.colors.iconHighlighted}
         />
-        <Pressable
-          disabled={diasableSave}
-          style={({ pressed }) => [
-            {
-              backgroundColor: diasableSave
-                ? Theme.colors.backgroundSecondary
-                : pressed
-                ? Theme.colors.textTertiary
-                : Theme.colors.iconHighlighted,
-            },
-            styles.saveButton,
-          ]}
+        <Button
+          diasabled={diasableSave}
           onPress={updateConfidence}
-        >
-          <Text
-            style={[
-              {
-                color: diasableSave
-                  ? Theme.colors.textSecondary
-                  : Theme.colors.textPrimary,
-              },
-              styles.saveButtonText,
-            ]}
-          >
-            Save
-          </Text>
-        </Pressable>
+          title={"Save"}
+          style={styles.saveButton}
+        />
       </View>
     </View>
   );
@@ -108,19 +88,7 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.colors.backgroundPrimary,
   },
   saveButton: {
-    alignItems: "center",
-    justifyContent: "center",
     marginTop: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 4,
-    elevation: 3,
-  },
-  saveButtonText: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: "bold",
-    letterSpacing: 0.25,
   },
   confidenceText: {
     fontSize: Theme.sizes.textLarge,
