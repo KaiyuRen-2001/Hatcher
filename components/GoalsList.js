@@ -1,41 +1,33 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { StyleSheet, FlatList, RefreshControl, Text } from "react-native";
 
 import Theme from "@/assets/theme";
 import Goal from "@/components/Goal";
 import Loading from "@/components/Loading";
 import useSession from "@/utils/useSession";
-
-import { getGoals } from "@/database/db";
+import { GoalsContext } from "@/components/storageContext";
 
 export default function GoalsList() {
+  const { goals, storageInitialized } = useContext(GoalsContext);
   const session = useSession();
 
-  const [goals, setGoals] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const fetchGoals = async () => {
-    setIsLoading(true);
-
-    const newGoals = await getGoals();
-    setGoals(newGoals);
-
-    setIsLoading(false);
-    setIsRefreshing(false);
-  };
-
   useEffect(() => {
-    if (session) {
-      fetchGoals();
+    if (session && storageInitialized) {
+      setIsLoading(false);
+      setIsRefreshing(false);
+    } else {
+      setIsLoading(true);
     }
-  }, [session]);
+  }, [session, storageInitialized]);
 
   if (isLoading && !isRefreshing) {
     return <Loading />;
   }
 
-  if (!goals.length) {
+  if (!goals || !goals.length) {
     return <Text style={styles.text}>Click + to add goals.</Text>;
   }
 
@@ -57,7 +49,7 @@ export default function GoalsList() {
           refreshing={isRefreshing}
           onRefresh={() => {
             setIsRefreshing(true);
-            fetchGoals();
+            // fetchGoals();
           }}
           tintColor={Theme.colors.textPrimary} // only applies to iOS
         />

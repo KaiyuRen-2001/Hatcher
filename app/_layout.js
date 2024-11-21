@@ -1,9 +1,12 @@
 import { Stack } from "expo-router";
+import { StorageContextProvider } from "@/components/storageContext";
 
 export default function Layout() {
   return (
-    <Stack>
-      <Stack.Screen name="tabs" options={{ headerShown: false }} />
-    </Stack>
+    <StorageContextProvider>
+      <Stack>
+        <Stack.Screen name="tabs" options={{ headerShown: false }} />
+      </Stack>
+    </StorageContextProvider>
   );
 }

@@ -1,16 +1,18 @@
 import { StyleSheet, View, Text, Image, Pressable } from "react-native";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useLocalSearchParams } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Slider from "@react-native-community/slider";
 
 import Tag from "@/components/Tag";
 import Theme from "@/assets/theme";
-import { updateGoal } from "@/database/db";
 import getImages from "@/utils/images";
+import { GoalsContext } from "@/components/storageContext";
 
 export default function GoalDetails() {
   const { id, name, catagory, confidence } = useLocalSearchParams();
+  const { storageUpdateGoal } = useContext(GoalsContext);
+
   const [currentConfidence, setCurrentConfidence] = useState(confidence);
   const [sliderValue, setSliderValue] = useState(confidence);
   const diasableSave = Boolean(sliderValue == currentConfidence);
@@ -30,7 +32,7 @@ export default function GoalDetails() {
       confidence: sliderValue,
     };
 
-    updateGoal(newGoal);
+    storageUpdateGoal(newGoal);
   };
 
   return (
