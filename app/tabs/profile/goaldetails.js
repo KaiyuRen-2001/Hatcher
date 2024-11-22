@@ -12,13 +12,14 @@ import Button from "@/components/Button";
 
 export default function GoalDetails() {
   const router = useRouter();
-  const { id, name, catagory, confidence_string } = useLocalSearchParams();
+  const { id, name, catagory, confidence } = useLocalSearchParams();
   const { storageUpdateGoal } = useContext(GoalsContext);
   // parsed to float
-  const confidence = parseFloat(confidence_string);
+  const confidenceN = parseFloat(confidence);
+  //console.log(confidence);
 
-  const [currentConfidence, setCurrentConfidence] = useState(confidence);
-  const [sliderValue, setSliderValue] = useState(confidence);
+  const [currentConfidence, setCurrentConfidence] = useState(confidenceN);
+  const [sliderValue, setSliderValue] = useState(confidenceN);
   const diasableSave = Boolean(sliderValue == currentConfidence);
   const images = getImages();
 
