@@ -31,6 +31,12 @@ export const setInitialData = async () => {
         },
       ])
     );
+    await AsyncStorage.setItem("goalNextID", JSON.stringify(3));
+
+    await AsyncStorage.setItem(
+      "categories",
+      JSON.stringify(["Resume Prep", "Interview", "Salary negotiation"])
+    );
 
     await AsyncStorage.setItem(
       "groups",
@@ -134,6 +140,16 @@ export const getGoals = async () => {
   }
 };
 
+export const getCategories = async () => {
+  try {
+    const catsString = await AsyncStorage.getItem("categories");
+    const categories = JSON.parse(catsString);
+    return categories;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const updateGoal = async (newGoal) => {
   try {
     const goalsString = await AsyncStorage.getItem("goals");
@@ -150,5 +166,48 @@ export const updateGoal = async (newGoal) => {
     await AsyncStorage.setItem("goals", JSON.stringify(updatedGoals));
   } catch (error) {
     // Error saving data
+  }
+};
+
+export const getAndIncrementNextGoalId = async () => {
+  try {
+    const nextID = await AsyncStorage.getItem("goalNextID");
+    const incrID = JSON.parse(nextID) + 1;
+    await AsyncStorage.setItem("goalNextID", JSON.stringify(incrID));
+    return nextID;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addGoal = async (newGoal) => {
+  try {
+    const goalsString = await AsyncStorage.getItem("goals");
+    const goals = goalsString ? JSON.parse(goalsString) : [];
+
+    const updatedGoals = [...goals, newGoal];
+
+    await AsyncStorage.setItem("goals", JSON.stringify(updatedGoals));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateCategories = async (newCategory) => {
+  try {
+    const catsString = await AsyncStorage.getItem("categories");
+    const categories = JSON.parse(catsString);
+
+    const updatedCats = categories.reduce((acc, category) => {
+      if (category.id == newCategory.id) {
+        return [...acc, newCategory];
+      } else {
+        return [...acc, category];
+      }
+    }, []);
+
+    await AsyncStorage.setItem("categories", JSON.stringify(updateCategories));
+  } catch (error) {
+    console.log(error);
   }
 };

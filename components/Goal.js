@@ -9,6 +9,7 @@ import getImages from "@/utils/images";
 
 export default function Goal({ id, name, catagory, confidence }) {
   const images = getImages();
+  //console.log(id, name, catagory, confidence);
 
   return (
     <Link

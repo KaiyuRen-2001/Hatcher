@@ -3,11 +3,13 @@ export default {
   colors: {
     backgroundPrimary: "#798F68",
     backgroundSecondary: "#8ea879",
+    backgroundWhite: "#FFFFFF",
 
     textPrimary: "#F6FAEC",
     textSecondary: "#95b080",
     textTertiary: "#E1ECB3",
     textHighlighted: "#F2DD71",
+    textDark: "#516045",
 
     iconPrimary: "#F6FAEC",
     iconSecondary: "#95b080",

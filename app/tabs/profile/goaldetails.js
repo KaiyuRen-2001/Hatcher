@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text, Image } from "react-native";
 import { useState, useContext } from "react";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Slider from "@react-native-community/slider";
 
@@ -11,8 +11,11 @@ import { GoalsContext } from "@/components/storageContext";
 import Button from "@/components/Button";
 
 export default function GoalDetails() {
-  const { id, name, catagory, confidence } = useLocalSearchParams();
+  const router = useRouter();
+  const { id, name, catagory, confidence_string } = useLocalSearchParams();
   const { storageUpdateGoal } = useContext(GoalsContext);
+  // parsed to float
+  const confidence = parseFloat(confidence_string);
 
   const [currentConfidence, setCurrentConfidence] = useState(confidence);
   const [sliderValue, setSliderValue] = useState(confidence);
@@ -34,6 +37,8 @@ export default function GoalDetails() {
     };
 
     storageUpdateGoal(newGoal);
+    console.log("confidence updated");
+    router.back();
   };
 
   return (

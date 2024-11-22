@@ -21,7 +21,7 @@ export default function GoalsList() {
     } else {
       setIsLoading(true);
     }
-  }, [session, storageInitialized]);
+  }, [session, storageInitialized, goals]);
 
   if (isLoading && !isRefreshing) {
     return <Loading />;
