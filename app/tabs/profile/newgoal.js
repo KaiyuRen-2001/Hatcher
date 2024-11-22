@@ -1,4 +1,5 @@
-import { StyleSheet, View, TextInput, Image } from "react-native";
+import { StyleSheet, View, TextInput, Image, Text } from "react-native";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Theme from "@/assets/theme";
 import Slider from "@react-native-community/slider";
 import { useState, useContext } from "react";
@@ -42,24 +43,56 @@ export default function NewGoal() {
   };
   return (
     <View style={styles.container}>
-      <TextInput
-        placeholder="goal name"
-        style={styles.goalNameInputText}
-        onChangeText={onChangeTextName}
-        value={textName}
-      />
-      <SelectList
-        boxStyles={styles.categoriesSelectListBox}
-        dropdownStyles={styles.categoriesSelectListList}
-        setSelected={(val) => setSelected(val)}
-        data={formattedCategories}
-        save="value"
-      />
+      <View style={styles.nameBox}>
+        <Text style={styles.nameTitle}>Name</Text>
+        <TextInput
+          placeholder="Insert a name for your goal"
+          placeholderTextColor={Theme.colors.textSecondary}
+          style={styles.goalNameInputText}
+          onChangeText={onChangeTextName}
+          value={textName}
+        />
+      </View>
+      <View style={styles.catagoryBox}>
+        <Text style={styles.nameTitle}>Category</Text>
+        <SelectList
+          placeholder="Select a category for your goal"
+          boxStyles={styles.categoriesSelectListBox}
+          dropdownStyles={styles.categoriesSelectListList}
+          inputStyles={styles.categoriesInputStyles}
+          dropdownTextStyles={styles.categoriesDropDownText}
+          arrowicon={
+            <FontAwesome
+              name="chevron-down"
+              size={Theme.sizes.iconSmall}
+              color={Theme.colors.iconSecondary}
+            />
+          }
+          searchicon={
+            <FontAwesome
+              name="search"
+              size={Theme.sizes.iconSmall}
+              color={Theme.colors.iconSecondary}
+            />
+          }
+          closeicon={
+            <FontAwesome
+              name="close"
+              size={Theme.sizes.iconSmall}
+              color={Theme.colors.iconSecondary}
+            />
+          }
+          setSelected={(val) => setSelected(val)}
+          data={formattedCategories}
+          save="value"
+        />
+      </View>
       <Image
         style={styles.eggPicture}
         resizeMode="contain"
-        source={images[sliderValue]} // TODO do not hard code
+        source={images[sliderValue]}
       ></Image>
+      <Text style={styles.confidenceText}>Adjust your confidence level</Text>
       <Slider
         style={styles.eggSlider}
         minimumValue={0}
@@ -87,10 +120,37 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Theme.colors.backgroundPrimary,
   },
+  catagoryBox: {
+    marginTop: 10,
+    width: "100%",
+    alignItems: "center",
+  },
+  categoriesDropDownText: {
+    color: Theme.colors.textDark,
+  },
+  categoriesInputStyles: {
+    marginTop: 3,
+    color: Theme.colors.textDark,
+  },
+  nameBox: {
+    marginTop: 10,
+    width: "100%",
+    alignItems: "center",
+  },
+  nameTitle: {
+    color: Theme.colors.textPrimary,
+    fontSize: Theme.sizes.textLarge,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  confidenceText: {
+    fontSize: Theme.sizes.textLarge,
+    color: Theme.colors.textPrimary,
+    marginBottom: 0,
+  },
   goalNameInputText: {
     height: 50,
     width: "80%",
-    marginTop: 50,
     marginBottom: 30,
     borderWidth: 1,
     borderRadius: 10,
@@ -104,12 +164,16 @@ const styles = StyleSheet.create({
     height: 50,
     width: "80%",
     backgroundColor: Theme.colors.backgroundWhite,
-    color: Theme.colors.textDark,
   },
   categoriesSelectListList: {
     width: "80%",
     backgroundColor: Theme.colors.backgroundWhite,
     color: Theme.colors.textDark,
+    marginTop: 50,
+    position: "absolute",
+    zIndex: 999,
+    borderWidth: 2,
+    borderColor: Theme.colors.iconSecondary,
   },
   eggPicture: {
     height: "40%",
@@ -121,10 +185,10 @@ const styles = StyleSheet.create({
   eggSlider: {
     width: 300,
     height: 40,
-    marginVertical: 20,
+    marginTop: 5,
+    marginBottom: 15,
   },
   addGoalButton: {
-    marginTop: 70,
     marginBottom: 20,
   },
 });
