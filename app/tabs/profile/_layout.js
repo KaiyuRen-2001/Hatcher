@@ -23,7 +23,7 @@ export default function Layout() {
       <Stack.Screen
         name="myprofile"
         options={{
-          title: "My Profile",
+          title: "my profile",
         }}
       />
       <Stack.Screen
