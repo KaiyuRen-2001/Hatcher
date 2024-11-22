@@ -1,7 +1,13 @@
-import { Stack } from "expo-router";
+import { Stack, useLocal } from "expo-router";
 import Theme from "@/assets/theme";
+import { Pressable, Text } from "react-native";
 
 export default function Layout() {
+  const handleDelete = () => {
+    console.log("Delete button pressed!");
+    //const { id } = useLocalSearchParams();
+    //storageDeleteGoal();
+  };
   return (
     <Stack
       screenOptions={{
@@ -26,6 +32,18 @@ export default function Layout() {
           title: "Goal",
           headerBackTitle: "Back",
           headerTintColor: Theme.colors.textPrimary,
+          headerRight: () => (
+            <Pressable
+              onPress={handleDelete}
+              style={{
+                marginRight: 10, // Adjust for spacing
+              }}
+            >
+              <Text style={{ color: Theme.colors.textPrimary, fontSize: 16 }}>
+                Delete
+              </Text>
+            </Pressable>
+          ),
         }}
       />
       <Stack.Screen
