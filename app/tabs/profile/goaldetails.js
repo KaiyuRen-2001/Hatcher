@@ -16,7 +16,6 @@ export default function GoalDetails() {
   const { storageUpdateGoal } = useContext(GoalsContext);
   // parsed to float
   const confidenceN = parseFloat(confidence);
-  //console.log(confidence);
 
   const [currentConfidence, setCurrentConfidence] = useState(confidenceN);
   const [sliderValue, setSliderValue] = useState(confidenceN);

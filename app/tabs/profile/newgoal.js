@@ -19,6 +19,8 @@ export default function NewGoal() {
   const [textName, onChangeTextName] = useState("");
   const [selected, setSelected] = useState("");
 
+  const disableAdd = textName.trim() === "" || selected === "";
+
   const formattedCategories = categories.map((category) => ({
     label: category,
     value: category,
@@ -48,7 +50,7 @@ export default function NewGoal() {
       />
       <SelectList
         boxStyles={styles.categoriesSelectListBox}
-        dropdownStyles={styles.categoriesSelectList}
+        dropdownStyles={styles.categoriesSelectListList}
         setSelected={(val) => setSelected(val)}
         data={formattedCategories}
         save="value"
@@ -70,6 +72,7 @@ export default function NewGoal() {
         thumbTintColor={Theme.colors.iconHighlighted}
       />
       <Button
+        diasabled={disableAdd}
         onPress={addGoal}
         title={"Add Goal"}
         style={styles.addGoalButton}
@@ -103,7 +106,7 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.colors.backgroundWhite,
     color: Theme.colors.textDark,
   },
-  categoriesSelectList: {
+  categoriesSelectListList: {
     width: "80%",
     backgroundColor: Theme.colors.backgroundWhite,
     color: Theme.colors.textDark,
@@ -122,5 +125,6 @@ const styles = StyleSheet.create({
   },
   addGoalButton: {
     marginTop: 70,
+    marginBottom: 20,
   },
 });
