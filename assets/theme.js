@@ -1,21 +1,21 @@
 export default {
   // Feel free to customize these colors!
   colors: {
-    backgroundPrimary: "#798F68",
-    backgroundSecondary: "#8ea879",
+    backgroundPrimary: "#FFFFFF",
+    backgroundSecondary: "#D6E9C5",
     backgroundWhite: "#F6FAEC",
 
-    textPrimary: "#F6FAEC",
+    textPrimary: "#4a5641",
     textSecondary: "#95b080",
     textTertiary: "#E1ECB3",
     textHighlighted: "#F2DD71",
     textDark: "#516045",
 
-    iconPrimary: "#F6FAEC",
-    iconSecondary: "#95b080",
-    iconHighlighted: "#F2DD71",
+    iconPrimary: "#A7B699",
+    iconSecondary: "#F6FAEC",
+    iconHighlighted: "#D6E9C5",
 
-    tabBarActive: "#FFFFFF",
+    tabBarActive: "#5b6c4d",
     tabBarBorder: "#747474",
   },
   sizes: {
