@@ -19,29 +19,7 @@ export default function Layout() {
       }}
     >
       <Stack.Screen name="nav" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="home"
-        options={{
-          headerTitle: (props) => (
-            <>
-              <MaterialCommunityIcons
-                name="bee"
-                size={Theme.sizes.iconMedium}
-                color={Theme.colors.textHighlighted}
-              />
-              <Text
-                style={{
-                  color: Theme.colors.textPrimary,
-                  fontSize: Theme.sizes.textMedium,
-                  fontWeight: "bold",
-                }}
-              >
-                {"Buzz"}
-              </Text>
-            </>
-          ),
-        }}
-      />
+      <Stack.Screen name="home" />
       <Stack.Screen name="details" />
       <Stack.Screen
         name="newpost"

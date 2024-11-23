@@ -5,7 +5,7 @@ import Loading from "@/components/Loading";
 
 import useSession from "@/utils/useSession";
 
-export default function Profile() {
+export default function ListGroups() {
   const session = useSession();
 
   if (!session) {

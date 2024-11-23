@@ -14,6 +14,7 @@ export default function Layout() {
         headerTitleAlign: "center",
       }}
     >
+      <Stack.Screen name="nav" options={{ headerShown: false }} />
       <Stack.Screen
         name="list"
         options={{
