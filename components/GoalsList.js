@@ -7,7 +7,7 @@ import Loading from "@/components/Loading";
 import useSession from "@/utils/useSession";
 import { GoalsContext } from "@/components/storageContext";
 
-export default function GoalsList() {
+export default function GoalsList({ goalsExpanded }) {
   const { goals, storageInitialized } = useContext(GoalsContext);
   const session = useSession();
 
@@ -29,6 +29,10 @@ export default function GoalsList() {
 
   if (!goals || !goals.length) {
     return <Text style={styles.text}>Click + to add goals.</Text>;
+  }
+
+  if (!goalsExpanded) {
+    return <></>;
   }
 
   return (

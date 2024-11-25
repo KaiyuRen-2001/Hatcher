@@ -1,5 +1,26 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  LayoutAnimation,
+} from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import Entypo from "@expo/vector-icons/Entypo";
+import Animated, {
+  LinearTransition,
+  SequencedTransition,
+  FadingTransition,
+  FadeOut,
+  FadeIn,
+  JumpingTransition,
+  CurvedTransition,
+  EntryExitTransition,
+  FlipOutYLeft,
+  FlipInEasyY,
+  Easing,
+} from "react-native-reanimated";
 
 import { useRouter } from "expo-router";
 
@@ -8,10 +29,26 @@ import GoalsList from "@/components/GoalsList";
 import Loading from "@/components/Loading";
 
 import useSession from "@/utils/useSession";
+import { useState } from "react";
 
 export default function Profile() {
   const session = useSession();
   const router = useRouter();
+
+  const [goalsExpanded, setGoalsExpanded] = useState(false);
+  const [eventsExpanded, setEventsExpanded] = useState(false);
+
+  const onExpandEvents = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setEventsExpanded((e) => !e);
+    setGoalsExpanded(false);
+  };
+
+  const onExpandGoals = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setGoalsExpanded((e) => !e);
+    setEventsExpanded(false);
+  };
 
   const signOut = async () => {
     try {
@@ -31,6 +68,28 @@ export default function Profile() {
     return <Loading />;
   }
 
+  const chevron = (onPress) => {
+    return (
+      <TouchableOpacity style={styles.dropDown} onPress={onPress}>
+        <View style={styles.expandButton}>
+          {goalsExpanded ? (
+            <Entypo
+              name="chevron-up"
+              size={28}
+              color={Theme.colors.textPrimary}
+            />
+          ) : (
+            <Entypo
+              name="chevron-down"
+              size={28}
+              color={Theme.colors.textPrimary}
+            />
+          )}
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.userContainer}>
@@ -45,21 +104,55 @@ export default function Profile() {
       </View>
       <View style={styles.goalsTitle}>
         <Text style={styles.goalsTitleText}>Goals</Text>
-        <TouchableOpacity
-          onPress={() => router.navigate("/tabs/profile/newgoal")}
-        >
-          <View style={styles.postButton}>
-            <FontAwesome
-              size={28}
-              name="plus"
-              color={Theme.colors.textPrimary}
-            />
-          </View>
-        </TouchableOpacity>
+        <View style={styles.addGoalButton}>
+          {goalsExpanded && (
+            <Animated.View
+              layout={LinearTransition}
+              exiting={FadeOut}
+              entering={FadeIn}
+            >
+              <TouchableOpacity
+                onPress={() => router.navigate("/tabs/profile/newgoal")}
+              >
+                <View style={styles.postButton}>
+                  <FontAwesome
+                    size={28}
+                    name="plus"
+                    color={Theme.colors.textPrimary}
+                  />
+                </View>
+              </TouchableOpacity>
+            </Animated.View>
+          )}
+        </View>
+        {chevron(onExpandGoals)}
       </View>
-      <View style={styles.feed}>
-        <GoalsList />
-      </View>
+      <Animated.View
+        style={styles.feed}
+        layout={LinearTransition}
+        entering={FadeIn}
+        exiting={FadeOut}
+      >
+        <GoalsList goalsExpanded={goalsExpanded} />
+      </Animated.View>
+      <Animated.View style={styles.eventsTitle} layout={LinearTransition}>
+        <Text style={styles.eventsTitleText}>Events</Text>
+        {chevron(onExpandEvents)}
+      </Animated.View>
+      <Animated.View
+        style={styles.feed}
+        layout={LinearTransition}
+        entering={FadeIn}
+        exiting={FadeOut}
+      >
+        <GoalsList goalsExpanded={eventsExpanded} />
+      </Animated.View>
+      <Animated.View
+        style={styles.bottomBorder}
+        layout={LinearTransition}
+        entering={FadeIn}
+        exiting={FadeOut}
+      />
     </View>
   );
 }
@@ -77,6 +170,20 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     paddingLeft: 1,
   },
+  expandButton: { height: 36, width: 36 },
+  addGoalButton: {
+    flex: 1,
+  },
+  dropDown: {
+    marginRight: 16,
+  },
+  eventsTitleText: {
+    color: Theme.colors.textPrimary,
+    fontSize: Theme.sizes.textExtraLarge,
+    fontWeight: "bold",
+    marginRight: 8,
+    flex: 1,
+  },
   goalsTitle: {
     flexDirection: "row",
     paddingTop: 16,
@@ -92,7 +199,6 @@ const styles = StyleSheet.create({
   },
   feed: {
     paddingLeft: 32,
-    flex: 1,
     flexDirection: "row",
     justifyContent: "flex-start",
   },
@@ -103,6 +209,24 @@ const styles = StyleSheet.create({
   },
   postTitle: {
     padding: 12,
+  },
+  eventsTitle: {
+    flexDirection: "row",
+    paddingTop: 16,
+    paddingLeft: 24,
+    width: "100%",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    borderTopStyle: "solid",
+    borderTopWidth: 1,
+    borderTopColor: Theme.colors.backgroundSecondary,
+    marginTop: 16,
+  },
+  bottomBorder: {
+    borderTopStyle: "solid",
+    borderTopWidth: 1,
+    borderTopColor: Theme.colors.backgroundSecondary,
+    marginTop: 16,
   },
   userContainer: {
     width: "100%",
