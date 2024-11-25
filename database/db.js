@@ -63,12 +63,13 @@ export const setInitialData = async () => {
       JSON.stringify([
         {
           groupId: "1",
-          title: "",
-          location: "",
-          date: "",
-          time: "",
-          description: "",
-          members: [],
+          title: "Resume Workshop",
+          location: "Cupertino Public Library",
+          date: "Jul 1, 2024",
+          time: "11:00am",
+          description:
+            "Bring your resume and get advice from an industry professional!",
+          members: ["landay"],
         },
       ])
     );
@@ -124,6 +125,17 @@ export const getUsersGroups = async (username) => {
     }, []);
 
     return usersGroups;
+  } catch (error) {
+    // Error saving data
+  }
+};
+
+export const getEvents = async () => {
+  try {
+    const eventsString = await AsyncStorage.getItem("events");
+    const events = JSON.parse(eventsString);
+
+    return events;
   } catch (error) {
     // Error saving data
   }

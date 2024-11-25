@@ -2,48 +2,61 @@ import { useState, useEffect, useContext } from "react";
 import { StyleSheet, FlatList, RefreshControl, Text } from "react-native";
 
 import Theme from "@/assets/theme";
-import Goal from "@/components/Goal";
+import Event from "@/components/Event";
 import Loading from "@/components/Loading";
 import useSession from "@/utils/useSession";
 import { GoalsContext } from "@/components/storageContext";
 
-export default function GoalsList({ goalsExpanded }) {
-  const { goals, storageInitialized } = useContext(GoalsContext);
+export default function EventsList({ eventsExpanded }) {
+  const { events, storageInitialized } = useContext(GoalsContext);
   const session = useSession();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [userEvents, setUserEvents] = useState([]);
 
   useEffect(() => {
     if (session && storageInitialized) {
       setIsLoading(false);
       setIsRefreshing(false);
+
+      if (events) {
+        setUserEvents(
+          events.reduce((acc, event) => {
+            if (event.members.includes(session.user.username)) {
+              return [...acc, event];
+            }
+            return acc;
+          }, [])
+        );
+      }
     } else {
       setIsLoading(true);
     }
-  }, [session, storageInitialized, goals]);
+  }, [session, storageInitialized, events]);
 
   if (isLoading && !isRefreshing) {
     return <Loading />;
   }
 
-  if (!goalsExpanded) {
+  if (!eventsExpanded) {
     return <></>;
   }
 
-  if (!goals || !goals.length) {
-    return <Text style={styles.text}>Click + to add goals.</Text>;
+  if (!userEvents || !userEvents.length) {
+    return <Text style={styles.text}>No upcoming events.</Text>;
   }
 
   return (
     <FlatList
-      data={goals}
+      data={userEvents}
       renderItem={({ item }) => (
-        <Goal
+        <Event
           id={item.id}
-          name={item.name}
-          catagory={item.catagory}
-          confidence={item.confidence}
+          title={item.title}
+          location={item.location}
+          date={item.date}
+          time={item.time}
         />
       )}
       contentContainerStyle={styles.goals}

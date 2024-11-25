@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import {
   updateGoal,
   getGoals,
+  getEvents,
   setInitialData,
   getCategories,
   updateCategories,
@@ -14,6 +15,7 @@ export const GoalsContext = createContext({});
 export const StorageContextProvider = ({ children }) => {
   const [storageInitialized, setStorageInitialized] = useState(false);
   const [goals, setGoals] = useState([]);
+  const [events, setEvents] = useState([]);
   const [categories, setCategories] = useState([]);
 
   /* useEffect(() => {
@@ -34,6 +36,11 @@ export const StorageContextProvider = ({ children }) => {
       const data = await getGoals();
       if (data) {
         setGoals(data);
+      }
+
+      const eventsData = await getEvents();
+      if (eventsData) {
+        setEvents(eventsData);
       }
 
       const categoriesData = await getCategories();
@@ -73,6 +80,7 @@ export const StorageContextProvider = ({ children }) => {
       value={{
         goals,
         categories,
+        events,
         storageInitialized,
         storageUpdateGoal,
         storageUpdateCategories,

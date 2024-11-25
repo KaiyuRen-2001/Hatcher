@@ -26,6 +26,7 @@ import { useRouter } from "expo-router";
 
 import Theme from "@/assets/theme";
 import GoalsList from "@/components/GoalsList";
+import EventsList from "@/components/EventsList";
 import Loading from "@/components/Loading";
 
 import useSession from "@/utils/useSession";
@@ -68,11 +69,11 @@ export default function Profile() {
     return <Loading />;
   }
 
-  const chevron = (onPress) => {
+  const chevron = (onPress, expanded) => {
     return (
       <TouchableOpacity style={styles.dropDown} onPress={onPress}>
         <View style={styles.expandButton}>
-          {goalsExpanded ? (
+          {expanded ? (
             <Entypo
               name="chevron-up"
               size={28}
@@ -125,7 +126,7 @@ export default function Profile() {
             </Animated.View>
           )}
         </View>
-        {chevron(onExpandGoals)}
+        {chevron(onExpandGoals, goalsExpanded)}
       </View>
       <Animated.View
         style={styles.feed}
@@ -137,7 +138,7 @@ export default function Profile() {
       </Animated.View>
       <Animated.View style={styles.eventsTitle} layout={LinearTransition}>
         <Text style={styles.eventsTitleText}>Events</Text>
-        {chevron(onExpandEvents)}
+        {chevron(onExpandEvents, eventsExpanded)}
       </Animated.View>
       <Animated.View
         style={styles.feed}
@@ -145,7 +146,7 @@ export default function Profile() {
         entering={FadeIn}
         exiting={FadeOut}
       >
-        <GoalsList goalsExpanded={eventsExpanded} />
+        <EventsList eventsExpanded={eventsExpanded} />
       </Animated.View>
       <Animated.View
         style={styles.bottomBorder}
