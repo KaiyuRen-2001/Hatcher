@@ -48,6 +48,14 @@ export default function Layout() {
         }}
       />
       <Stack.Screen
+        name="event"
+        options={{
+          title: "Event",
+          headerBackTitle: "Back",
+          headerTintColor: Theme.colors.textPrimary,
+        }}
+      />
+      <Stack.Screen
         name="newgoal"
         options={{
           presentation: "modal",

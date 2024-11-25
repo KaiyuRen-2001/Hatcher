@@ -54,9 +54,11 @@ export default function EventsList({ eventsExpanded }) {
         <Event
           id={item.id}
           title={item.title}
+          description={item.description}
           location={item.location}
           date={item.date}
           time={item.time}
+          groupName={item.groupName}
         />
       )}
       contentContainerStyle={styles.goals}

@@ -2,9 +2,9 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 
 import Theme from "@/assets/theme";
 
-export default function Tag({ title, icon }) {
+export default function Tag({ title, icon, style }) {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       {icon && icon}
       <Text style={styles.title}>{title}</Text>
     </View>

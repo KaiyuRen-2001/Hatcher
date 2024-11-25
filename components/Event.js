@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Link } from "expo-router";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 
@@ -6,26 +6,58 @@ import Tag from "@/components/Tag";
 import DateTimeDisplay from "@/components/DateTimeDisplay";
 import Theme from "@/assets/theme";
 
-export default function Goal({ id, title, location, date, time }) {
+export default function Event({
+  id,
+  title,
+  description,
+  location,
+  date,
+  time,
+  groupName,
+}) {
   return (
-    <View style={styles.container}>
-      <View style={styles.body}>
-        <Text style={styles.name}>{title}</Text>
-        <View style={styles.catagory}>
-          <Tag
-            title={location}
-            icon={
-              <EvilIcons
-                name="location"
-                size={Theme.sizes.iconSmall}
-                color={Theme.colors.iconPrimary}
-              />
-            }
-          />
+    <Link
+      href={{
+        pathname: "/tabs/profile/event",
+        params: {
+          id: id,
+          title: title,
+          description: description,
+          location: location,
+          date: date,
+          time: time,
+          groupName: groupName,
+        },
+      }}
+      asChild={true}
+      style={styles.content}
+    >
+      <TouchableOpacity style={styles.container}>
+        <View style={styles.body}>
+          <Text style={styles.name}>{title}</Text>
+          <View style={styles.catagory}>
+            <Tag
+              title={location}
+              icon={
+                <EvilIcons
+                  name="location"
+                  size={Theme.sizes.iconSmall}
+                  color={Theme.colors.iconPrimary}
+                />
+              }
+            />
+          </View>
         </View>
-      </View>
-      <DateTimeDisplay style={styles.dateTime} date={date} time={time} />
-    </View>
+        <DateTimeDisplay
+          style={styles.dateTime}
+          date={date}
+          time={time}
+          textMonth={30}
+          textDay={42}
+          textTime={16}
+        />
+      </TouchableOpacity>
+    </Link>
   );
 }
 

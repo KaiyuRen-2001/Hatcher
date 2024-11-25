@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import {
   updateGoal,
+  setUpdatedEvents,
   getGoals,
   getEvents,
   setInitialData,
@@ -54,6 +55,22 @@ export const StorageContextProvider = ({ children }) => {
     initializeStorage();
   }, []);
 
+  const removeUserFromEvent = async (id, username) => {
+    const updateEvents = events.reduce((acc, event) => {
+      if (event.id === id) {
+        const currMembers = event.members;
+        const userIndex = currMembers.indexOf(username);
+        currMembers.splice(userIndex, 1);
+        return [...acc, { members: currMembers, ...event }];
+      }
+      return [...acc, event];
+    }, []);
+
+    console.log(updateEvents);
+    await setUpdatedEvents(updateEvents);
+    setEvents(updateEvents);
+  };
+
   const storageUpdateGoal = async (newGoal) => {
     await updateGoal(newGoal);
     const newGoals = await getGoals();
@@ -85,6 +102,7 @@ export const StorageContextProvider = ({ children }) => {
         storageUpdateGoal,
         storageUpdateCategories,
         storageAddGoal,
+        removeUserFromEvent,
       }}
     >
       {children}

@@ -62,7 +62,8 @@ export const setInitialData = async () => {
       "events",
       JSON.stringify([
         {
-          groupId: "1",
+          id: "1",
+          groupName: "Bay Area Resume Review",
           title: "Resume Workshop",
           location: "Cupertino Public Library",
           date: "Jul 1, 2024",
@@ -97,6 +98,14 @@ export const setInitialData = async () => {
         },
       ])
     );
+  } catch (error) {
+    // Error saving data
+  }
+};
+
+export const setUpdatedEvents = async (updatedEvents) => {
+  try {
+    await AsyncStorage.setItem("events", JSON.stringify(updatedEvents));
   } catch (error) {
     // Error saving data
   }

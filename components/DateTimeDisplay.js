@@ -2,16 +2,31 @@ import { StyleSheet, Text, View } from "react-native";
 
 import Theme from "@/assets/theme";
 
-export default function DateTimeDisplay({ date, time, style }) {
+export default function DateTimeDisplay({
+  date,
+  time,
+  style,
+  textMonth,
+  textDay,
+  textTime,
+}) {
   const month = date.substring(0, date.indexOf(" "));
   const day = date.substring(date.indexOf(" ") + 1, date.indexOf(","));
   const startTime = time;
 
   return (
     <View style={[styles.container, style]}>
-      <Text style={styles.month}>{month}</Text>
-      <Text style={styles.day}>{day}</Text>
-      <Text style={styles.time}>{startTime}</Text>
+      <Text
+        style={[styles.month, { fontSize: textMonth, lineHeight: textMonth }]}
+      >
+        {month}
+      </Text>
+      <Text style={[styles.day, { fontSize: textDay, lineHeight: textDay }]}>
+        {day}
+      </Text>
+      <Text style={[styles.time, { fontSize: textTime, lineHeight: textTime }]}>
+        {startTime}
+      </Text>
     </View>
   );
 }
@@ -27,22 +42,16 @@ const styles = StyleSheet.create({
   },
   month: {
     color: Theme.colors.textPrimary,
-    fontSize: 30,
-    lineHeight: 36,
     fontWeight: "bold",
     letterSpacing: 0.25,
   },
   day: {
     color: Theme.colors.textPrimary,
-    fontSize: 42,
-    lineHeight: 42,
     fontWeight: "bold",
     letterSpacing: 0.25,
   },
   time: {
     color: Theme.colors.textPrimary,
-    fontSize: 16,
-    lineHeight: 16,
     fontWeight: "bold",
     letterSpacing: 0.25,
   },
