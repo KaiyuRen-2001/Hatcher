@@ -34,12 +34,14 @@ export default function DrawerNav({ name, component }) {
           headerTitleStyle: {
             color: Theme.colors.textPrimary,
           },
-          drawerStyle: {
-            backgroundColor: Theme.colors.backgroundPrimary,
+          drawerContentContainerStyle: {
+            height: "100%",
           },
+          drawerContentStyle: { height: "100%" },
           drawerActiveTintColor: Theme.colors.textPrimary,
           drawerInactiveTintColor: Theme.colors.textSecondary,
           headerTitleAlign: "center",
+          drawerActiveBackgroundColor: Theme.colors.backgroundSecondary,
           drawerBackgroundColor: Theme.colors.backgroundPrimary,
           headerTintColor: Theme.colors.textPrimary,
         }}
@@ -53,6 +55,29 @@ export default function DrawerNav({ name, component }) {
               children={() => <GroupPage group={group} />}
             />
           ))}
+        <Drawer.Screen
+          options={{
+            drawerItemStyle: {
+              marginTop: "auto",
+              marginLeft: "5%",
+              marginRight: "30%",
+              backgroundColor: Theme.colors.iconHighlighted,
+              borderTopStyle: "solid",
+              borderTopWeight: 10,
+              borderTopColor: "black",
+              borderWidth: 0,
+              borderRadius: 4,
+              paddingHorizontal: 0,
+            },
+            drawerLabelStyle: {
+              fontSize: Theme.sizes.textSmall,
+              marginHorizontal: "auto",
+              paddingLeft: 16,
+            },
+          }}
+          name={"Create New Group"}
+          component={component}
+        ></Drawer.Screen>
       </Drawer.Navigator>
     </NavigationIndependentTree>
   );
