@@ -5,6 +5,7 @@ import Theme from "@/assets/theme";
 import GroupPage from "@/components/GroupPage";
 import { getUsersGroups } from "@/database/db";
 import useSession from "@/utils/useSession";
+import CreateGroupPage from "./CreateGroupPage";
 
 const Drawer = createDrawerNavigator();
 
@@ -41,12 +42,21 @@ export default function DrawerNav({ name, component }) {
           drawerActiveTintColor: Theme.colors.textPrimary,
           drawerInactiveTintColor: Theme.colors.textSecondary,
           headerTitleAlign: "center",
-          drawerActiveBackgroundColor: Theme.colors.backgroundSecondary,
+          drawerActiveBackgroundColor: Theme.colors.textHighlighted,
           drawerBackgroundColor: Theme.colors.backgroundPrimary,
           headerTintColor: Theme.colors.textPrimary,
         }}
       >
-        <Drawer.Screen name={name} component={component}></Drawer.Screen>
+        <Drawer.Screen
+          name={name}
+          component={component}
+          options={{
+            drawerActiveBackgroundColor: Theme.colors.backgroundSecondary,
+            drawerLabelStyle: {
+              color: Theme.colors.textPrimary,
+            },
+          }}
+        ></Drawer.Screen>
         {groups &&
           groups.map((group) => (
             <Drawer.Screen
@@ -76,7 +86,7 @@ export default function DrawerNav({ name, component }) {
             },
           }}
           name={"Create New Group"}
-          component={component}
+          children={() => <CreateGroupPage />}
         ></Drawer.Screen>
       </Drawer.Navigator>
     </NavigationIndependentTree>
