@@ -13,6 +13,7 @@ if (Platform.OS === "android") {
 export default function App() {
   const [fontsLoaded] = useFonts({
     PTSansCaption: require("../assets/fonts/PTSansCaption-Regular.ttf"),
+    "PTSansCaption-Bold": require("../assets/fonts/PTSansCaption-Bold.ttf"),
   });
 
   const onLayoutRootView = useCallback(async () => {

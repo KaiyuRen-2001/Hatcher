@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.colors.headerBackground,
   },
   groupName: {
-    fontSize: 20,
+    fontFamily: "PTSansCaption-Bold",
+    fontSize: Theme.sizes.textMedium,
     fontWeight: "bold",
     color: Theme.colors.textPrimary,
   },
@@ -74,7 +75,8 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.colors.backgroundSecondary,
   },
   infoText: {
-    fontSize: 14,
+    fontFamily: "PTSansCaption",
+    fontSize: Theme.sizes.textMedium,
     color: Theme.colors.textSecondary,
     marginBottom: 4,
   },

@@ -14,6 +14,7 @@ export default function Layout() {
         },
         headerTitleStyle: {
           color: Theme.colors.textPrimary,
+          fontFamily: "PTSansCaption-Bold",
         },
         headerTitleAlign: "center",
       }}

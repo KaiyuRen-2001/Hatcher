@@ -81,6 +81,7 @@ export default function DrawerNav({ name, component }) {
             },
             drawerLabelStyle: {
               fontSize: Theme.sizes.textSmall,
+              fontFamily: "PTSansCaption",
               marginHorizontal: "auto",
               paddingLeft: 16,
             },
