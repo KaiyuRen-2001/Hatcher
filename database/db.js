@@ -44,7 +44,7 @@ export const setInitialData = async () => {
         {
           groupId: "1",
           name: "Bay Area Resume Review",
-          location: "TODO",
+          location: "Bay Area, CA",
           description:
             "Discuss resources, resumes, resume critiques, and any questions about your resume.",
           admins: ["andreeajitaru", "kaiyuren", "mirandaliu"],
@@ -58,7 +58,7 @@ export const setInitialData = async () => {
         {
           groupId: "2",
           name: "Women in Computer Science",
-          location: "TODO",
+          location: "Stanford, CA",
           description: "talk about being a steminist",
           admins: ["andreeajitaru", "zoekaputa", "mirandaliu"],
           members: [

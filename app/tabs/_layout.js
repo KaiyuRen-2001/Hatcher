@@ -19,6 +19,10 @@ export default function Layout() {
           borderTopStyle: "solid",
           borderTopColor: Theme.colors.tabBarBorder,
         },
+        tabBarLabelStyle: {
+          fontFamily: "PTSansCaption",
+          fontSize: Theme.sizes.textSmall,
+        },
         headerStyle: {
           backgroundColor: Theme.colors.backgroundPrimary,
           borderStyle: "none",
