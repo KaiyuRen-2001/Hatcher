@@ -1,5 +1,4 @@
 export default {
-  // Feel free to customize these colors!
   colors: {
     backgroundPrimary: "#FFFFFF",
     backgroundSecondary: "#D6E9C5",

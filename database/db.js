@@ -55,6 +55,21 @@ export const setInitialData = async () => {
             "No spam, please.",
           ],
         },
+        {
+          groupId: "2",
+          name: "Women in Computer Science",
+          location: "TODO",
+          description: "talk about being a steminist",
+          admins: ["andreeajitaru", "zoekaputa", "mirandaliu"],
+          members: [
+            "andreeajitaru",
+            "kaiyuren",
+            "mirandaliu",
+            "landay",
+            "zoekaputa",
+          ],
+          norms: ["be nice"],
+        },
       ])
     );
 

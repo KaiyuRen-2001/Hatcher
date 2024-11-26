@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View } from "react-native";
 
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { StatusBar } from "expo-status-bar";
