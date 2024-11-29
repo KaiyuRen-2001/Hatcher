@@ -134,10 +134,16 @@ export default function ListView() {
   const session = useSession();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedGoal, setSelectedGoal] = useState(null);
+  const [groups, setGroups] = useState([STANFORD_GROUP, ANXIOUS_ENGINEERS_GROUP]);
 
-  if (!session) {
-    return <Loading />;
-  }
+  // if (!session) {
+  //   return <Loading />;
+  // }
+  const filteredGroups = groups.filter(group => {
+    const categoryMatch = !selectedCategory || group.category === selectedCategory;
+    const goalMatch = !selectedGoal || group.goals.includes(selectedGoal);
+    return categoryMatch && goalMatch;
+  });
 
   return (
     <View style={styles.container}>
@@ -148,8 +154,9 @@ export default function ListView() {
         setSelectedGoal={setSelectedGoal}
       />
       <ScrollView style={styles.scrollView}>
-        <GroupCard group={STANFORD_GROUP} />
-        <GroupCard group={ANXIOUS_ENGINEERS_GROUP} />
+        {filteredGroups.map((group, index) => (
+          <GroupCard key={index} group={group} />
+        ))}
       </ScrollView>
     </View>
   );
