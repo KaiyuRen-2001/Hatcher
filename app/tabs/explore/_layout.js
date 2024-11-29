@@ -16,7 +16,7 @@ export default function Layout() {
     >
       <Stack.Screen name="nav" options={{ headerShown: false }} />
       <Stack.Screen
-        name="list"
+        name="mapview"
         options={{
           title: "Explore New Groups",
         }}

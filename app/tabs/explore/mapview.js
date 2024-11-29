@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 import Theme from "@/assets/theme";
 import Loading from "@/components/Loading";
-
+import ListView from "./listview";
 import useSession from "@/utils/useSession";
 
 const STANFORD_COORDS = {
@@ -51,7 +51,12 @@ export default function ListGroups() {
 
   return (
     <View style={styles.container}>
-      <MapView
+      
+
+      {showList ? (
+        <ListView />
+      ) : (
+        <MapView
         style={styles.map}
         initialRegion={BAY_AREA_REGION}
       >
@@ -78,17 +83,11 @@ export default function ListGroups() {
           </Callout>
         </Marker>
       </MapView>
-
-      {showList && (
-        <View style={styles.listContainer}>
-          <Text style={styles.listTitle}>Available Groups</Text>
-          {/* Add your list items here */}
-        </View>
       )}
 
       <View style={styles.toggleContainer}>
         <MaterialIcons 
-          name="list" 
+          name="map" 
           size={24} 
           color={Theme.colors.textPrimary} 
         />
@@ -101,7 +100,7 @@ export default function ListGroups() {
           style={styles.toggle}
         />
         <MaterialIcons 
-          name="map" 
+          name="list" 
           size={24} 
           color={Theme.colors.textPrimary} 
         />
