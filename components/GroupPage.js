@@ -1,29 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
   View,
   Button,
   FlatList,
-  TouchableOpacity,
+  TextInput,
+  Pressable,
 } from "react-native";
 import Theme from "@/assets/theme";
 
 export default function Details(props) {
   const group = props.group;
 
-  const posts = [
-    { id: "1", title: "Welcome to the group!" },
-    { id: "2", title: "Weekly discussion thread" },
-    { id: "3", title: "Share your favorite moments!" },
-    // Add more posts as needed
-  ];
+  // Hardcoded chat data with a "sentBy" field
+  const [chat, setChat] = useState([
+    { id: "1", text: "Welcome to the group, everyone!", sentBy: "other" },
+    {
+      id: "2",
+      text: "Don't forget about the weekly discussion on Friday.",
+      sentBy: "me",
+    },
+    { id: "3", text: "Any tips for new members?", sentBy: "other" },
+  ]);
 
-  const renderPost = ({ item }) => (
-    <TouchableOpacity style={styles.postContainer}>
-      <Text style={styles.postTitle}>{item.title}</Text>
-    </TouchableOpacity>
-  );
+  const [message, setMessage] = useState(""); // State for input field
+
+  const renderMessage = ({ item }) => {
+    const isMe = item.sentBy === "me";
+    return (
+      <View
+        style={[
+          styles.messageContainer,
+          isMe ? styles.sentMessage : styles.receivedMessage,
+        ]}
+      >
+        <Text style={styles.messageText}>{item.text}</Text>
+        <View
+          style={[styles.tail, isMe ? styles.sentTail : styles.receivedTail]}
+        />
+      </View>
+    );
+  };
+
+  const handleSendMessage = () => {
+    if (message.trim()) {
+      setChat([
+        ...chat,
+        { id: Date.now().toString(), text: message, sentBy: "me" },
+      ]);
+      setMessage("");
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -36,18 +64,47 @@ export default function Details(props) {
       {/* Info Section */}
       <View style={styles.infoContainer}>
         <Text style={styles.infoText}>{group.members.length} members</Text>
-        <Text style={styles.infoText}>Admins: {group.admins}</Text>
+        <Text style={styles.infoText}>Admins: {group.admins.join(", ")}</Text>
         <Text style={styles.infoText}>Location: {group.location}</Text>
         <Text style={styles.description}>{group.description}</Text>
       </View>
 
-      {/* Posts Section */}
-      <FlatList
-        data={posts}
-        renderItem={renderPost}
-        keyExtractor={(item) => item.id}
-        style={styles.postsList}
-      />
+      <View style={styles.resourcesContainer}>
+        <Pressable
+          onPress={() => alert("q & a")}
+          style={styles.pressableContainer}
+        >
+          <Text> Q & A </Text>
+        </Pressable>
+
+        <Pressable
+          onPress={() => alert("resources")}
+          style={styles.pressableContainer}
+        >
+          <Text> Resources </Text>
+        </Pressable>
+      </View>
+
+      {/* Chat Section */}
+      <View style={styles.chatContainer}>
+        <FlatList
+          data={chat}
+          renderItem={renderMessage}
+          keyExtractor={(item) => item.id}
+          style={styles.chatList}
+          inverted // To show the newest message at the bottom
+        />
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.textInput}
+            value={message}
+            onChangeText={setMessage}
+            placeholder="Type a message..."
+            placeholderTextColor={Theme.colors.textSecondary}
+          />
+          <Button title="Send" onPress={handleSendMessage} />
+        </View>
+      </View>
     </View>
   );
 }
@@ -72,7 +129,6 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     padding: 16,
-    backgroundColor: Theme.colors.backgroundSecondary,
   },
   infoText: {
     fontFamily: "PTSansCaption",
@@ -85,18 +141,85 @@ const styles = StyleSheet.create({
     color: Theme.colors.textSecondary,
     marginTop: 8,
   },
-  postsList: {
+  chatContainer: {
     flex: 1,
-    paddingHorizontal: 16,
-  },
-  postContainer: {
     padding: 16,
-    marginVertical: 8,
-    backgroundColor: Theme.colors.cardBackground,
-    borderRadius: 8,
   },
-  postTitle: {
-    fontSize: 16,
+  chatList: {
+    flex: 1,
+    marginBottom: 8,
+  },
+  messageContainer: {
+    padding: 10,
+    marginVertical: 4,
+    borderRadius: 20,
+    maxWidth: "75%",
+    position: "relative",
+  },
+  sentMessage: {
+    alignSelf: "flex-end",
+    backgroundColor: Theme.colors.backgroundSecondary,
+    borderTopRightRadius: 0,
+  },
+  receivedMessage: {
+    alignSelf: "flex-start",
+    backgroundColor: Theme.colors.backgroundSecondary,
+    borderTopLeftRadius: 0,
+  },
+  messageText: {
     color: Theme.colors.textPrimary,
+  },
+  tail: {
+    position: "absolute",
+    width: 0,
+    height: 0,
+    borderStyle: "solid",
+  },
+  sentTail: {
+    right: -5,
+    top: 10,
+    borderWidth: 10,
+    borderColor: "transparent",
+    borderTopColor: Theme.colors.backgroundSecondary,
+    borderBottomWidth: 0,
+  },
+  receivedTail: {
+    left: -5,
+    top: 10,
+    borderWidth: 10,
+    borderColor: "transparent",
+    borderTopColor: Theme.colors.backgroundSecondary,
+    borderBottomWidth: 0,
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  textInput: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: Theme.colors.textSecondary,
+    borderRadius: 8,
+    padding: 8,
+    marginRight: 8,
+    color: Theme.colors.textPrimary,
+  },
+
+  resourcesContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  },
+
+  pressableContainer: {
+    backgroundColor: Theme.colors.backgroundSecondary,
+    borderRadius: 20,
+    padding: 8,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  pressableText: {
+    color: Theme.colors.white,
+    fontFamily: "Poppins_400Regular",
   },
 });
