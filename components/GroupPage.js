@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Alert,
   StyleSheet,
   Text,
   View,
@@ -55,7 +56,25 @@ export default function Details(props) {
   };
 
   const toggleMembership = () => {
-    setIsInGroup((prev) => !prev); // Toggle membership status
+    if (isInGroup) {
+      Alert.alert(
+        "Leave Group",
+        "Are you sure you want to leave this group?",
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+          {
+            text: "Yes, Leave",
+            onPress: () => setIsInGroup(false),
+          },
+        ],
+        { cancelable: true }
+      );
+    } else {
+      setIsInGroup(true); // Directly join the group
+    }
   };
 
   return (
