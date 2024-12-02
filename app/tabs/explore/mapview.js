@@ -59,8 +59,8 @@ const BAY_AREA_REGION = {
 };
 
 
-const CATEGORIES = ["STEM", "Business", "Arts", "Social Sciences"];
-const GOALS = ["networking", "mentorship", "career advice", "interview prep"];
+const CATEGORIES = ["All", "STEM", "Business", "Arts", "Social Sciences"];
+const GOALS = ["All", "networking", "mentorship", "career advice", "interview prep"];
 
 const FilterDropdowns = ({ selectedCategory, setSelectedCategory, selectedGoal, setSelectedGoal }) => {
     const [showCategories, setShowCategories] = useState(false);
@@ -95,7 +95,11 @@ const FilterDropdowns = ({ selectedCategory, setSelectedCategory, selectedGoal, 
                     selectedCategory === category && styles.selectedItem,
                   ]}
                   onPress={() => {
-                    setSelectedCategory(selectedCategory === category ? null : category);
+                    if (category === "All") {
+                      setSelectedCategory(null);
+                    } else {
+                      setSelectedCategory(selectedCategory === category ? null : category);
+                    }
                     setShowCategories(false);
                   }}
                 >
@@ -133,7 +137,11 @@ const FilterDropdowns = ({ selectedCategory, setSelectedCategory, selectedGoal, 
                     selectedGoal === goal && styles.selectedItem,
                   ]}
                   onPress={() => {
-                    setSelectedGoal(selectedGoal === goal ? null : goal);
+                    if (goal === "All") {
+                      setSelectedGoal(null);
+                    } else {
+                      setSelectedGoal(selectedGoal === goal ? null : goal);
+                    }
                     setShowGoals(false);
                   }}
                 >
