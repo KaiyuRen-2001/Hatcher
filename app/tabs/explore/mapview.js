@@ -37,6 +37,20 @@ const ANXIOUS_ENGINEERS_GROUP = {
   goals: ["interview prep", "networking", "mentorship"],
 };
 
+const BERKELEY_COORDS = {
+  latitude: 37.8719,
+  longitude: -122.2585,
+  title: "UC Berkeley",
+};
+
+const BERKELEY_GROUP = {
+  name: "Berkeley Women Engineers",
+  description: "A supportive community for women in engineering at UC Berkeley",
+  location: "UC Berkeley",
+  category: "STEM",
+  goals: ["networking", "mentorship", "career advice"],
+};
+
 const BAY_AREA_REGION = {
   latitude: 37.6064,
   longitude: -122.2919,
@@ -133,15 +147,22 @@ const FilterDropdowns = ({ selectedCategory, setSelectedCategory, selectedGoal, 
     );
   };
 
-const CustomCallout = ({ location }) => (
+const CustomCallout = ({ group }) => (
   <View style={styles.calloutContainer}>
-    <Text style={styles.calloutTitle}>FLI students in CS</Text>
-    <Text style={styles.calloutLocation}>Location: {location}</Text>
-    <Button
-      title="Join"
-      onPress={() => console.log('Join button pressed')}
-      color={Theme.colors.primary}
-    />
+    <View style={styles.cardContent}>
+      <Text style={styles.groupName}>{group.name}</Text>
+      <Text style={styles.groupLocation}>
+        <MaterialIcons name="location-on" size={16} color={Theme.colors.textSecondary} />
+        {group.location}
+      </Text>
+      <Text style={styles.groupDescription}>{group.description}</Text>
+    </View>
+    <TouchableOpacity 
+      style={styles.joinButton}
+      onPress={() => router.push("/tabs/explore/details")}
+    >
+      <Text style={styles.joinButtonText}>Join</Text>
+    </TouchableOpacity>
   </View>
 );
 
@@ -155,7 +176,8 @@ export default function ListGroups() {
   // Add this filtering logic
   const groupsData = [
     { coords: STANFORD_COORDS, group: STANFORD_GROUP },
-    { coords: JAPANTOWN_COORDS, group: ANXIOUS_ENGINEERS_GROUP }
+    { coords: JAPANTOWN_COORDS, group: ANXIOUS_ENGINEERS_GROUP },
+    { coords: BERKELEY_COORDS, group: BERKELEY_GROUP }
   ];
 
   const filteredGroups = groupsData.filter(({ group }) => {
@@ -212,7 +234,7 @@ export default function ListGroups() {
             >
               <MaterialIcons name="group" size={30} color="#FFA500" />
               <Callout tooltip={true}>
-                <CustomCallout location={group.location} />
+                <CustomCallout group={group} />
               </Callout>
             </Marker>
           ))}
@@ -259,36 +281,47 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   calloutContainer: {
-    width: 200,
-    padding: 10,
-    backgroundColor: Theme.colors.backgroundPrimary,
-    borderRadius: 8,
-    elevation: 5,
+    width: 250,
+    backgroundColor: Theme.colors.backgroundSecondary,
+    borderRadius: 12,
+    padding: 16,
+    elevation: 3,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
-  calloutTitle: {
-    fontSize: 16,
+  cardContent: {
+    marginBottom: 12,
+  },
+  groupName: {
+    fontSize: 18,
     fontWeight: 'bold',
     color: Theme.colors.textPrimary,
-    marginBottom: 5,
+    marginBottom: 8,
   },
-  calloutLocation: {
+  groupLocation: {
     fontSize: 14,
     color: Theme.colors.textSecondary,
-    marginBottom: 10,
+    marginBottom: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  groupDescription: {
+    fontSize: 14,
+    color: Theme.colors.textSecondary,
+    lineHeight: 20,
   },
   joinButton: {
     backgroundColor: Theme.colors.primary,
-    padding: 8,
-    borderRadius: 5,
+    padding: 12,
+    borderRadius: 8,
     alignItems: 'center',
   },
   joinButtonText: {
     color: '#FFFFFF',
     fontWeight: 'bold',
+    fontSize: 16,
   },
   customCallout: {
     backgroundColor: 'transparent',

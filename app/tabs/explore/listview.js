@@ -23,6 +23,14 @@ const ANXIOUS_ENGINEERS_GROUP = {
   goals: ["interview prep", "networking", "mentorship"],
 };
 
+const BERKELEY_GROUP = {
+  name: "Berkeley Women Engineers",
+  description: "A supportive community for women in engineering at UC Berkeley",
+  location: "UC Berkeley",
+  category: "STEM",
+  goals: ["networking", "mentorship", "career advice"],
+};
+
 const CATEGORIES = ["STEM", "Business", "Arts", "Social Sciences"];
 const GOALS = ["networking", "mentorship", "career advice", "interview prep"];
 
@@ -135,7 +143,11 @@ export default function ListView() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedGoal, setSelectedGoal] = useState(null);
   const [showFilters, setShowFilters] = useState(false); 
-  const [groups, setGroups] = useState([STANFORD_GROUP, ANXIOUS_ENGINEERS_GROUP]);
+  const [groups, setGroups] = useState([
+    STANFORD_GROUP, 
+    ANXIOUS_ENGINEERS_GROUP,
+    BERKELEY_GROUP
+  ]);
 
   // if (!session) {
   //   return <Loading />;
@@ -290,3 +302,10 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
 });
+
+export { 
+  FilterDropdowns, 
+  STANFORD_GROUP, 
+  ANXIOUS_ENGINEERS_GROUP, 
+  BERKELEY_GROUP 
+};
