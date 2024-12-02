@@ -134,6 +134,7 @@ export default function ListView() {
   const session = useSession();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedGoal, setSelectedGoal] = useState(null);
+  const [showFilters, setShowFilters] = useState(false); 
   const [groups, setGroups] = useState([STANFORD_GROUP, ANXIOUS_ENGINEERS_GROUP]);
 
   // if (!session) {
@@ -147,12 +148,27 @@ export default function ListView() {
 
   return (
     <View style={styles.container}>
-      <FilterDropdowns 
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-        selectedGoal={selectedGoal}
-        setSelectedGoal={setSelectedGoal}
-      />
+      <View style={styles.header}>
+        <TouchableOpacity 
+          style={styles.filterIcon}
+          onPress={() => setShowFilters(!showFilters)}
+        >
+          <MaterialIcons 
+            name="filter-list" 
+            size={24} 
+            color={Theme.colors.textPrimary} 
+          />
+        </TouchableOpacity>
+      </View>
+
+      {showFilters && (
+        <FilterDropdowns 
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          selectedGoal={selectedGoal}
+          setSelectedGoal={setSelectedGoal}
+        />
+      )}
       <ScrollView style={styles.scrollView}>
         {filteredGroups.map((group, index) => (
           <GroupCard key={index} group={group} />
@@ -167,6 +183,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Theme.colors.backgroundPrimary,
     padding: 16,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    padding: 16,
+  },
+  filterIcon: {
+    padding: 8,
+  },
+  scrollViewNoFilter: {
+    marginTop: 0, // Remove top margin when filters are hidden
   },
   card: {
     backgroundColor: Theme.colors.backgroundSecondary,
