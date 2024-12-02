@@ -10,6 +10,7 @@ import {
   Pressable,
 } from "react-native";
 import Theme from "@/assets/theme";
+import { router } from "expo-router";
 import FeedDetails from "@/app/tabs/explore/details";
 
 export default function Details(props) {
@@ -103,14 +104,14 @@ export default function Details(props) {
 
       <View style={styles.resourcesContainer}>
         <Pressable
-          onPress={() => alert("q & a")}
+          onPress={() => router.push("../../groups/GroupEvents")}
           style={styles.pressableContainer}
         >
-          <Text style={styles.pressableText}> Q & A </Text>
+          <Text style={styles.pressableText}> Events </Text>
         </Pressable>
 
         <Pressable
-          onPress={() => alert("resources")}
+          onPress={() => router.push("../../groups/GroupEvents")}
           style={styles.pressableContainer}
         >
           <Text style={styles.pressableText}> Resources </Text>
