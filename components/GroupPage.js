@@ -9,11 +9,12 @@ import {
   Pressable,
 } from "react-native";
 import Theme from "@/assets/theme";
+import FeedDetails from "@/app/tabs/explore/details";
 
 export default function Details(props) {
   const group = props.group;
+  const [isInGroup, setIsInGroup] = useState(true);
 
-  // Hardcoded chat data with a "sentBy" field
   const [chat, setChat] = useState([
     { id: "1", text: "Welcome to the group, everyone!", sentBy: "other" },
     {
@@ -53,12 +54,24 @@ export default function Details(props) {
     }
   };
 
+  const toggleMembership = () => {
+    setIsInGroup((prev) => !prev); // Toggle membership status
+  };
+
   return (
     <View style={styles.container}>
       {/* Header Section */}
       <View style={styles.header}>
         <Text style={styles.groupName}>{group.name}</Text>
-        <Button title="Join" onPress={() => alert("Joined the group!")} />
+        <Pressable
+          onPress={toggleMembership}
+          style={isInGroup ? styles.joinedContainer : styles.notJoinedContainer}
+        >
+          <Text style={styles.pressableText}>
+            {" "}
+            {isInGroup ? "Joined" : "Join"}{" "}
+          </Text>
+        </Pressable>
       </View>
 
       {/* Info Section */}
@@ -74,14 +87,14 @@ export default function Details(props) {
           onPress={() => alert("q & a")}
           style={styles.pressableContainer}
         >
-          <Text> Q & A </Text>
+          <Text style={styles.pressableText}> Q & A </Text>
         </Pressable>
 
         <Pressable
           onPress={() => alert("resources")}
           style={styles.pressableContainer}
         >
-          <Text> Resources </Text>
+          <Text style={styles.pressableText}> Resources </Text>
         </Pressable>
       </View>
 
@@ -124,15 +137,14 @@ const styles = StyleSheet.create({
   groupName: {
     fontFamily: "PTSansCaption-Bold",
     fontSize: Theme.sizes.textMedium,
-    fontWeight: "bold",
     color: Theme.colors.textPrimary,
   },
   infoContainer: {
     padding: 16,
   },
   infoText: {
-    fontFamily: "PTSansCaption",
-    fontSize: Theme.sizes.textMedium,
+    fontFamily: "Inter",
+    fontSize: Theme.sizes.textSmall,
     color: Theme.colors.textSecondary,
     marginBottom: 4,
   },
@@ -200,7 +212,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Theme.colors.textSecondary,
     borderRadius: 8,
-    padding: 8,
+    padding: 9,
     marginRight: 8,
     color: Theme.colors.textPrimary,
   },
@@ -214,12 +226,26 @@ const styles = StyleSheet.create({
   pressableContainer: {
     backgroundColor: Theme.colors.backgroundSecondary,
     borderRadius: 20,
-    padding: 8,
+    padding: 9,
     flexDirection: "row",
     alignItems: "center",
   },
   pressableText: {
-    color: Theme.colors.white,
-    fontFamily: "Poppins_400Regular",
+    fontSize: Theme.sizes.textSmall,
+    color: Theme.colors.textDark,
+    fontFamily: "Inter",
+  },
+
+  notJoinedContainer: {
+    backgroundColor: Theme.colors.backgroundSecondary,
+    borderRadius: 50,
+    padding: 9,
+  },
+
+  joinedContainer: {
+    padding: 6,
+    borderRadius: 50,
+    borderWidth: 3,
+    borderColor: Theme.colors.backgroundSecondary,
   },
 });

@@ -12,6 +12,7 @@ if (Platform.OS === "android") {
 
 export default function App() {
   const [fontsLoaded] = useFonts({
+    Inter: require("../assets/fonts/Inter-VariableFont_opsz,wght.ttf"),
     PTSansCaption: require("../assets/fonts/PTSansCaption-Regular.ttf"),
     "PTSansCaption-Bold": require("../assets/fonts/PTSansCaption-Bold.ttf"),
   });
