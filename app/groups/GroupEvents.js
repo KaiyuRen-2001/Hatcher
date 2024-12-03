@@ -10,24 +10,28 @@ import {
   Pressable,
 } from "react-native";
 import Theme from "@/assets/theme";
+import FeedDetails from "@/app/tabs/explore/details";
 import EventsList from "@/components/EventsList";
 import { Animated, LinearTransition, FadeIn, FadeOut } from "react-native";
 import { useSearchParams } from "expo-router/build/hooks";
 import { useRouter } from "expo-router/build/hooks";
+import { useRoute } from "@react-navigation/native";
 import { useEffect } from "react";
+import { useNavigation } from "expo-router";
 
 export default function GroupEvents() {
-  const { group } = useSearchParams(); // Access the group name parameter
-  const router = useRouter(); // Use Expo Router's useRouter hook
+  const route = useRoute();
+  const { groupName } = route.params; // Getting groupName from route params
+  const navigation = useNavigation(); // Get navigation object
 
+  // Update the header title dynamically when the component mounts
   useEffect(() => {
-    // Update the header title dynamically based on the group name
-    if (group) {
-      router.setOptions({
-        title: group, // Set the title of the header
+    if (groupName) {
+      navigation.setOptions({
+        title: groupName, // Set the title of the header
       });
     }
-  }, [group, router]);
+  }, [groupName, navigation]); // Ensure it runs when groupName changes
   return (
     <View style={styles.container}>
       <Animated.View
