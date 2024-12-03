@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { StyleSheet, FlatList, RefreshControl, Text } from "react-native";
 
 import Theme from "@/assets/theme";
-// import Event from "@/components/Event";
+import Event from "@/components/Event";
 import Loading from "@/components/Loading";
 import useSession from "@/utils/useSession";
 import { GoalsContext } from "@/components/storageContext";
