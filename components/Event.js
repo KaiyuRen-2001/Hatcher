@@ -16,7 +16,7 @@ export default function Event({
   groupName,
   inProfilePage,
 }) {
-  const pathname = inProfilePage ? "/tabs/profile/event" : "/tabs/groups/event";
+  const pathname = inProfilePage ? "/tabs/profile/event" : "/groups/event";
   return (
     <Link
       href={{
