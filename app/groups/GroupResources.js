@@ -1,23 +1,40 @@
-import React, { useState } from "react";
-import {
-  Alert,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  FlatList,
-  TextInput,
-  Pressable,
-} from "react-native";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 import Theme from "@/assets/theme";
-import FeedDetails from "@/app/tabs/explore/details";
+import EventsList from "@/components/EventsList";
+import { Animated, LinearTransition, FadeIn, FadeOut } from "react-native";
+import { useRoute } from "@react-navigation/native";
+import { useEffect } from "react";
+import { useNavigation } from "expo-router";
+import ResourcesList from "@/components/ResourcesList";
 
-export default function Resources(props) {
-  const events = props.events;
+export default function GroupResources() {
+  const route = useRoute();
+  const { groupName } = route.params; // Getting groupName from route params
+  const navigation = useNavigation(); // Get navigation object
 
+  // Update the header title dynamically when the component mounts
+  useEffect(() => {
+    if (groupName) {
+      navigation.setOptions({
+        title: groupName, // Set the title of the header
+      });
+    }
+  }, [groupName, navigation]); // Ensure it runs when groupName changes
   return (
     <View style={styles.container}>
-      <Text>Resources page</Text>
+      <Animated.View
+        style={styles.feed}
+        layout={LinearTransition}
+        entering={FadeIn}
+        exiting={FadeOut}
+      >
+        <ResourcesList
+          eventsExpanded={true}
+          RSVPed={false}
+          groupName={groupName}
+        />
+      </Animated.View>
     </View>
   );
 }

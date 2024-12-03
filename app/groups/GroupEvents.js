@@ -1,20 +1,8 @@
-import React, { useState } from "react";
-import {
-  Alert,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  FlatList,
-  TextInput,
-  Pressable,
-} from "react-native";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 import Theme from "@/assets/theme";
-import FeedDetails from "@/app/tabs/explore/details";
 import EventsList from "@/components/EventsList";
 import { Animated, LinearTransition, FadeIn, FadeOut } from "react-native";
-import { useSearchParams } from "expo-router/build/hooks";
-import { useRouter } from "expo-router/build/hooks";
 import { useRoute } from "@react-navigation/native";
 import { useEffect } from "react";
 import { useNavigation } from "expo-router";
