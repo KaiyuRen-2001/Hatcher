@@ -104,7 +104,13 @@ export default function Details(props) {
 
       <View style={styles.resourcesContainer}>
         <Pressable
-          onPress={() => router.push("../../groups/GroupEvents")}
+          onPress={() => {
+            const navigationPayload = {
+              pathname: "/tabs/groups/GroupEvents",
+              params: { groupName: group.name },
+            };
+            router.push(navigationPayload);
+          }}
           style={styles.pressableContainer}
         >
           <Text style={styles.pressableText}> Events </Text>

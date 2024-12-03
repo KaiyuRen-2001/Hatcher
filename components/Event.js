@@ -14,11 +14,13 @@ export default function Event({
   date,
   time,
   groupName,
+  inProfilePage,
 }) {
+  const pathname = inProfilePage ? "/tabs/profile/event" : "/tabs/groups/event";
   return (
     <Link
       href={{
-        pathname: "/tabs/profile/event",
+        pathname: pathname,
         params: {
           id: id,
           title: title,

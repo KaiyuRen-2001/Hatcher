@@ -7,13 +7,15 @@ import Loading from "@/components/Loading";
 import useSession from "@/utils/useSession";
 import { GoalsContext } from "@/components/storageContext";
 
-export default function EventsList({ eventsExpanded }) {
+export default function EventsList({ eventsExpanded, RSVPed, groupName }) {
+  //console.log(eventsExpanded, RSVPed, groupName);
   const { events, storageInitialized } = useContext(GoalsContext);
   const session = useSession();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [userEvents, setUserEvents] = useState([]);
+  const [inProfilePage, setInProfilePage] = useState(false);
 
   useEffect(() => {
     if (session && storageInitialized) {
@@ -21,14 +23,29 @@ export default function EventsList({ eventsExpanded }) {
       setIsRefreshing(false);
 
       if (events) {
-        setUserEvents(
-          events.reduce((acc, event) => {
-            if (event.members.includes(session.user.username)) {
-              return [...acc, event];
-            }
-            return acc;
-          }, [])
-        );
+        //console.log(events);
+        if (RSVPed) {
+          setUserEvents(
+            events.reduce((acc, event) => {
+              if (event.members.includes(session.user.username)) {
+                return [...acc, event];
+              }
+              return acc;
+            }, [])
+          );
+          setInProfilePage(true);
+          //console.log(`userEvents: ${userEvents.length}`);
+        } else if (groupName) {
+          setUserEvents(
+            events.reduce((acc, event) => {
+              if (event.groupName === groupName) {
+                return [...acc, event];
+              }
+              return acc;
+            }, [])
+          );
+          setInProfilePage(false);
+        }
       }
     } else {
       setIsLoading(true);
@@ -59,6 +76,7 @@ export default function EventsList({ eventsExpanded }) {
           date={item.date}
           time={item.time}
           groupName={item.groupName}
+          inProfilePage={inProfilePage}
         />
       )}
       contentContainerStyle={styles.goals}

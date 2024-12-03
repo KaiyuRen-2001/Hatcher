@@ -146,7 +146,7 @@ export default function Profile() {
         entering={FadeIn}
         exiting={FadeOut}
       >
-        <EventsList eventsExpanded={eventsExpanded} />
+        <EventsList eventsExpanded={eventsExpanded} RSVPed={true} />
       </Animated.View>
       <Animated.View
         style={styles.bottomBorder}

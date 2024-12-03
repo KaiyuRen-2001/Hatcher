@@ -11,18 +11,40 @@ import {
 } from "react-native";
 import Theme from "@/assets/theme";
 import FeedDetails from "@/app/tabs/explore/details";
+import EventsList from "@/components/EventsList";
+import { Animated, LinearTransition, FadeIn, FadeOut } from "react-native";
+import { useSearchParams } from "expo-router/build/hooks";
+import { useRouter } from "expo-router/build/hooks";
+import { useRoute } from "@react-navigation/native";
+import { useEffect } from "react";
 
-export default function Events(props) {
-  const events = props.events;
-
+export default function GroupEvents() {
+  const route = useRoute();
+  const groupName = route.params.groupName;
   return (
     <View style={styles.container}>
-      <Text>Events page</Text>
+      <Animated.View
+        style={styles.feed}
+        layout={LinearTransition}
+        entering={FadeIn}
+        exiting={FadeOut}
+      >
+        <EventsList
+          eventsExpanded={true}
+          RSVPed={false}
+          groupName={groupName}
+        />
+      </Animated.View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  feed: {
+    paddingLeft: 32,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+  },
   container: {
     flex: 1,
     backgroundColor: Theme.colors.backgroundPrimary,
