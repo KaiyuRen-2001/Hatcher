@@ -118,7 +118,7 @@ export default function Details(props) {
         </Pressable>
 
         <Pressable
-          onPress={() => router.push("../../groups/GroupEvents")}
+          onPress={() => router.push("/groups/GroupResources")}
           style={styles.pressableContainer}
         >
           <Text style={styles.pressableText}> Resources </Text>

@@ -17,10 +17,21 @@ import { useSearchParams } from "expo-router/build/hooks";
 import { useRouter } from "expo-router/build/hooks";
 import { useRoute } from "@react-navigation/native";
 import { useEffect } from "react";
+import { useNavigation } from "expo-router";
 
 export default function GroupEvents() {
   const route = useRoute();
-  const groupName = route.params.groupName;
+  const { groupName } = route.params; // Getting groupName from route params
+  const navigation = useNavigation(); // Get navigation object
+
+  // Update the header title dynamically when the component mounts
+  useEffect(() => {
+    if (groupName) {
+      navigation.setOptions({
+        title: groupName, // Set the title of the header
+      });
+    }
+  }, [groupName, navigation]); // Ensure it runs when groupName changes
   return (
     <View style={styles.container}>
       <Animated.View
@@ -41,6 +52,7 @@ export default function GroupEvents() {
 
 const styles = StyleSheet.create({
   feed: {
+    paddingTop: 16,
     paddingLeft: 32,
     flexDirection: "row",
     justifyContent: "flex-start",
