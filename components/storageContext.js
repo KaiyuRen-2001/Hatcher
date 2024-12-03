@@ -4,6 +4,7 @@ import {
   setUpdatedEvents,
   getGoals,
   getEvents,
+  getResources,
   setInitialData,
   getCategories,
   updateCategories,
@@ -19,6 +20,7 @@ export const StorageContextProvider = ({ children }) => {
   const [storageInitialized, setStorageInitialized] = useState(false);
   const [goals, setGoals] = useState([]);
   const [events, setEvents] = useState([]);
+  const [resources, setResources] = useState([]);
   const [groups, setGroups] = useState([]);
   const [categories, setCategories] = useState([]);
 
@@ -45,6 +47,11 @@ export const StorageContextProvider = ({ children }) => {
       const eventsData = await getEvents();
       if (eventsData) {
         setEvents(eventsData);
+      }
+
+      const resourcesData = await getResources();
+      if (resourcesData) {
+        setResources(resourcesData);
       }
 
       const myGroups = await getUsersGroups("landay");
@@ -83,6 +90,32 @@ export const StorageContextProvider = ({ children }) => {
     await updateGoal(newGoal);
     const newGoals = await getGoals();
     setGoals(newGoals);
+  };
+
+  const getOrderedEventsAndResources = () => {
+    const groupNames = groups.map((g) => g.name);
+
+    const eventsForUser = events.reduce((acc, event) => {
+      if (groupNames.includes(event.groupName)) {
+        return [...acc, { type: "event", ...event }];
+      }
+      return acc;
+    }, []);
+
+    const resourcesForUser = resources.reduce((acc, resource) => {
+      if (groupNames.includes(resource.groupName)) {
+        return [...acc, { type: "resource", ...resource }];
+      }
+      return acc;
+    }, []);
+
+    const all = [...eventsForUser, ...resourcesForUser];
+
+    const sorted = all.sort(function (a, b) {
+      return a.timestamp - b.timestamp;
+    });
+
+    return sorted;
   };
 
   const storageAddGroup = async (
@@ -129,6 +162,7 @@ export const StorageContextProvider = ({ children }) => {
         goals,
         categories,
         events,
+        resources,
         groups,
         storageInitialized,
         storageUpdateGoal,
@@ -136,6 +170,7 @@ export const StorageContextProvider = ({ children }) => {
         storageAddGoal,
         storageAddGroup,
         removeUserFromEvent,
+        getOrderedEventsAndResources,
       }}
     >
       {children}

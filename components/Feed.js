@@ -1,65 +1,31 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { StyleSheet, FlatList, RefreshControl } from "react-native";
 
 import Theme from "@/assets/theme";
-import Post from "@/components/Post";
 import Loading from "@/components/Loading";
 import useSession from "@/utils/useSession";
+import Event from "@/components/event";
+import Resource from "@/components/Resource";
+import { GoalsContext } from "@/components/storageContext";
 
 import timeAgo from "@/utils/timeAgo";
 
-export default function Feed({
-  navigateToComments = false,
-  fetchUsersPostsOnly = false,
-}) {
+export default function Feed() {
   const session = useSession();
+  const { events, resources, getOrderedEventsAndResources } =
+    useContext(GoalsContext);
 
   const [posts, setPosts] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const fetchPosts = async () => {
-    setIsLoading(true);
-
-    /*const votes = await db
-      .from("likes")
-      .select("post_id, vote")
-      .eq("user_id", session.user.id);
-
-    const columns = "id, username, timestamp, text, like_count, comment_count";
-    let data;
-    if (fetchUsersPostsOnly) {
-      data = await db
-        .from("posts_with_counts")
-        .select(columns)
-        .eq("user_id", session.user.id);
-    } else {
-      data = await db.from("posts_with_counts").select(columns);
-    }
-
-    const postsWithVotes = data.data.map((post) => {
-      let vote = 0;
-
-      votes.data.forEach((like) => {
-        if (like.post_id === post.id) {
-          vote = like.vote;
-        }
-      });
-
-      return { vote: vote, ...post };
-    });
-
-    setPosts(postsWithVotes);*/
-
-    setIsLoading(false);
-    setIsRefreshing(false);
+  const fetchPosts = () => {
+    setPosts(getOrderedEventsAndResources());
   };
 
   useEffect(() => {
-    if (session) {
-      fetchPosts();
-    }
-  }, [session]);
+    fetchPosts();
+  }, [events, resources]);
 
   if (isLoading && !isRefreshing) {
     return <Loading />;
@@ -68,18 +34,22 @@ export default function Feed({
   return (
     <FlatList
       data={posts}
-      renderItem={({ item }) => (
-        <Post
-          navigateOnPress={navigateToComments}
-          id={item.id}
-          username={item.username}
-          timestamp={timeAgo(item.timestamp)}
-          text={item.text}
-          score={item.like_count}
-          vote={item.vote}
-          commentCount={item.comment_count}
-        />
-      )}
+      renderItem={({ item }) =>
+        item.type === "event" ? (
+          <Event
+            id={item.id}
+            title={item.title}
+            description={item.description}
+            location={item.location}
+            date={item.date}
+            time={item.time}
+            groupName={item.groupName}
+            inProfilePage={false}
+          />
+        ) : (
+          <Resource id={item.id} title={"netflix"} />
+        )
+      }
       contentContainerStyle={styles.posts}
       style={styles.postsContainer}
       refreshControl={
@@ -88,6 +58,7 @@ export default function Feed({
           onRefresh={() => {
             setIsRefreshing(true);
             fetchPosts();
+            setIsRefreshing(false);
           }}
           tintColor={Theme.colors.textPrimary} // only applies to iOS
         />
@@ -104,6 +75,7 @@ const styles = StyleSheet.create({
   },
   postsContainer: {
     width: "100%",
+    paddingHorizontal: 8,
   },
   posts: {
     gap: 8,

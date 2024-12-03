@@ -11,15 +11,7 @@ export default function Home() {
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-      <Feed
-        navigateToComments={"/tabs/feed/details"}
-        fetchUsersPostsOnly={false}
-      />
-      <Link href="/tabs/feed/newpost" style={styles.postButtonContainer}>
-        <View style={styles.postButton}>
-          <FontAwesome size={32} name="plus" color={Theme.colors.textPrimary} />
-        </View>
-      </Link>
+      <Feed />
     </View>
   );
 }
@@ -29,6 +21,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: Theme.colors.backgroundPrimary,
+    paddingTop: 16,
+    paddingLeft: 32,
+    justifyContent: "flex-start",
+    height: "100%",
   },
   postButtonContainer: {
     position: "absolute",

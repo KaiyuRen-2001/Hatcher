@@ -77,7 +77,8 @@ export const setInitialData = async () => {
       "events",
       JSON.stringify([
         {
-          id: "1",
+          id: 1,
+          timestamp: 1,
           groupName: "Bay Area Resume Review",
           title: "Resume Workshop",
           location: "Cupertino Public Library",
@@ -94,7 +95,9 @@ export const setInitialData = async () => {
       "resources",
       JSON.stringify([
         {
-          groupId: "1",
+          id: 2,
+          timestamp: 2,
+          groupName: "Bay Area Resume Review",
           title: "",
           author: "",
           content: "",
@@ -168,6 +171,17 @@ export const getEvents = async () => {
     const events = JSON.parse(eventsString);
 
     return events;
+  } catch (error) {
+    // Error saving data
+  }
+};
+
+export const getResources = async () => {
+  try {
+    const resourcesString = await AsyncStorage.getItem("resources");
+    const resources = JSON.parse(resourcesString);
+
+    return resources;
   } catch (error) {
     // Error saving data
   }
