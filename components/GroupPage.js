@@ -104,14 +104,14 @@ export default function Details(props) {
 
       <View style={styles.resourcesContainer}>
         <Pressable
-          onPress={() => router.push("../../groups/GroupEvents")}
+          onPress={() => alert("events")}
           style={styles.pressableContainer}
         >
           <Text style={styles.pressableText}> Events </Text>
         </Pressable>
 
         <Pressable
-          onPress={() => router.push("../../groups/GroupEvents")}
+          onPress={() => alert("resources")}
           style={styles.pressableContainer}
         >
           <Text style={styles.pressableText}> Resources </Text>
