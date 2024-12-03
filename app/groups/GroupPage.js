@@ -106,9 +106,10 @@ export default function Details(props) {
         <Pressable
           onPress={() => {
             const navigationPayload = {
-              pathname: "/tabs/groups/GroupEvents",
+              pathname: "/groups/GroupEvents",
               params: { groupName: group.name },
             };
+            console.log(navigationPayload);
             router.push(navigationPayload);
           }}
           style={styles.pressableContainer}

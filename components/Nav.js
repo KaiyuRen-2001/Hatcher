@@ -2,7 +2,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useState, useEffect } from "react";
 import { NavigationIndependentTree } from "@react-navigation/native";
 import Theme from "@/assets/theme";
-import GroupPage from "@/components/GroupPage";
+import GroupPage from "@/app/groups/GroupPage";
 import { getUsersGroups } from "@/database/db";
 import useSession from "@/utils/useSession";
 import CreateGroupPage from "./CreateGroupPage";
