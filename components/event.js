@@ -1,100 +1,97 @@
-import { StyleSheet, View, Text } from "react-native";
-import { useContext } from "react";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Link } from "expo-router";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 
 import Tag from "@/components/Tag";
-import Theme from "@/assets/theme";
-import { GoalsContext } from "@/components/storageContext";
 import DateTimeDisplay from "@/components/DateTimeDisplay";
-import Button from "@/components/Button";
-import useSession from "@/utils/useSession";
+import Theme from "@/assets/theme";
 
-export default function GoalDetails() {
-  const router = useRouter();
-  const session = useSession();
-  const { id, title, description, location, date, time, groupName } =
-    useLocalSearchParams();
-  const { removeUserFromEvent } = useContext(GoalsContext);
-
-  const onPress = () => {
-    removeUserFromEvent(id, session.user.username);
-    console.log("user removed from event");
-    router.back();
-  };
-
+export default function Event({
+  id,
+  title,
+  description,
+  location,
+  date,
+  time,
+  groupName,
+  inProfilePage,
+}) {
+  const pathname = inProfilePage ? "/tabs/profile/event" : "/tabs/groups/event";
   return (
-    <View style={styles.container}>
-      <Text style={styles.name}>{title}</Text>
-      <View style={styles.catagory}>
-        <Tag style={styles.groupTag} title={groupName} />
-        <Tag
-          title={location}
-          icon={
-            <EvilIcons
-              name="location"
-              size={Theme.sizes.iconSmall}
-              color={Theme.colors.iconPrimary}
+    <Link
+      href={{
+        pathname: pathname,
+        params: {
+          id: id,
+          title: title,
+          description: description,
+          location: location,
+          date: date,
+          time: time,
+          groupName: groupName,
+        },
+      }}
+      asChild={true}
+      style={styles.content}
+    >
+      <TouchableOpacity style={styles.container}>
+        <View style={styles.body}>
+          <Text style={styles.name}>{title}</Text>
+          <View style={styles.catagory}>
+            <Tag
+              title={location}
+              icon={
+                <EvilIcons
+                  name="location"
+                  size={Theme.sizes.iconSmall}
+                  color={Theme.colors.iconPrimary}
+                />
+              }
             />
-          }
+          </View>
+        </View>
+        <DateTimeDisplay
+          style={styles.dateTime}
+          date={date}
+          time={time}
+          textMonth={30}
+          textDay={42}
+          textTime={16}
         />
-      </View>
-      <DateTimeDisplay
-        style={styles.dateTime}
-        date={date}
-        time={time}
-        textMonth={58}
-        textDay={64}
-        textTime={30}
-      />
-      <Text style={styles.confidenceText}>{description}</Text>
-      <View style={styles.textAndSlider}>
-        <Button title={"Un-RSVP"} onPress={onPress} style={styles.saveButton} />
-      </View>
-    </View>
+      </TouchableOpacity>
+    </Link>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    width: "100%",
+    alignItems: "center",
+    paddingVertical: 6,
+    paddingLeft: 0,
+    paddingRight: 32,
+    flexDirection: "row",
     flex: 1,
-    alignItems: "center",
+    gap: 8,
+  },
+  dateTime: { width: "35%", aspectRatio: 1 },
+  body: {
+    flex: 1,
+    height: 75,
     flexDirection: "column",
-    backgroundColor: Theme.colors.backgroundPrimary,
-  },
-  groupTag: {
-    margin: "auto",
-    marginBottom: 8,
-    backgroundColor: Theme.colors.textHighlighted,
-  },
-  saveButton: {
-    marginTop: 8,
-  },
-  confidenceText: {
-    fontSize: Theme.sizes.textLarge,
-    color: Theme.colors.textPrimary,
-    marginBottom: 8,
-    marginHorizontal: 32,
-  },
-  textAndSlider: {
-    flexDirection: "column",
-    alignItems: "center",
-    paddingBottom: 32,
-    marginTop: "auto",
-  },
-  dateTime: {
-    height: "30%",
-    aspectRatio: 1,
-    margin: 32,
-    padding: 32,
+    justifyContent: "center",
   },
   name: {
     color: Theme.colors.textPrimary,
     fontWeight: "bold",
-    fontSize: Theme.sizes.textExtraLarge,
-    paddingTop: 32,
+    fontSize: Theme.sizes.textLarge,
   },
   catagory: {
-    paddingTop: 8,
+    paddingLeft: 8,
+    paddingTop: 4,
+  },
+  content: {
+    flex: 1,
+    gap: 8,
   },
 });
