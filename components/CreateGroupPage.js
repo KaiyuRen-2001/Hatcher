@@ -150,7 +150,7 @@ export default function CreatGroupPage() {
             multiline={true}
             returnKeyType={"send"}
             placeholderTextColor={Theme.colors.textSecondary}
-            style={styles.goalNameInputText}
+            style={styles.rulesInputText}
             onChangeText={onChangeRules}
             value={rules}
           />
@@ -202,6 +202,7 @@ const styles = StyleSheet.create({
   },
   nameBox: {
     marginTop: 8,
+    marginVertical: 0,
     width: "100%",
     alignItems: "center",
   },
@@ -223,6 +224,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     paddingVertical: 10,
+    paddingHorizontal: 15,
+    backgroundColor: Theme.colors.backgroundWhite,
+    borderColor: Theme.colors.textPrimary,
+    color: Theme.colors.textDark,
+  },
+  rulesInputText: {
+    height: 100,
+    width: "80%",
+    marginBottom: 8,
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingVertical: 15,
     paddingHorizontal: 15,
     backgroundColor: Theme.colors.backgroundWhite,
     borderColor: Theme.colors.textPrimary,
