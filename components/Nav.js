@@ -1,29 +1,21 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { StyleSheet, TouchableOpacity, Text } from "react-native";
+import Entypo from "@expo/vector-icons/Entypo";
+import { router } from "expo-router";
 import { NavigationIndependentTree } from "@react-navigation/native";
 import Theme from "@/assets/theme";
 import GroupPage from "@/app/groups/GroupPage";
 import { getUsersGroups } from "@/database/db";
 import useSession from "@/utils/useSession";
 import CreateGroupPage from "./CreateGroupPage";
+import { GoalsContext } from "@/components/storageContext";
 
 const Drawer = createDrawerNavigator();
 
 export default function DrawerNav({ name, component }) {
   const session = useSession();
-
-  const [groups, setGroups] = useState(null);
-
-  const getGroups = async () => {
-    const myGroups = await getUsersGroups(session.user.username);
-    setGroups(myGroups);
-  };
-
-  useEffect(() => {
-    if (session) {
-      getGroups();
-    }
-  }, [session]);
+  const { groups } = useContext(GoalsContext);
 
   return (
     <NavigationIndependentTree>
@@ -67,6 +59,20 @@ export default function DrawerNav({ name, component }) {
           ))}
         <Drawer.Screen
           options={{
+            headerBackTitle: "Back",
+            headerLeft: () => (
+              <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => router.back()}
+              >
+                <Entypo
+                  name="chevron-small-left"
+                  size={Theme.sizes.iconMedium}
+                  color={Theme.colors.textDark}
+                />
+                <Text style={styles.backText}>Back</Text>
+              </TouchableOpacity>
+            ),
             drawerItemStyle: {
               marginTop: "auto",
               marginLeft: "5%",
@@ -93,3 +99,17 @@ export default function DrawerNav({ name, component }) {
     </NavigationIndependentTree>
   );
 }
+
+const styles = StyleSheet.create({
+  backButton: {
+    flex: 1,
+    alignItems: "center",
+    flexDirection: "row",
+    backgroundColor: Theme.colors.backgroundPrimary,
+  },
+  backText: {
+    margin: -8,
+    fontSize: Theme.sizes.textMedium,
+    color: Theme.colors.textDark,
+  },
+});

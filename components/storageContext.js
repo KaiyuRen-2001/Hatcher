@@ -9,6 +9,8 @@ import {
   updateCategories,
   addGoal,
   getAndIncrementNextGoalId,
+  getUsersGroups,
+  updateGroups,
 } from "@/database/db";
 
 export const GoalsContext = createContext({});
@@ -17,6 +19,7 @@ export const StorageContextProvider = ({ children }) => {
   const [storageInitialized, setStorageInitialized] = useState(false);
   const [goals, setGoals] = useState([]);
   const [events, setEvents] = useState([]);
+  const [groups, setGroups] = useState([]);
   const [categories, setCategories] = useState([]);
 
   /* useEffect(() => {
@@ -42,6 +45,11 @@ export const StorageContextProvider = ({ children }) => {
       const eventsData = await getEvents();
       if (eventsData) {
         setEvents(eventsData);
+      }
+
+      const myGroups = await getUsersGroups("landay");
+      if (myGroups) {
+        setGroups(myGroups);
       }
 
       const categoriesData = await getCategories();
@@ -77,6 +85,29 @@ export const StorageContextProvider = ({ children }) => {
     setGoals(newGoals);
   };
 
+  const storageAddGroup = async (
+    name,
+    city,
+    state,
+    description,
+    username,
+    norms
+  ) => {
+    const normsList = norms.split(/\r?\n/);
+    const newGroup = {
+      groupId: groups.length + 1,
+      name: name,
+      location: city + ", " + state,
+      description: description,
+      admins: [username],
+      members: [username],
+      norms: normsList,
+    };
+
+    updateGroups([...groups, newGroup]);
+    setGroups((g) => [...g, newGroup]);
+  };
+
   const storageAddGoal = async (newGoal) => {
     const id = await getAndIncrementNextGoalId();
     newGoal.id = id;
@@ -98,10 +129,12 @@ export const StorageContextProvider = ({ children }) => {
         goals,
         categories,
         events,
+        groups,
         storageInitialized,
         storageUpdateGoal,
         storageUpdateCategories,
         storageAddGoal,
+        storageAddGroup,
         removeUserFromEvent,
       }}
     >
