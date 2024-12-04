@@ -1,8 +1,16 @@
-import { Text, StyleSheet, View } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { StatusBar } from "expo-status-bar";
 import { Link } from "expo-router";
+import Feather from "@expo/vector-icons/Feather";
+import { MaterialIcons } from "@expo/vector-icons";
 
 import Theme from "@/assets/theme";
 import Feed from "@/components/Feed";
@@ -11,6 +19,27 @@ export default function Home() {
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
+      <View style={styles.header}>
+        <View style={styles.goalNameInputText}>
+          <Feather
+            name="search"
+            size={Theme.sizes.iconSmall}
+            color={Theme.colors.textDark}
+          />
+          <TextInput
+            placeholder="Search"
+            placeholderTextColor={Theme.colors.textSecondary}
+            onChangeText={() => {}}
+          />
+        </View>
+        <TouchableOpacity style={styles.filterIcon} onPress={() => {}}>
+          <MaterialIcons
+            name="filter-list"
+            size={24}
+            color={Theme.colors.textPrimary}
+          />
+        </TouchableOpacity>
+      </View>
       <Feed />
     </View>
   );
@@ -25,6 +54,33 @@ const styles = StyleSheet.create({
     // paddingLeft: 32,
     justifyContent: "flex-start",
     height: "100%",
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    padding: 16,
+  },
+  filterIcon: {
+    paddingRight: 12,
+    paddingBottom: 8,
+  },
+  goalNameInputText: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: 50,
+    flex: 1,
+    width: "80%",
+    gap: 8,
+    marginBottom: 8,
+    borderWidth: 1,
+    marginRight: 32,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+    backgroundColor: Theme.colors.backgroundWhite,
+    borderColor: Theme.colors.textPrimary,
+    color: Theme.colors.textDark,
   },
   postButtonContainer: {
     position: "absolute",

@@ -5,11 +5,13 @@ import {
   Text,
   Switch,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import MapView, { Marker, Callout } from "react-native-maps";
 import { MaterialIcons } from "@expo/vector-icons";
 import Entypo from "@expo/vector-icons/Entypo";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
+import Feather from "@expo/vector-icons/Feather";
 import { SelectList } from "react-native-dropdown-select-list";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
@@ -87,14 +89,14 @@ const FilterDropdowns = ({
   selectedGoal,
   setSelectedGoal,
 }) => {
-  const categoryData = CATEGORIES.map(cat => ({
+  const categoryData = CATEGORIES.map((cat) => ({
     key: cat,
-    value: cat
+    value: cat,
   }));
 
-  const goalData = GOALS.map(goal => ({
+  const goalData = GOALS.map((goal) => ({
     key: goal,
-    value: goal
+    value: goal,
   }));
 
   const handleCategorySelect = (val) => {
@@ -209,6 +211,18 @@ export default function ListGroups() {
       ) : (
         <>
           <View style={styles.header}>
+            <View style={styles.goalNameInputText}>
+              <Feather
+                name="search"
+                size={Theme.sizes.iconSmall}
+                color={Theme.colors.textDark}
+              />
+              <TextInput
+                placeholder="Search"
+                placeholderTextColor={Theme.colors.textSecondary}
+                onChangeText={() => {}}
+              />
+            </View>
             <TouchableOpacity
               style={styles.filterIcon}
               onPress={() => setShowFilters(!showFilters)}
@@ -281,6 +295,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "flex-end",
+    alignItems: "center",
     padding: 16,
   },
   calloutContainer: {
@@ -326,6 +341,27 @@ const styles = StyleSheet.create({
   customCallout: {
     backgroundColor: "transparent",
     padding: 0,
+  },
+  filterIcon: {
+    paddingRight: 12,
+    paddingBottom: 8,
+  },
+  goalNameInputText: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: 50,
+    flex: 1,
+    width: "80%",
+    gap: 8,
+    marginBottom: 8,
+    borderWidth: 1,
+    marginRight: 32,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+    backgroundColor: Theme.colors.backgroundWhite,
+    borderColor: Theme.colors.textPrimary,
+    color: Theme.colors.textDark,
   },
   toggleContainer: {
     position: "absolute",
