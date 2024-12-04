@@ -6,6 +6,7 @@ import {
   Text,
   Keyboard,
   TouchableWithoutFeedback,
+  Alert,
 } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Theme from "@/assets/theme";
@@ -20,14 +21,14 @@ import useSession from "@/utils/useSession";
 export default function CreatGroupPage() {
   const router = useRouter();
   const session = useSession();
-  const { categories, storageAddGroup } = useContext(GoalsContext);
+  const { groups, categories, storageAddGroup } = useContext(GoalsContext);
 
   const [title, onChangeTitle] = useState("");
   const [description, onChangeDescription] = useState("");
   const [city, onChangeCity] = useState("");
   const [state, onChangeState] = useState("");
   const [isPublic, setIsPublic] = useState(false);
-  const [rules, onChangeRules] = useState(false);
+  const [rules, onChangeRules] = useState("");
   const [selected, setSelected] = useState("");
 
   const disableAdd =
@@ -45,6 +46,23 @@ export default function CreatGroupPage() {
   }));
 
   const createGroup = () => {
+    const groupNames = groups.map((g) => g.name);
+
+    if (groupNames.includes(title)) {
+      Alert.alert(
+        "Cannot Create Group",
+        "This group already exists. Please give your group a different name.",
+        [
+          {
+            text: "Ok",
+            style: "cancel",
+          },
+        ],
+        { cancelable: true }
+      );
+      return;
+    }
+
     storageAddGroup(
       title,
       city,
@@ -53,6 +71,7 @@ export default function CreatGroupPage() {
       session.user.username,
       rules
     );
+    router.back();
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
