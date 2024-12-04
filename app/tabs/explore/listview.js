@@ -2,6 +2,8 @@ import { StyleSheet, View, Text, TouchableOpacity, ScrollView, Modal } from "rea
 import { MaterialIcons } from '@expo/vector-icons';
 import { router } from "expo-router";
 import { useState } from 'react';
+import { SelectList } from "react-native-dropdown-select-list";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import Theme from "@/assets/theme";
 import Loading from "@/components/Loading";
@@ -34,98 +36,76 @@ const BERKELEY_GROUP = {
 const CATEGORIES = ["All", "STEM", "Business", "Arts", "Social Sciences"];
 const GOALS = ["All", "networking", "mentorship", "career advice", "interview prep"];
 
-const FilterDropdowns = ({ selectedCategory, setSelectedCategory, selectedGoal, setSelectedGoal }) => {
-    const [showCategories, setShowCategories] = useState(false);
-    const [showGoals, setShowGoals] = useState(false);
-  
-    return (
-      <View style={styles.filterContainer}>
-        <View style={styles.dropdownContainer}>
-          <TouchableOpacity 
-            style={styles.dropdownButton}
-            onPress={() => {
-              setShowCategories(!showCategories);
-              setShowGoals(false);
-            }}
-          >
-            <Text style={styles.dropdownButtonText}>
-              {selectedCategory || "Category"}
-            </Text>
-            <MaterialIcons 
-              name={showCategories ? "arrow-drop-up" : "arrow-drop-down"} 
-              size={24} 
-              color={Theme.colors.textPrimary} 
-            />
-          </TouchableOpacity>
-          {showCategories && (
-            <View style={styles.dropdownList}>
-              {CATEGORIES.map((category) => (
-                <TouchableOpacity
-                  key={category}
-                  style={[
-                    styles.dropdownItem,
-                    selectedCategory === category && styles.selectedItem,
-                  ]}
-                  onPress={() => {
-                    if (category === "All") {
-                      setSelectedCategory(null);
-                    } else {
-                      setSelectedCategory(selectedCategory === category ? null : category);
-                    }
-                    setShowCategories(false);
-                  }}
-                >
-                  <Text style={styles.dropdownItemText}>{category}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          )}
-        </View>
-  
-        <View style={styles.dropdownContainer}>
-          <TouchableOpacity 
-            style={styles.dropdownButton}
-            onPress={() => {
-              setShowGoals(!showGoals);
-              setShowCategories(false);
-            }}
-          >
-            <Text style={styles.dropdownButtonText}>
-              {selectedGoal || "Goal"}
-            </Text>
-            <MaterialIcons 
-              name={showGoals ? "arrow-drop-up" : "arrow-drop-down"} 
-              size={24} 
-              color={Theme.colors.textPrimary} 
-            />
-          </TouchableOpacity>
-          {showGoals && (
-            <View style={styles.dropdownList}>
-              {GOALS.map((goal) => (
-                <TouchableOpacity
-                  key={goal}
-                  style={[
-                    styles.dropdownItem,
-                    selectedGoal === goal && styles.selectedItem,
-                  ]}
-                  onPress={() => {
-                    if (goal === "All") {
-                      setSelectedGoal(null);
-                    } else {
-                      setSelectedGoal(selectedGoal === goal ? null : goal);
-                    }
-                    setShowGoals(false);
-                  }}
-                >
-                  <Text style={styles.dropdownItemText}>{goal}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          )}
-        </View>
-      </View>
-    );
+const FilterDropdowns = ({
+  selectedCategory,
+  setSelectedCategory,
+  selectedGoal,
+  setSelectedGoal,
+}) => {
+  const categoryData = CATEGORIES.map(cat => ({
+    key: cat,
+    value: cat
+  }));
+
+  const goalData = GOALS.map(goal => ({
+    key: goal,
+    value: goal
+  }));
+
+  const handleCategorySelect = (val) => {
+    setSelectedCategory(val === "All" ? null : val);
   };
+
+  const handleGoalSelect = (val) => {
+    setSelectedGoal(val === "All" ? null : val);
+  };
+
+  return (
+    <View style={styles.filterContainer}>
+      <View style={styles.dropdownContainer}>
+        <SelectList
+          placeholder="Category"
+          boxStyles={styles.dropdownButton}
+          dropdownStyles={styles.dropdownList}
+          inputStyles={styles.dropdownButtonText}
+          dropdownTextStyles={styles.dropdownItemText}
+          setSelected={handleCategorySelect}
+          data={categoryData}
+          save="value"
+          search={false}
+          arrowicon={
+            <FontAwesome
+              name="chevron-down"
+              size={Theme.sizes.iconSmall}
+              color={Theme.colors.iconSecondary}
+            />
+          }
+        />
+      </View>
+
+      <View style={styles.dropdownContainer}>
+        <SelectList
+          placeholder="Goal"
+          boxStyles={styles.dropdownButton}
+          dropdownStyles={styles.dropdownList}
+          inputStyles={styles.dropdownButtonText}
+          dropdownTextStyles={styles.dropdownItemText}
+          setSelected={handleGoalSelect}
+          data={goalData}
+          save="value"
+          search={false}
+          arrowicon={
+            <FontAwesome
+              name="chevron-down"
+              size={Theme.sizes.iconSmall}
+              color={Theme.colors.iconSecondary}
+            />
+          }
+        />
+      </View>
+    </View>
+  );
+};
 
 const GroupCard = ({ group }) => (
   <View style={styles.card}>
@@ -266,45 +246,32 @@ const styles = StyleSheet.create({
   },
   dropdownContainer: {
     width: '48%',
-    zIndex: 1,
+    alignItems: 'center',
   },
   dropdownButton: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: Theme.colors.backgroundSecondary,
-    padding: 12,
-    borderRadius: 8,
-  },
-  dropdownButtonText: {
-    color: Theme.colors.textPrimary,
-    fontSize: 16,
+    height: 50,
+    width: "100%",
+    backgroundColor: Theme.colors.backgroundWhite,
+    borderWidth: 1,
+    borderColor: Theme.colors.textPrimary,
+    borderRadius: 10,
   },
   dropdownList: {
-    position: 'absolute',
-    top: '100%',
-    left: 0,
-    right: 0,
-    backgroundColor: Theme.colors.backgroundSecondary,
-    borderRadius: 8,
-    marginTop: 4,
-    elevation: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    width: "100%",
+    backgroundColor: Theme.colors.backgroundWhite,
+    color: Theme.colors.textDark,
+    marginTop: 50,
+    position: "absolute",
+    zIndex: 999,
+    borderWidth: 2,
+    borderColor: Theme.colors.iconSecondary,
   },
-  dropdownItem: {
-    padding: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: Theme.colors.backgroundPrimary,
-  },
-  selectedItem: {
-    backgroundColor: Theme.colors.primary + '20',
+  dropdownButtonText: {
+    marginTop: 3,
+    color: Theme.colors.textDark,
   },
   dropdownItemText: {
-    color: Theme.colors.textPrimary,
-    fontSize: 16,
+    color: Theme.colors.textDark,
   },
   scrollView: {
     marginTop: 50,
