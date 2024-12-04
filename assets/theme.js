@@ -12,6 +12,7 @@ export default {
 
     iconPrimary: "#A7B699",
     iconSecondary: "#B3BF99",
+    iconTertiary: "#ff8000",
     iconHighlighted: "#D6E9C5",
 
     tabBarActive: "#5b6c4d",
@@ -19,7 +20,8 @@ export default {
   },
   sizes: {
     iconSmall: 16,
-    iconMedium: 40,
+    iconMedium: 32,
+    iconLarge: 48,
     textSmall: 14,
     textMedium: 18,
     textLarge: 22,
