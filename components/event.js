@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     fontSize: Theme.sizes.textLarge,
   },
   catagory: {
-    //paddingLeft: 8,
+    paddingRight: 8,
     paddingTop: 4,
   },
   content: {

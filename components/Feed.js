@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
-import { StyleSheet, FlatList, RefreshControl } from "react-native";
+import { StyleSheet, FlatList, RefreshControl, View } from "react-native";
 
+import Tag from "@/components/Tag";
 import Theme from "@/assets/theme";
 import Loading from "@/components/Loading";
 import useSession from "@/utils/useSession";
@@ -34,31 +35,34 @@ export default function Feed() {
   return (
     <FlatList
       data={posts}
-      renderItem={({ item }) =>
-        item.type === "event" ? (
-          <Event
-            id={item.id}
-            title={item.title}
-            description={item.description}
-            location={item.location}
-            date={item.date}
-            time={item.time}
-            groupName={item.groupName}
-            inProfilePage={false}
-          />
-        ) : (
-          <Resource
-            id={item.id}
-            title={item.title}
-            userName={item.userName}
-            resourceUrl={item.resourceUrl}
-            groupName={item.groupName}
-            description={item.description}
-            date={item.date}
-            time={item.time}
-          />
-        )
-      }
+      renderItem={({ item }) => (
+        <View style={styles.itemContainer}>
+          <Tag style={styles.groupTag} title={item.groupName} />
+          {item.type === "event" ? (
+            <Event
+              id={item.id}
+              title={item.title}
+              description={item.description}
+              location={item.location}
+              date={item.date}
+              time={item.time}
+              groupName={item.groupName}
+              inProfilePage={false}
+            />
+          ) : (
+            <Resource
+              id={item.id}
+              title={item.title}
+              userName={item.userName}
+              resourceUrl={item.resourceUrl}
+              groupName={item.groupName}
+              description={item.description}
+              date={item.date}
+              time={item.time}
+            />
+          )}
+        </View>
+      )}
       contentContainerStyle={styles.posts}
       style={styles.postsContainer}
       refreshControl={
@@ -82,6 +86,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Theme.colors.backgroundPrimary,
   },
+  itemContainer: {
+    margin: 8,
+    paddingVertical: 12,
+    borderWidth: 1,
+    borderRadius: 16,
+    borderColor: Theme.colors.backgroundSecondary,
+  },
+  groupTag: {
+    position: "absolute",
+    top: -16,
+    left: 16,
+    margin: "auto",
+    marginBottom: 8,
+    backgroundColor: Theme.colors.textHighlighted,
+  },
   postsContainer: {
     width: "100%",
     // borderColor: "blue",
@@ -89,6 +108,7 @@ const styles = StyleSheet.create({
     // paddingHorizontal: 8,
   },
   posts: {
-    gap: 8,
+    gap: 16,
+    marginTop: 16,
   },
 });

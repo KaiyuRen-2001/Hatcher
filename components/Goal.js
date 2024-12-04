@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // padding: 24,
     paddingVertical: 6,
-    paddingLeft: 0,
+    paddingLeft: 16,
     paddingRight: 32,
     flexDirection: "row",
     flex: 1,
