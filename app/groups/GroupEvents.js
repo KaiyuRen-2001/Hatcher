@@ -41,7 +41,7 @@ export default function GroupEvents() {
 const styles = StyleSheet.create({
   feed: {
     paddingTop: 16,
-    paddingLeft: 32,
+    //paddingLeft: 32,
     flexDirection: "row",
     justifyContent: "flex-start",
   },

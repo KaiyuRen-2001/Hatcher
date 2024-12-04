@@ -17,7 +17,7 @@ export default function Resource({
   time,
   resourceUrl,
 }) {
-  console.log("resource loaded: ", title);
+  //console.log("resource loaded: ", title);
   return (
     <View style={styles.container}>
       <View style={styles.body}>

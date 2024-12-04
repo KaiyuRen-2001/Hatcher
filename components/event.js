@@ -67,9 +67,8 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     alignItems: "center",
-    paddingVertical: 6,
-    paddingLeft: 0,
-    paddingRight: 32,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
     flexDirection: "row",
     flex: 1,
     gap: 8,
@@ -87,7 +86,7 @@ const styles = StyleSheet.create({
     fontSize: Theme.sizes.textLarge,
   },
   catagory: {
-    paddingLeft: 8,
+    //paddingLeft: 8,
     paddingTop: 4,
   },
   content: {

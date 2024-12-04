@@ -6,6 +6,7 @@ import Theme from "@/assets/theme";
 
 export default function ResourceDownloadButton({ resourceUrl }) {
   const handlePress = async () => {
+    //console.log("trying to opem");
     try {
       // Check if the URL can be opened
       const supported = await Linking.canOpenURL(resourceUrl);
@@ -22,15 +23,15 @@ export default function ResourceDownloadButton({ resourceUrl }) {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={handlePress}>
+    <TouchableOpacity onPress={handlePress}>
+      <View style={styles.container}>
         <FontAwesome
           size={Theme.sizes.iconMedium}
           name="link"
-          color={Theme.colors.iconPrimary}
+          color={Theme.colors.textPrimary}
         />
-      </TouchableOpacity>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 }
 

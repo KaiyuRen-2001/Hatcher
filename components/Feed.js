@@ -47,7 +47,16 @@ export default function Feed() {
             inProfilePage={false}
           />
         ) : (
-          <Resource id={item.id} title={"netflix"} />
+          <Resource
+            id={item.id}
+            title={item.title}
+            userName={item.userName}
+            resourceUrl={item.resourceUrl}
+            groupName={item.groupName}
+            description={item.description}
+            date={item.date}
+            time={item.time}
+          />
         )
       }
       contentContainerStyle={styles.posts}
@@ -75,7 +84,9 @@ const styles = StyleSheet.create({
   },
   postsContainer: {
     width: "100%",
-    paddingHorizontal: 8,
+    // borderColor: "blue",
+    // borderWidth: 1,
+    // paddingHorizontal: 8,
   },
   posts: {
     gap: 8,

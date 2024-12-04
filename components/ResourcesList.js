@@ -46,7 +46,7 @@ export default function ResourcesList({ groupName }) {
     <FlatList
       data={groupResources}
       renderItem={({ item }) => {
-        console.log("Rendering resource:", item);
+        // console.log("Rendering resource:", item);
         return (
           <Resource
             id={item.id}

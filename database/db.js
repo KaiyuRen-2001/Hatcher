@@ -95,7 +95,7 @@ export const setInitialData = async () => {
       "resources",
       JSON.stringify([
         {
-          id: 1,
+          id: 101,
           groupName: "Bay Area Resume Review",
           title: "Resume Examples",
           userName: "mirandaliu",
@@ -106,7 +106,7 @@ export const setInitialData = async () => {
           time: "5:25pm",
         },
         {
-          id: 2,
+          id: 102,
           groupName: "Bay Area Resume Review",
           title: "CV basics!!",
           userName: "kaiyuren",
