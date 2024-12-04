@@ -43,7 +43,7 @@ const JAPANTOWN_COORDS = {
 
 const ANXIOUS_ENGINEERS_GROUP = {
   name: "Interview Prep for Anxious Engineers",
-  description: "A group for interview prep for anxious new gradengineers",
+  description: "A group for interview prep for anxious new grad engineers",
   location: "San Francisco Japantown",
   category: "STEM",
   goals: ["interview prep", "networking", "mentorship"],
@@ -321,6 +321,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
+    marginBottom: 32,
   },
   cardContent: {
     marginBottom: 12,
