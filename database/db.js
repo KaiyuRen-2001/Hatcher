@@ -95,12 +95,25 @@ export const setInitialData = async () => {
       "resources",
       JSON.stringify([
         {
-          id: 2,
-          timestamp: 2,
+          id: 1,
           groupName: "Bay Area Resume Review",
-          title: "",
-          author: "",
-          content: "",
+          title: "Resume Examples",
+          userName: "mirandaliu",
+          description:
+            "I used these examples as a starting point, thought it could be useful to everyone here!",
+          resourceUrl: "https://www.themuse.com/advice/resume-examples",
+          date: "Nov 28, 2024",
+          time: "5:25pm",
+        },
+        {
+          id: 2,
+          groupName: "Bay Area Resume Review",
+          title: "CV basics!!",
+          userName: "kaiyuren",
+          description: "Here's the CV basics video I was talking about :)",
+          resourceUrl: "https://www.youtube.com/watch?v=pOeD9GCOV-8",
+          date: "Sep 24, 2024",
+          time: "3:05pm",
         },
       ])
     );

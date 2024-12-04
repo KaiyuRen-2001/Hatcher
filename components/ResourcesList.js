@@ -8,85 +8,76 @@ import { GoalsContext } from "@/components/storageContext";
 import Resource from "./Resource";
 import { View } from "react-native";
 
-export default function ResourcesList({ eventsExpanded, RSVPed, groupName }) {
-  //console.log(eventsExpanded, RSVPed, groupName);
-  const { events, storageInitialized } = useContext(GoalsContext);
+export default function ResourcesList({ groupName }) {
+  //console.log("beg of reslist ", groupName);
+  const [groupResources, setGroupResources] = useState([]);
+  const { storageInitialized, resources } = useContext(GoalsContext);
   const session = useSession();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [userEvents, setUserEvents] = useState([]);
-  const [inProfilePage, setInProfilePage] = useState(false);
+
+  const updateResources = () => {
+    const filteredResources = resources.reduce((acc, resource) => {
+      if (resource.groupName === groupName) {
+        return [...acc, resource];
+      }
+      return acc;
+    }, []);
+    console.log(filteredResources);
+    setGroupResources(filteredResources);
+  };
 
   useEffect(() => {
     if (session && storageInitialized) {
       setIsLoading(false);
       setIsRefreshing(false);
-
-      if (events) {
-        //console.log(events);
-        if (RSVPed) {
-          setUserEvents(
-            events.reduce((acc, event) => {
-              if (event.members.includes(session.user.username)) {
-                return [...acc, event];
-              }
-              return acc;
-            }, [])
-          );
-          setInProfilePage(true);
-          //console.log(`userEvents: ${userEvents.length}`);
-        } else if (groupName) {
-          setUserEvents(
-            events.reduce((acc, event) => {
-              if (event.groupName === groupName) {
-                return [...acc, event];
-              }
-              return acc;
-            }, [])
-          );
-          setInProfilePage(false);
-        }
-      }
+      updateResources();
     } else {
       setIsLoading(true);
     }
-  }, [session, storageInitialized, events]);
+  }, [session, storageInitialized, resources]);
 
   if (isLoading && !isRefreshing) {
     return <Loading />;
   }
 
   return (
-    <View>
-      <Resource title={"netflix"} />
-      <FlatList
-        data={userEvents}
-        renderItem={({ item }) => <Resource title={netflix} />}
-        contentContainerStyle={styles.goals}
-        style={styles.goalsContainer}
-        refreshControl={
-          <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={() => {
-              setIsRefreshing(true);
-              // fetchGoals();
-              setIsRefreshing(false);
-            }}
-            tintColor={Theme.colors.textPrimary} // only applies to iOS
+    <FlatList
+      data={groupResources}
+      renderItem={({ item }) => {
+        console.log("Rendering resource:", item);
+        return (
+          <Resource
+            id={item.id}
+            title={item.title}
+            userName={item.userName}
+            resourceUrl={item.resourceUrl}
+            groupName={groupName}
+            description={item.description}
+            date={item.date}
+            time={item.time}
           />
-        }
-      />
-    </View>
+        );
+      }}
+      contentContainerStyle={styles.goals}
+      style={styles.goalsContainer}
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefreshing}
+          onRefresh={() => {
+            setIsRefreshing(true);
+            //updateResources();
+            setIsRefreshing(false);
+          }}
+          tintColor={Theme.colors.textPrimary} // only applies to iOS
+        />
+      }
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: Theme.colors.backgroundPrimary,
-  },
   goalsContainer: {
     width: "100%",
   },

@@ -12,6 +12,7 @@ import {
   getAndIncrementNextGoalId,
   getUsersGroups,
   updateGroups,
+  getGroupResources,
 } from "@/database/db";
 
 export const GoalsContext = createContext({});

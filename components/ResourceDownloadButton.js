@@ -1,45 +1,34 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Alert, StyleSheet } from "react-native";
 import * as Linking from "expo-linking";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import Theme from "@/assets/theme";
 
-export default function ResourceDownloadButton() {
-  const [actionType, setActionType] = useState("openLink"); // Only handle openLink action
-
+export default function ResourceDownloadButton({ resourceUrl }) {
   const handlePress = async () => {
-    if (actionType === "openLink") {
-      try {
-        // Define the URL dynamically (this could come from props, state, or any other dynamic source)
-        const url = "https://www.netflix.com/"; // Replace with your dynamic URL
+    try {
+      // Check if the URL can be opened
+      const supported = await Linking.canOpenURL(resourceUrl);
 
-        // Check if the URL can be opened
-        const supported = await Linking.canOpenURL(url);
-
-        if (supported) {
-          await Linking.openURL(url); // Open the URL
-        } else {
-          Alert.alert("Error", "The URL is not supported.");
-        }
-      } catch (err) {
-        console.error("Error opening URL:", err);
-        Alert.alert("Error", "Something went wrong while opening the link.");
+      if (supported) {
+        await Linking.openURL(resourceUrl); // Open the URL
+      } else {
+        Alert.alert("Error", "The URL is not supported.");
       }
+    } catch (err) {
+      console.error("Error opening URL:", err);
+      Alert.alert("Error", "Something went wrong while opening the link.");
     }
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={handlePress} style={styles.primaryButton}>
-        <Text style={styles.buttonText}>Go to Link</Text>
-      </TouchableOpacity>
-
-      {/* Optional button to toggle between different actions */}
-      <TouchableOpacity
-        onPress={() =>
-          setActionType(actionType === "openLink" ? "openLink" : "openLink")
-        }
-        style={styles.toggleButton}
-      >
-        <Text style={styles.buttonText}>Link Navigation</Text>
+      <TouchableOpacity onPress={handlePress}>
+        <FontAwesome
+          size={Theme.sizes.iconMedium}
+          name="link"
+          color={Theme.colors.iconPrimary}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -47,24 +36,13 @@ export default function ResourceDownloadButton() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    backgroundColor: Theme.colors.iconHighlighted,
     alignItems: "center",
     justifyContent: "center",
-    padding: 20,
-  },
-  primaryButton: {
-    padding: 15,
-    backgroundColor: "blue",
-    borderRadius: 5,
-    marginBottom: 20,
-  },
-  toggleButton: {
-    padding: 10,
-    backgroundColor: "green",
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 16,
+    paddingVertical: 12,
+    marginRight: 8,
+    borderRadius: 20,
+    aspectRatio: 1,
+    width: 80,
   },
 });

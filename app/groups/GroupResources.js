@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import Theme from "@/assets/theme";
-import EventsList from "@/components/EventsList";
 import { Animated, LinearTransition, FadeIn, FadeOut } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { useEffect } from "react";
@@ -12,6 +11,7 @@ export default function GroupResources() {
   const route = useRoute();
   const { groupName } = route.params; // Getting groupName from route params
   const navigation = useNavigation(); // Get navigation object
+  console.log("beg of groupres", groupName);
 
   // Update the header title dynamically when the component mounts
   useEffect(() => {
@@ -29,11 +29,7 @@ export default function GroupResources() {
         entering={FadeIn}
         exiting={FadeOut}
       >
-        <ResourcesList
-          eventsExpanded={true}
-          RSVPed={false}
-          groupName={groupName}
-        />
+        <ResourcesList groupName={groupName} />
       </Animated.View>
     </View>
   );

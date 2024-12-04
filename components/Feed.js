@@ -4,7 +4,7 @@ import { StyleSheet, FlatList, RefreshControl } from "react-native";
 import Theme from "@/assets/theme";
 import Loading from "@/components/Loading";
 import useSession from "@/utils/useSession";
-import Event from "@/components/event";
+import Event from "@/components/Event";
 import Resource from "@/components/Resource";
 import { GoalsContext } from "@/components/storageContext";
 

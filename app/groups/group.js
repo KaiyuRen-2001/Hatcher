@@ -122,7 +122,7 @@ export default function Details(props) {
                   pathname: "/groups/GroupEvents",
                   params: { groupName: group.name },
                 };
-                console.log(navigationPayload);
+                //console.log(navigationPayload);
                 router.push(navigationPayload);
               }}
               style={styles.pressableContainer}
@@ -136,7 +136,14 @@ export default function Details(props) {
             </Pressable>
 
             <Pressable
-              onPress={() => router.push("/groups/GroupResources")}
+              onPress={() => {
+                const navigationPayload = {
+                  pathname: "/groups/GroupResources",
+                  params: { groupName: group.name },
+                };
+                console.log("in group.js nav payload", navigationPayload);
+                router.push(navigationPayload);
+              }}
               style={styles.pressableContainer}
             >
               <MaterialIcons
