@@ -26,5 +26,6 @@ export default {
     textMedium: 18,
     textLarge: 22,
     textExtraLarge: 32,
+    textBody: 16,
   },
 };

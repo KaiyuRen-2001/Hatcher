@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
     color: Theme.colors.textPrimary,
     fontSize: Theme.sizes.textExtraLarge,
     fontWeight: "bold",
+    fontFamily: "PTSansCaption-Bold",
     marginRight: 8,
     flex: 1,
   },
@@ -245,25 +246,29 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 8,
     marginLeft: 16,
+    fontFamily: "PTSansCaption",
   },
   title: {
     color: Theme.colors.textPrimary,
     fontSize: Theme.sizes.textExtraLarge,
-    fontWeight: "bold",
+    fontFamily: "PTSansCaption-Bold",
   },
   goalsTitleText: {
     color: Theme.colors.textPrimary,
     fontSize: Theme.sizes.textExtraLarge,
     fontWeight: "bold",
+    fontFamily: "PTSansCaption-Bold",
     marginRight: 8,
   },
   text: {
     color: Theme.colors.textPrimary,
     fontSize: Theme.sizes.textLarge,
+    fontFamily: "PTSansCaption",
   },
   buttonText: {
     fontWeight: "bold",
     color: Theme.colors.textHighlighted,
     fontSize: Theme.sizes.textMedium,
+    fontFamily: "PTSansCaption",
   },
 });

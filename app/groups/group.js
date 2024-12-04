@@ -12,19 +12,25 @@ import {
 import Theme from "@/assets/theme";
 import { router } from "expo-router";
 import FeedDetails from "@/app/tabs/explore/details";
+import EvilIcons from "@expo/vector-icons/EvilIcons";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 export default function Details(props) {
   const group = props.group;
   const [isInGroup, setIsInGroup] = useState(true);
 
   const [chat, setChat] = useState([
-    { id: "1", text: "Welcome to the group, everyone!", sentBy: "other" },
+    { id: "1", text: "how should i structure my resume?", sentBy: "Andreea" },
     {
       id: "2",
-      text: "Don't forget about the weekly discussion on Friday.",
-      sentBy: "me",
+      text: "should i use different fonts and font sizes?",
+      sentBy: "Andreea",
     },
-    { id: "3", text: "Any tips for new members?", sentBy: "other" },
+    { id: "3", text: "yeah", sentBy: "me" },
+    { id: "4", text: "cool thanks!", sentBy: "Andreea" },
+    { id: "5", text: "I thought you're not supposed to", sentBy: "Kaiyu" },
+    { id: "6", text: "I think it's okay", sentBy: "Zoe" },
+    { id: "7", text: "are you sure??", sentBy: "me" },
   ]);
 
   const [message, setMessage] = useState(""); // State for input field
@@ -38,6 +44,7 @@ export default function Details(props) {
           isMe ? styles.sentMessage : styles.receivedMessage,
         ]}
       >
+        {!isMe && <Text style={styles.senderText}>{item.sentBy}</Text>}
         <Text style={styles.messageText}>{item.text}</Text>
         <View
           style={[styles.tail, isMe ? styles.sentTail : styles.receivedTail]}
@@ -97,32 +104,51 @@ export default function Details(props) {
       {/* Info Section */}
       <View style={styles.infoContainer}>
         <Text style={styles.infoText}>{group.members.length} members</Text>
-        <Text style={styles.infoText}>Admins: {group.admins.join(", ")}</Text>
-        <Text style={styles.infoText}>Location: {group.location}</Text>
+        <View style={styles.temp}>
+          <Text style={styles.infoText}>
+            {
+              <EvilIcons
+                name="location"
+                size={Theme.sizes.textMedium}
+                color={Theme.colors.textDark}
+              />
+            }
+            {group.location}
+          </Text>
+          <View style={styles.resourcesContainer}>
+            <Pressable
+              onPress={() => {
+                const navigationPayload = {
+                  pathname: "/groups/GroupEvents",
+                  params: { groupName: group.name },
+                };
+                console.log(navigationPayload);
+                router.push(navigationPayload);
+              }}
+              style={styles.pressableContainer}
+            >
+              <MaterialIcons
+                name="event"
+                size={32}
+                color={Theme.colors.textDark}
+              />
+              <Text style={styles.infoText}>Events</Text>
+            </Pressable>
+
+            <Pressable
+              onPress={() => router.push("/groups/GroupResources")}
+              style={styles.pressableContainer}
+            >
+              <MaterialIcons
+                name="summarize"
+                size={32}
+                color={Theme.colors.textDark}
+              />
+              <Text style={styles.infoText}>Resources</Text>
+            </Pressable>
+          </View>
+        </View>
         <Text style={styles.description}>{group.description}</Text>
-      </View>
-
-      <View style={styles.resourcesContainer}>
-        <Pressable
-          onPress={() => {
-            const navigationPayload = {
-              pathname: "/groups/GroupEvents",
-              params: { groupName: group.name },
-            };
-            console.log(navigationPayload);
-            router.push(navigationPayload);
-          }}
-          style={styles.pressableContainer}
-        >
-          <Text style={styles.pressableText}> Events </Text>
-        </Pressable>
-
-        <Pressable
-          onPress={() => router.push("/groups/GroupResources")}
-          style={styles.pressableContainer}
-        >
-          <Text style={styles.pressableText}> Resources </Text>
-        </Pressable>
       </View>
 
       {/* Chat Section */}
@@ -132,7 +158,6 @@ export default function Details(props) {
           renderItem={renderMessage}
           keyExtractor={(item) => item.id}
           style={styles.chatList}
-          inverted // To show the newest message at the bottom
         />
         <View style={styles.inputContainer}>
           <TextInput
@@ -168,17 +193,18 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     padding: 16,
+    marginTop: -24,
   },
   infoText: {
-    fontFamily: "Inter",
-    fontSize: Theme.sizes.textSmall,
-    color: Theme.colors.textSecondary,
+    fontFamily: "PTSansCaption",
+    fontSize: Theme.sizes.textBody,
+    color: Theme.colors.textPrimary,
     marginBottom: 4,
   },
   description: {
-    fontSize: 14,
-    color: Theme.colors.textSecondary,
-    marginTop: 8,
+    fontSize: Theme.sizes.textSmall,
+    color: Theme.colors.textPrimary,
+    fontFamily: "PTSansCaption",
   },
   chatContainer: {
     flex: 1,
@@ -248,19 +274,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
+    marginTop: -30,
   },
 
   pressableContainer: {
-    backgroundColor: Theme.colors.backgroundSecondary,
-    borderRadius: 20,
-    padding: 9,
-    flexDirection: "row",
+    padding: 6,
+    flexDirection: "column",
     alignItems: "center",
   },
   pressableText: {
     fontSize: Theme.sizes.textSmall,
     color: Theme.colors.textDark,
-    fontFamily: "Inter",
+    fontFamily: "PTSansCaption",
   },
 
   notJoinedContainer: {
@@ -270,9 +295,16 @@ const styles = StyleSheet.create({
   },
 
   joinedContainer: {
-    padding: 6,
-    borderRadius: 50,
-    borderWidth: 3,
     borderColor: Theme.colors.backgroundSecondary,
+    borderWidth: 3,
+    borderRadius: 20,
+    padding: 9,
+    padding: 6,
+    borderRadius: 20,
+  },
+
+  temp: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });
