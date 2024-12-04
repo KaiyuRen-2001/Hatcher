@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.colors.backgroundPrimary,
   },
   feed: {
-    paddingLeft: 32,
+    //paddingLeft: 32,
     flexDirection: "row",
     justifyContent: "flex-start",
   },

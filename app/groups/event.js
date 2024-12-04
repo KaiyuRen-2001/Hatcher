@@ -48,9 +48,7 @@ export default function GoalDetails() {
         textTime={30}
       />
       <Text style={styles.confidenceText}>{description}</Text>
-      <View style={styles.textAndSlider}>
-        <Button title={"Un-RSVP"} onPress={onPress} style={styles.saveButton} />
-      </View>
+      <Button title={"Un-RSVP"} onPress={onPress} style={styles.saveButton} />
     </View>
   );
 }
@@ -60,6 +58,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     flexDirection: "column",
+    height: "100%",
     backgroundColor: Theme.colors.backgroundPrimary,
   },
   groupTag: {
@@ -77,8 +76,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 32,
   },
   textAndSlider: {
-    flexDirection: "column",
     alignItems: "center",
+    borderWidth: 1,
+    borderColor: "blue",
     paddingBottom: 32,
     marginTop: "auto",
   },

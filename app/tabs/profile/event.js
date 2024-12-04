@@ -48,9 +48,7 @@ export default function GoalDetails() {
         textTime={30}
       />
       <Text style={styles.confidenceText}>{description}</Text>
-      <View style={styles.textAndSlider}>
-        <Button title={"Un-RSVP"} onPress={onPress} style={styles.saveButton} />
-      </View>
+      <Button title={"Un-RSVP"} onPress={onPress} style={styles.saveButton} />
     </View>
   );
 }
