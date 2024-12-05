@@ -1,9 +1,17 @@
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView, Modal } from "react-native";
-import { MaterialIcons } from '@expo/vector-icons';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  Modal,
+} from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { useState } from 'react';
+import { useState, useContext } from "react";
 import { SelectList } from "react-native-dropdown-select-list";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { GoalsContext } from "@/components/storageContext";
 
 import Theme from "@/assets/theme";
 import Loading from "@/components/Loading";
@@ -34,7 +42,13 @@ const BERKELEY_GROUP = {
 };
 
 const CATEGORIES = ["All", "STEM", "Business", "Arts", "Social Sciences"];
-const GOALS = ["All", "networking", "mentorship", "career advice", "interview prep"];
+const GOALS = [
+  "All",
+  "networking",
+  "mentorship",
+  "career advice",
+  "interview prep",
+];
 
 const FilterDropdowns = ({
   selectedCategory,
@@ -42,14 +56,14 @@ const FilterDropdowns = ({
   selectedGoal,
   setSelectedGoal,
 }) => {
-  const categoryData = CATEGORIES.map(cat => ({
+  const categoryData = CATEGORIES.map((cat) => ({
     key: cat,
-    value: cat
+    value: cat,
   }));
 
-  const goalData = GOALS.map(goal => ({
+  const goalData = GOALS.map((goal) => ({
     key: goal,
-    value: goal
+    value: goal,
   }));
 
   const handleCategorySelect = (val) => {
@@ -107,41 +121,58 @@ const FilterDropdowns = ({
   );
 };
 
-const GroupCard = ({ group }) => (
-  <View style={styles.card}>
-    <View style={styles.cardContent}>
-      <Text style={styles.groupName}>{group.name}</Text>
-      <Text style={styles.groupLocation}>
-        <MaterialIcons name="location-on" size={16} color={Theme.colors.textSecondary} />
-        {group.location}
-      </Text>
-      <Text style={styles.groupDescription}>{group.description}</Text>
+const GroupCard = ({ group }) => {
+  const navToGroup = () => {
+    const a1 = {
+      admins: group.admins,
+      description: group.description,
+      groupId: group.groupId,
+      location: group.location,
+      members: group.members,
+      name: group.name,
+      norms: group.norms,
+    };
+    const navigationPayload = {
+      pathname: "/groups/newgroup",
+      params: { group: JSON.stringify(a1) },
+    };
+    router.push(navigationPayload);
+  };
+
+  return (
+    <View style={styles.card}>
+      <View style={styles.cardContent}>
+        <Text style={styles.groupName}>{group.name}</Text>
+        <Text style={styles.groupLocation}>
+          <MaterialIcons
+            name="location-on"
+            size={16}
+            color={Theme.colors.textSecondary}
+          />
+          {group.location}
+        </Text>
+        <Text style={styles.groupDescription}>{group.description}</Text>
+      </View>
+      <TouchableOpacity style={styles.joinButton} onPress={navToGroup}>
+        <Text style={styles.joinButtonText}>View</Text>
+      </TouchableOpacity>
     </View>
-    <TouchableOpacity 
-      style={styles.joinButton}
-      onPress={() => router.push("/tabs/feed")}
-    >
-      <Text style={styles.joinButtonText}>Join</Text>
-    </TouchableOpacity>
-  </View>
-);
+  );
+};
 
 export default function ListView() {
   const session = useSession();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedGoal, setSelectedGoal] = useState(null);
-  const [showFilters, setShowFilters] = useState(false); 
-  const [groups, setGroups] = useState([
-    STANFORD_GROUP, 
-    ANXIOUS_ENGINEERS_GROUP,
-    BERKELEY_GROUP
-  ]);
+  const [showFilters, setShowFilters] = useState(false);
+  const { exploreGroups } = useContext(GoalsContext);
 
   // if (!session) {
   //   return <Loading />;
   // }
-  const filteredGroups = groups.filter(group => {
-    const categoryMatch = !selectedCategory || group.category === selectedCategory;
+  const filteredGroups = exploreGroups.filter((group) => {
+    const categoryMatch =
+      !selectedCategory || group.category === selectedCategory;
     const goalMatch = !selectedGoal || group.goals.includes(selectedGoal);
     return categoryMatch && goalMatch;
   });
@@ -149,20 +180,20 @@ export default function ListView() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.filterIcon}
           onPress={() => setShowFilters(!showFilters)}
         >
-          <MaterialIcons 
-            name="filter-list" 
-            size={24} 
-            color={Theme.colors.textPrimary} 
+          <MaterialIcons
+            name="filter-list"
+            size={24}
+            color={Theme.colors.textPrimary}
           />
         </TouchableOpacity>
       </View>
 
       {showFilters && (
-        <FilterDropdowns 
+        <FilterDropdowns
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
           selectedGoal={selectedGoal}
@@ -185,8 +216,8 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
+    flexDirection: "row",
+    justifyContent: "flex-end",
     padding: 16,
   },
   filterIcon: {
@@ -201,7 +232,7 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 16,
     elevation: 3,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -211,7 +242,7 @@ const styles = StyleSheet.create({
   },
   groupName: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: Theme.colors.textPrimary,
     marginBottom: 8,
   },
@@ -219,8 +250,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Theme.colors.textSecondary,
     marginBottom: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   groupDescription: {
     fontSize: 14,
@@ -231,22 +262,22 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.colors.primary,
     padding: 12,
     borderRadius: 8,
-    alignItems: 'center',
+    alignItems: "center",
   },
   joinButtonText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
+    color: "#FFFFFF",
+    fontWeight: "bold",
     fontSize: 16,
   },
   filterContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     padding: 16,
     zIndex: 1,
   },
   dropdownContainer: {
-    width: '48%',
-    alignItems: 'center',
+    width: "48%",
+    alignItems: "center",
   },
   dropdownButton: {
     height: 50,
@@ -278,9 +309,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export { 
-  FilterDropdowns, 
-  STANFORD_GROUP, 
-  ANXIOUS_ENGINEERS_GROUP, 
-  BERKELEY_GROUP 
+export {
+  FilterDropdowns,
+  STANFORD_GROUP,
+  ANXIOUS_ENGINEERS_GROUP,
+  BERKELEY_GROUP,
 };
