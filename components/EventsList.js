@@ -108,6 +108,6 @@ const styles = StyleSheet.create({
   },
   goals: {
     height: "100%",
-    gap: 8,
+    gap: 130,
   },
 });

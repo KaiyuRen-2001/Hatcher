@@ -134,6 +134,14 @@ export const setInitialData = async () => {
   }
 };
 
+export const updateEvents = async (newEvents) => {
+  try {
+    await AsyncStorage.setItem("groups", JSON.stringify(newEvents));
+  } catch (error) {
+    // Error saving data
+  }
+};
+
 export const updateGroups = async (newGroups) => {
   try {
     await AsyncStorage.setItem("groups", JSON.stringify(newGroups));
@@ -154,6 +162,14 @@ export const getUser = async () => {
   try {
     const user = await AsyncStorage.getItem("user");
     return JSON.parse(user);
+  } catch (error) {
+    // Error saving data
+  }
+};
+
+export const updateResources = async (updatedResources) => {
+  try {
+    await AsyncStorage.setItem("resources", JSON.stringify(updatedResources));
   } catch (error) {
     // Error saving data
   }

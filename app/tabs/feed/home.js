@@ -5,7 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-
+import { useState } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { StatusBar } from "expo-status-bar";
 import { Link } from "expo-router";
@@ -16,6 +16,7 @@ import Theme from "@/assets/theme";
 import Feed from "@/components/Feed";
 
 export default function Home() {
+  const [searchTerm, onChangeSearchTerm] = useState("");
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
@@ -29,7 +30,8 @@ export default function Home() {
           <TextInput
             placeholder="Search"
             placeholderTextColor={Theme.colors.textSecondary}
-            onChangeText={() => {}}
+            onChangeText={onChangeSearchTerm}
+            value={searchTerm}
           />
         </View>
         <TouchableOpacity style={styles.filterIcon} onPress={() => {}}>
@@ -40,7 +42,7 @@ export default function Home() {
           />
         </TouchableOpacity>
       </View>
-      <Feed />
+      <Feed searchTerm={searchTerm} />
     </View>
   );
 }

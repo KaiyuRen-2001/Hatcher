@@ -13,6 +13,8 @@ import {
   getUsersGroups,
   updateGroups,
   getGroupResources,
+  updateEvents,
+  updateResources,
 } from "@/database/db";
 
 export const GoalsContext = createContext({});
@@ -71,9 +73,26 @@ export const StorageContextProvider = ({ children }) => {
     initializeStorage();
   }, []);
 
+  const addUserToEvent = async (id, username) => {
+    const updateEvents = events.reduce((acc, event) => {
+      if (event.id == id) {
+        const currMembers = event.members;
+        console.log([
+          ...acc,
+          { members: [...currMembers, username], ...event },
+        ]);
+        return [...acc, { ...event, members: [...currMembers, username] }];
+      }
+      return [...acc, event];
+    }, []);
+
+    await setUpdatedEvents(updateEvents);
+    setEvents(updateEvents);
+  };
+
   const removeUserFromEvent = async (id, username) => {
     const updateEvents = events.reduce((acc, event) => {
-      if (event.id === id) {
+      if (event.id == id) {
         const currMembers = event.members;
         const userIndex = currMembers.indexOf(username);
         currMembers.splice(userIndex, 1);
@@ -117,6 +136,58 @@ export const StorageContextProvider = ({ children }) => {
     });
 
     return sorted;
+  };
+
+  const storageAddEvent = async (
+    title,
+    description,
+    month,
+    day,
+    year,
+    time,
+    loc,
+    groupName
+  ) => {
+    const newEvent = {
+      id: events.length + 1,
+      timestamp: Date.now(),
+      groupName: groupName,
+      title: title,
+      location: loc,
+      date: month.substring(0, 3) + " " + day + ", " + year,
+      time: time,
+      description: description,
+      members: [],
+    };
+
+    updateEvents([...events, newEvent]);
+    setEvents((e) => [...e, newEvent]);
+  };
+
+  const storageAddResource = async (
+    title,
+    description,
+    link,
+    groupName,
+    userName
+  ) => {
+    const timestamp = Date.now();
+    const date = "Dec 4, 2024";
+    const time = "11:12pm";
+
+    const newResource = {
+      id: resources.length + 101,
+      groupName: groupName,
+      title: title,
+      userName: userName,
+      description: description,
+      resourceUrl: link,
+      date: date,
+      time: time,
+    };
+
+    updateResources([...resources, newResource]);
+    setResources((e) => [...e, newResource]);
   };
 
   const storageAddGroup = async (
@@ -171,7 +242,10 @@ export const StorageContextProvider = ({ children }) => {
         storageAddGoal,
         storageAddGroup,
         removeUserFromEvent,
+        addUserToEvent,
         getOrderedEventsAndResources,
+        storageAddEvent,
+        storageAddResource,
       }}
     >
       {children}

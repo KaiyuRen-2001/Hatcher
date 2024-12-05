@@ -16,18 +16,39 @@ export default function GoalDetails() {
   const session = useSession();
   const { id, title, description, location, date, time, groupName } =
     useLocalSearchParams();
-  const { removeUserFromEvent } = useContext(GoalsContext);
+  const { removeUserFromEvent, addUserToEvent, events } =
+    useContext(GoalsContext);
+
+  const userRSVP = () => {
+    return events.reduce((acc, event) => {
+      if (acc) {
+        return true;
+      }
+
+      if (event.id == id && event.members.includes("landay")) {
+        return true;
+      }
+
+      return false;
+    }, false);
+  };
+
+  const isUserRSVPed = userRSVP();
 
   const onPress = () => {
-    removeUserFromEvent(id, session.user.username);
-    console.log("user removed from event");
+    if (isUserRSVPed) {
+      removeUserFromEvent(id, session.user.username);
+      console.log("user removed from event");
+    } else {
+      addUserToEvent(id, session.user.username);
+    }
     router.back();
   };
 
   return (
     <View style={styles.container}>
       <Stack.Screen
-        headerOptions={{
+        options={{
           title: "Event",
           headerBackTitle: "Back",
           headerTintColor: Theme.colors.textPrimary,
@@ -56,7 +77,11 @@ export default function GoalDetails() {
         textTime={30}
       />
       <Text style={styles.confidenceText}>{description}</Text>
-      <Button title={"Un-RSVP"} onPress={onPress} style={styles.saveButton} />
+      <Button
+        title={isUserRSVPed ? "Un-RSVP" : "RSVP"}
+        onPress={onPress}
+        style={styles.saveButton}
+      />
     </View>
   );
 }
