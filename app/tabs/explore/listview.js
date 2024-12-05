@@ -119,7 +119,7 @@ const GroupCard = ({ group }) => (
     </View>
     <TouchableOpacity 
       style={styles.joinButton}
-      onPress={() => router.push("/tabs/explore/details")}
+      onPress={() => router.push("/tabs/feed")}
     >
       <Text style={styles.joinButtonText}>Join</Text>
     </TouchableOpacity>
