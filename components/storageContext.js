@@ -14,6 +14,7 @@ import {
   updateGroups,
   getGroupResources,
   updateEvents,
+  updateResources,
 } from "@/database/db";
 
 export const GoalsContext = createContext({});
@@ -163,6 +164,32 @@ export const StorageContextProvider = ({ children }) => {
     setEvents((e) => [...e, newEvent]);
   };
 
+  const storageAddResource = async (
+    title,
+    description,
+    link,
+    groupName,
+    userName
+  ) => {
+    const timestamp = Date.now();
+    const date = "Dec 4, 2024";
+    const time = "11:12pm";
+
+    const newResource = {
+      id: resources.length + 101,
+      groupName: groupName,
+      title: title,
+      userName: userName,
+      description: description,
+      resourceUrl: link,
+      date: date,
+      time: time,
+    };
+
+    updateResources([...resources, newResource]);
+    setResources((e) => [...e, newResource]);
+  };
+
   const storageAddGroup = async (
     name,
     city,
@@ -218,6 +245,7 @@ export const StorageContextProvider = ({ children }) => {
         addUserToEvent,
         getOrderedEventsAndResources,
         storageAddEvent,
+        storageAddResource,
       }}
     >
       {children}

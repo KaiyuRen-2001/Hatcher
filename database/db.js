@@ -167,6 +167,14 @@ export const getUser = async () => {
   }
 };
 
+export const updateResources = async (updatedResources) => {
+  try {
+    await AsyncStorage.setItem("resources", JSON.stringify(updatedResources));
+  } catch (error) {
+    // Error saving data
+  }
+};
+
 export const getUsersGroups = async (username) => {
   try {
     const groupsString = await AsyncStorage.getItem("groups");
