@@ -9,6 +9,7 @@ import {
   TextInput,
   Pressable,
 } from "react-native";
+import { Stack } from "expo-router";
 import Theme from "@/assets/theme";
 import Tag from "@/components/Tag";
 import { router } from "expo-router";
@@ -88,6 +89,13 @@ export default function GroupComponent({ group }) {
 
   return (
     <View style={styles.container}>
+      <Stack.Screen
+        options={{
+          title: group.name,
+          headerBackTitle: "Back",
+          headerTintColor: Theme.colors.textPrimary,
+        }}
+      />
       {/* Header Section */}
       <View style={styles.header}>
         <Text style={styles.groupName}>{group.name}</Text>

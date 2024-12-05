@@ -15,15 +15,7 @@ export default function Details(props) {
     setGroup(() => JSON.parse(groupFromRoute));
     console.log("route group: ", group);
   }
-  const navigation = useNavigation(); // Get navigation object
-  // Update the header title dynamically when the component mounts
-  useEffect(() => {
-    if (group) {
-      navigation.setOptions({
-        title: group.name, // Set the title of the header
-      });
-    }
-  }, [group, navigation]); // Ensure it runs when groupName changes
+
   return <GroupComponent group={group} />;
 }
 

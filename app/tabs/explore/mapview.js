@@ -181,13 +181,12 @@ const CustomCallout = ({ group }) => {
             }
           />
           <Text style={styles.groupDescription}>{group.description}</Text>
-          <View style={styles.buttonWrapper}>
-            <TouchableOpacity
+          <View>
+            <Button
               onPress={handleJoinPress}
+              title={"View"}
               style={styles.joinButton}
-            >
-              <Text style={styles.joinButtonText}>Join</Text>
-            </TouchableOpacity>
+            />
           </View>
         </View>
       </View>
@@ -357,8 +356,8 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   joinButton: {
-    marginTop: "auto",
-    width: "50%",
+    marginTop: 16,
+    width: "60%",
     marginHorizontal: "auto",
   },
   customCallout: {
