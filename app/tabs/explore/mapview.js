@@ -18,7 +18,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Tag from "@/components/Tag";
 import Button from "@/components/Button";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import Theme from "@/assets/theme";
 import Loading from "@/components/Loading";
@@ -154,30 +154,54 @@ const FilterDropdowns = ({
   );
 };
 
-const CustomCallout = ({ group }) => (
-  <View style={styles.calloutContainer}>
-    <View style={styles.cardContent}>
-      <Text style={styles.groupName}>{group.name}</Text>
-      <Tag
-        title={group.location}
-        icon={
-          <EvilIcons
-            name="location"
-            size={Theme.sizes.iconSmall}
-            color={Theme.colors.iconPrimary}
-          />
+const CustomCallout = ({ group }) => {
+  const calloutRef = useRef(null);
+
+  const handleJoinPress = () => {
+    if (calloutRef.current) {
+      router.push({
+        pathname: "/tabs/explore/details",
+        params: {
+          groupName: group.name,
+          groupDescription: group.description,
+          groupLocation: group.location,
+          groupCategory: group.category,
+          groupGoals: JSON.stringify(group.goals)
         }
-      />
-      <Text style={styles.groupDescription}>{group.description}</Text>
-    </View>
-    <Button
-      diasabled={false}
-      onPress={() => router.navigate("/tabs/explore/details")}
-      title={"Join"}
-      style={styles.joinButton}
-    />
-  </View>
-);
+      });
+    }
+  };
+
+  return (
+    <Callout
+      ref={calloutRef}
+      tooltip={true}
+      onPress={handleJoinPress}
+    >
+      <View style={styles.calloutContainer}>
+        <View style={styles.cardContent}>
+          <Text style={styles.groupName}>{group.name}</Text>
+          <Tag
+            title={group.location}
+            icon={
+              <EvilIcons
+                name="location"
+                size={Theme.sizes.iconSmall}
+                color={Theme.colors.iconPrimary}
+              />
+            }
+          />
+          <Text style={styles.groupDescription}>{group.description}</Text>
+          <View style={styles.buttonWrapper}>
+            <TouchableOpacity onPress={handleJoinPress} style={styles.joinButton}>
+              <Text style={styles.joinButtonText}>Join</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </Callout>
+  );
+};
 
 export default function ListGroups() {
   const session = useSession();
@@ -249,15 +273,13 @@ export default function ListGroups() {
             {filteredGroups.map(({ coords, group }) => (
               <Marker
                 key={coords.title}
-                pinColor={Theme.colors.iconTertiary}
                 coordinate={{
                   latitude: coords.latitude,
                   longitude: coords.longitude,
                 }}
+                pinColor={Theme.colors.iconTertiary}
               >
-                <Callout tooltip={true}>
-                  <CustomCallout group={group} />
-                </Callout>
+                <CustomCallout group={group} />
               </Marker>
             ))}
           </MapView>
