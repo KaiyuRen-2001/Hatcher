@@ -3,6 +3,8 @@ import { StyleSheet } from "react-native";
 import Theme from "@/assets/theme";
 import { useRoute } from "@react-navigation/native";
 import GroupComponent from "@/components/GroupComponent";
+import { useEffect } from "react";
+import { useNavigation } from "expo-router";
 
 export default function Details(props) {
   const [group, setGroup] = useState(props.group);
@@ -13,6 +15,15 @@ export default function Details(props) {
     setGroup(() => JSON.parse(groupFromRoute));
     console.log("route group: ", group);
   }
+  const navigation = useNavigation(); // Get navigation object
+  // Update the header title dynamically when the component mounts
+  useEffect(() => {
+    if (group) {
+      navigation.setOptions({
+        title: group.name, // Set the title of the header
+      });
+    }
+  }, [group, navigation]); // Ensure it runs when groupName changes
   return <GroupComponent group={group} />;
 }
 

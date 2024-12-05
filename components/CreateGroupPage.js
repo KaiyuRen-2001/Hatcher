@@ -71,7 +71,21 @@ export default function CreatGroupPage() {
       session.user.username,
       rules
     );
-    router.back();
+    const group = {
+      admins: [session.user.username],
+      description: description,
+      groupId: 50,
+      location: `${city}, ${state}`,
+      members: [session.user.username],
+      name: title,
+      norms: [rules],
+    };
+    const navigationPayload = {
+      pathname: "/groups/newgroup",
+      params: { group: JSON.stringify(group) },
+    };
+    console.log("navigation payload: ", navigationPayload);
+    router.push(navigationPayload);
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
