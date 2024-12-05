@@ -1,4 +1,5 @@
 import { StyleSheet, View, Text } from "react-native";
+import { Stack } from "expo-router";
 import { useContext } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
@@ -25,6 +26,13 @@ export default function GoalDetails() {
 
   return (
     <View style={styles.container}>
+      <Stack.Screen
+        headerOptions={{
+          title: "Event",
+          headerBackTitle: "Back",
+          headerTintColor: Theme.colors.textPrimary,
+        }}
+      />
       <Text style={styles.name}>{title}</Text>
       <View style={styles.catagory}>
         <Tag style={styles.groupTag} title={groupName} />

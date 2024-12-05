@@ -1,7 +1,9 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import Theme from "@/assets/theme";
 import EventsList from "@/components/EventsList";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useRouter } from "expo-router";
 import { Animated, LinearTransition, FadeIn, FadeOut } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { useEffect } from "react";
@@ -9,6 +11,7 @@ import { useNavigation } from "expo-router";
 
 export default function GroupEvents() {
   const route = useRoute();
+  const router = useRouter();
   const { groupName } = route.params; // Getting groupName from route params
   const navigation = useNavigation(); // Get navigation object
 
@@ -33,6 +36,15 @@ export default function GroupEvents() {
           RSVPed={false}
           groupName={groupName}
         />
+        <TouchableOpacity onPress={() => router.navigate("/groups/newEvent")}>
+          <View style={styles.postButton}>
+            <FontAwesome
+              size={Theme.sizes.iconLarge}
+              name="plus"
+              color={Theme.colors.textPrimary}
+            />
+          </View>
+        </TouchableOpacity>
       </Animated.View>
     </View>
   );
@@ -40,10 +52,24 @@ export default function GroupEvents() {
 
 const styles = StyleSheet.create({
   feed: {
-    paddingTop: 16,
     //paddingLeft: 32,
     flexDirection: "row",
     justifyContent: "flex-start",
+  },
+  postButton: {
+    backgroundColor: Theme.colors.iconHighlighted,
+    height: 52,
+    width: 52,
+    borderRadius: 24,
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    bottom: 25,
+    right: 25,
+    // FontAwesome 'plus' icon is a bit off-center, so we manually center it by
+    // tweaking the padding
+    paddingTop: 2,
+    paddingLeft: 1,
   },
   container: {
     flex: 1,

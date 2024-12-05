@@ -80,6 +80,7 @@ export default function ResourcesList({ groupName }) {
 const styles = StyleSheet.create({
   goalsContainer: {
     width: "100%",
+    height: "100%",
   },
   goals: {
     gap: 8,

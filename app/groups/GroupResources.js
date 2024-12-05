@@ -1,7 +1,9 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import Theme from "@/assets/theme";
 import { Animated, LinearTransition, FadeIn, FadeOut } from "react-native";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useRouter } from "expo-router";
 import { useRoute } from "@react-navigation/native";
 import { useEffect } from "react";
 import { useNavigation } from "expo-router";
@@ -9,6 +11,7 @@ import ResourcesList from "@/components/ResourcesList";
 
 export default function GroupResources() {
   const route = useRoute();
+  const router = useRouter();
   const { groupName } = route.params; // Getting groupName from route params
   const navigation = useNavigation(); // Get navigation object
   console.log("beg of groupres", groupName);
@@ -31,6 +34,15 @@ export default function GroupResources() {
       >
         <ResourcesList groupName={groupName} />
       </Animated.View>
+      <TouchableOpacity onPress={() => router.navigate("/groups/newResource")}>
+        <View style={styles.postButton}>
+          <FontAwesome
+            size={Theme.sizes.iconLarge}
+            name="plus"
+            color={Theme.colors.textPrimary}
+          />
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -46,6 +58,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 16,
     backgroundColor: Theme.colors.headerBackground,
+  },
+  postButton: {
+    backgroundColor: Theme.colors.iconHighlighted,
+    height: 52,
+    width: 52,
+    borderRadius: 24,
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    bottom: 25,
+    right: 25,
+    // FontAwesome 'plus' icon is a bit off-center, so we manually center it by
+    // tweaking the padding
+    paddingTop: 2,
+    paddingLeft: 1,
   },
   groupName: {
     fontFamily: "PTSansCaption-Bold",

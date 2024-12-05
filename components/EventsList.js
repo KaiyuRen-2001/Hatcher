@@ -103,9 +103,11 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.colors.backgroundPrimary,
   },
   goalsContainer: {
+    paddingTop: 60,
     width: "100%",
   },
   goals: {
+    height: "100%",
     gap: 8,
   },
 });
