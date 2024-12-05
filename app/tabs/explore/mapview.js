@@ -57,6 +57,12 @@ const BAY_AREA_REGION = {
   longitudeDelta: 0.8,
 };
 
+const DEFAULT_COORDS = {
+  latitude: 37.5475,
+  longitude: -122.3097,
+  title: "default",
+};
+
 const CATEGORIES = ["All", "STEM", "Business", "Arts", "Social Sciences"];
 const GOALS = [
   "All",
@@ -218,12 +224,18 @@ export default function ListGroups() {
         return { coords: BERKELEY_COORDS, group };
       } else if (group.groupId == "1") {
         return { coords: BAY_COORDS, group };
+      } else {
+        return {
+          coords: { ...DEFAULT_COORDS, title: DEFAULT_COORDS.title + "_" },
+          group,
+        };
       }
     });
   };
 
   // Add this filtering logic
   const groupsData = getGroupsWithCoordinates();
+  console.log(groupsData);
 
   const filteredGroups = groupsData.filter(({ group }) => {
     const categoryMatch =

@@ -245,7 +245,7 @@ export const StorageContextProvider = ({ children }) => {
   ) => {
     const normsList = norms.split(/\r?\n/);
     const newGroup = {
-      groupId: groups.length + 1,
+      groupId: groups.length + exploreGroups.length + 1,
       name: name,
       location: city + ", " + state,
       description: description,
