@@ -61,14 +61,31 @@ export const setInitialData = async () => {
           location: "Stanford, CA",
           description: "talk about being a steminist",
           admins: ["andreeajitaru", "zoekaputa", "mirandaliu"],
-          members: [
-            "andreeajitaru",
-            "kaiyuren",
-            "mirandaliu",
-            "landay",
-            "zoekaputa",
-          ],
+          members: ["andreeajitaru", "kaiyuren", "mirandaliu", "zoekaputa"],
           norms: ["be nice"],
+        },
+        {
+          groupId: "3",
+          name: "Interview Prep for Anxious Engineers",
+          location: "San Francisco Japantown, CA",
+          description:
+            "A group for interview prep for anxious new grad engineers",
+          admins: ["andreeajitaru"],
+          members: ["andreeajitaru", "kaiyuren"],
+          norms: ["be nice"],
+          category: "STEM",
+          goals: ["interview prep", "networking", "mentorship"],
+        },
+        {
+          groupId: "4",
+          name: "Berkeley Women Engineers",
+          location: "UC Berkeley, CA",
+          description:
+            "A supportive community for women in engineering at UC Berkeley",
+          admins: ["zoekaputa", "mirandaliu"],
+          members: ["andreeajitaru", "kaiyuren", "mirandaliu", "zoekaputa"],
+          category: "STEM",
+          goals: ["networking", "mentorship", "career advice"],
         },
       ])
     );
@@ -153,6 +170,25 @@ export const updateGroups = async (newGroups) => {
 export const setUpdatedEvents = async (updatedEvents) => {
   try {
     await AsyncStorage.setItem("events", JSON.stringify(updatedEvents));
+  } catch (error) {
+    // Error saving data
+  }
+};
+
+export const getOtherGroups = async (username) => {
+  try {
+    const groupsString = await AsyncStorage.getItem("groups");
+    const groups = JSON.parse(groupsString);
+
+    const usersGroups = groups.reduce((acc, group) => {
+      if (!group.members.includes(username)) {
+        return [group, ...acc];
+      } else {
+        return acc;
+      }
+    }, []);
+
+    return usersGroups;
   } catch (error) {
     // Error saving data
   }

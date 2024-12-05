@@ -15,6 +15,7 @@ import {
   getGroupResources,
   updateEvents,
   updateResources,
+  getOtherGroups,
 } from "@/database/db";
 
 export const GoalsContext = createContext({});
@@ -25,6 +26,7 @@ export const StorageContextProvider = ({ children }) => {
   const [events, setEvents] = useState([]);
   const [resources, setResources] = useState([]);
   const [groups, setGroups] = useState([]);
+  const [exploreGroups, setExploreGroups] = useState([]);
   const [categories, setCategories] = useState([]);
 
   /* useEffect(() => {
@@ -60,6 +62,11 @@ export const StorageContextProvider = ({ children }) => {
       const myGroups = await getUsersGroups("landay");
       if (myGroups) {
         setGroups(myGroups);
+      }
+
+      const otherGroups = await getOtherGroups("landay");
+      if (otherGroups) {
+        setExploreGroups(otherGroups);
       }
 
       const categoriesData = await getCategories();
@@ -243,6 +250,7 @@ export const StorageContextProvider = ({ children }) => {
         storageAddGroup,
         removeUserFromEvent,
         addUserToEvent,
+        exploreGroups,
         getOrderedEventsAndResources,
         storageAddEvent,
         storageAddResource,

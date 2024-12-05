@@ -18,27 +18,18 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Tag from "@/components/Tag";
 import Button from "@/components/Button";
 import { router } from "expo-router";
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 
 import Theme from "@/assets/theme";
 import Loading from "@/components/Loading";
 import ListView from "./listview";
 import useSession from "@/utils/useSession";
+import { GoalsContext } from "@/components/storageContext";
 
 const STANFORD_COORDS = {
   latitude: 37.4275,
   longitude: -122.1697,
   title: "Women in Computer Science",
-};
-
-const STANFORD_GROUP = {
-  groupId: "2",
-  name: "Women in Computer Science",
-  location: "Stanford, CA",
-  description: "talk about being a steminist",
-  admins: ["andreeajitaru", "zoekaputa", "mirandaliu"],
-  members: ["andreeajitaru", "kaiyuren", "mirandaliu", "landay", "zoekaputa"],
-  norms: ["be nice"],
 };
 
 const JAPANTOWN_COORDS = {
@@ -47,26 +38,10 @@ const JAPANTOWN_COORDS = {
   title: "San Francisco Japantown",
 };
 
-const ANXIOUS_ENGINEERS_GROUP = {
-  name: "Interview Prep for Anxious Engineers",
-  description: "A group for interview prep for anxious new grad engineers",
-  location: "San Francisco Japantown",
-  category: "STEM",
-  goals: ["interview prep", "networking", "mentorship"],
-};
-
 const BERKELEY_COORDS = {
   latitude: 37.8719,
   longitude: -122.2585,
   title: "UC Berkeley",
-};
-
-const BERKELEY_GROUP = {
-  name: "Berkeley Women Engineers",
-  description: "A supportive community for women in engineering at UC Berkeley",
-  location: "UC Berkeley",
-  category: "STEM",
-  goals: ["networking", "mentorship", "career advice"],
 };
 
 const BAY_AREA_REGION = {
@@ -226,13 +201,22 @@ export default function ListGroups() {
   const [showFilters, setShowFilters] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedGoal, setSelectedGoal] = useState(null);
+  const { exploreGroups } = useContext(GoalsContext);
+
+  const getGroupsWithCoordinates = () => {
+    return exploreGroups.map((group) => {
+      if (group.groupId == "2") {
+        return { coords: STANFORD_COORDS, group };
+      } else if (group.groupId == "3") {
+        return { coords: JAPANTOWN_COORDS, group };
+      } else if (group.groupId == "4") {
+        return { coords: BERKELEY_COORDS, group };
+      }
+    });
+  };
 
   // Add this filtering logic
-  const groupsData = [
-    { coords: STANFORD_COORDS, group: STANFORD_GROUP },
-    { coords: JAPANTOWN_COORDS, group: ANXIOUS_ENGINEERS_GROUP },
-    { coords: BERKELEY_COORDS, group: BERKELEY_GROUP },
-  ];
+  const groupsData = getGroupsWithCoordinates();
 
   const filteredGroups = groupsData.filter(({ group }) => {
     const categoryMatch =
