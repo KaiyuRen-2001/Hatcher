@@ -61,9 +61,9 @@ const styles = StyleSheet.create({
   },
   postButton: {
     backgroundColor: Theme.colors.iconHighlighted,
-    height: 52,
-    width: 52,
-    borderRadius: 24,
+    height: 64,
+    width: 64,
+    borderRadius: 64,
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",

@@ -36,7 +36,15 @@ export default function GroupEvents() {
           RSVPed={false}
           groupName={groupName}
         />
-        <TouchableOpacity onPress={() => router.navigate("/groups/newEvent")}>
+        <TouchableOpacity
+          onPress={() => {
+            const navigationPayload = {
+              pathname: "/groups/newEvent",
+              params: { groupName },
+            };
+            router.push(navigationPayload);
+          }}
+        >
           <View style={styles.postButton}>
             <FontAwesome
               size={Theme.sizes.iconLarge}
@@ -58,9 +66,9 @@ const styles = StyleSheet.create({
   },
   postButton: {
     backgroundColor: Theme.colors.iconHighlighted,
-    height: 52,
-    width: 52,
-    borderRadius: 24,
+    height: 64,
+    width: 64,
+    borderRadius: 64,
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",

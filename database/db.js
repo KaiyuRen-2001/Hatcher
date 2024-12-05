@@ -134,6 +134,14 @@ export const setInitialData = async () => {
   }
 };
 
+export const updateEvents = async (newEvents) => {
+  try {
+    await AsyncStorage.setItem("groups", JSON.stringify(newEvents));
+  } catch (error) {
+    // Error saving data
+  }
+};
+
 export const updateGroups = async (newGroups) => {
   try {
     await AsyncStorage.setItem("groups", JSON.stringify(newGroups));
