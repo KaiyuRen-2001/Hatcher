@@ -11,12 +11,13 @@ import { GoalsContext } from "@/components/storageContext";
 
 import timeAgo from "@/utils/timeAgo";
 
-export default function Feed() {
+export default function Feed({ searchTerm }) {
   const session = useSession();
   const { events, resources, getOrderedEventsAndResources } =
     useContext(GoalsContext);
 
   const [posts, setPosts] = useState(null);
+  const [displayedPosts, setDisplayedPosts] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -28,13 +29,27 @@ export default function Feed() {
     fetchPosts();
   }, [events, resources]);
 
+  useEffect(() => {
+    if (!searchTerm) {
+      setDisplayedPosts(posts);
+    } else {
+      const searchResults = posts.reduce((acc, post) => {
+        if (post.title.toLowerCase().startsWith(searchTerm.toLowerCase())) {
+          return [...acc, post];
+        }
+        return acc;
+      }, []);
+      setDisplayedPosts(searchResults);
+    }
+  }, [posts, searchTerm]);
+
   if (isLoading && !isRefreshing) {
     return <Loading />;
   }
 
   return (
     <FlatList
-      data={posts}
+      data={displayedPosts}
       renderItem={({ item }) => (
         <View style={styles.itemContainer}>
           <Tag style={styles.groupTag} title={item.groupName} />
