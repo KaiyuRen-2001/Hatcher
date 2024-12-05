@@ -44,6 +44,12 @@ const BERKELEY_COORDS = {
   title: "UC Berkeley",
 };
 
+const BAY_COORDS = {
+  latitude: 37.8019,
+  longitude: -122.2585,
+  title: "Bay Area",
+};
+
 const BAY_AREA_REGION = {
   latitude: 37.6064,
   longitude: -122.2919,
@@ -210,6 +216,8 @@ export default function ListGroups() {
         return { coords: JAPANTOWN_COORDS, group };
       } else if (group.groupId == "4") {
         return { coords: BERKELEY_COORDS, group };
+      } else if (group.groupId == "1") {
+        return { coords: BAY_COORDS, group };
       }
     });
   };

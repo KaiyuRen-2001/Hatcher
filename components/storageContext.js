@@ -97,6 +97,44 @@ export const StorageContextProvider = ({ children }) => {
     setEvents(updateEvents);
   };
 
+  const removeMemberFromGroup = async (group, username) => {
+    const currMembers = group.members;
+    const userIndex = currMembers.indexOf(username);
+    currMembers.splice(userIndex, 1);
+
+    const updatedGroup = { ...group, members: currMembers };
+    const updatedExploreGroups = [...exploreGroups, updatedGroup];
+
+    const updatedGroups = groups.reduce((acc, currGroup) => {
+      if (currGroup.groupId == group.groupId) {
+        return acc;
+      }
+      return [...acc, currGroup];
+    }, []);
+
+    updateGroups([...updatedExploreGroups, ...updatedGroups]);
+    setGroups(updatedGroups);
+    setExploreGroups(updatedExploreGroups);
+  };
+
+  const addMemberToGroup = async (group, username) => {
+    const currMembers = group.members;
+    const updatedGroup = { ...group, members: [...currMembers, username] };
+    const updatedGroups = [...groups, updatedGroup];
+
+    const updatedExploreGroups = exploreGroups.reduce((acc, currGroup) => {
+      if (currGroup.groupId == group.groupId) {
+        return acc;
+      }
+      return [...acc, currGroup];
+    }, []);
+    console.log(updatedExploreGroups);
+
+    updateGroups([...updatedExploreGroups, ...updatedGroups]);
+    setGroups(updatedGroups);
+    setExploreGroups(updatedExploreGroups);
+  };
+
   const removeUserFromEvent = async (id, username) => {
     const updateEvents = events.reduce((acc, event) => {
       if (event.id == id) {
@@ -216,7 +254,7 @@ export const StorageContextProvider = ({ children }) => {
       norms: normsList,
     };
 
-    updateGroups([...groups, newGroup]);
+    updateGroups([...exploreGroups, ...groups, newGroup]);
     setGroups((g) => [...g, newGroup]);
   };
 
@@ -254,6 +292,8 @@ export const StorageContextProvider = ({ children }) => {
         getOrderedEventsAndResources,
         storageAddEvent,
         storageAddResource,
+        addMemberToGroup,
+        removeMemberFromGroup,
       }}
     >
       {children}

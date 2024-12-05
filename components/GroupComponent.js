@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Alert,
   StyleSheet,
@@ -16,10 +16,12 @@ import { router } from "expo-router";
 import { BlurView } from "expo-blur";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { GoalsContext } from "@/components/storageContext";
 
 export default function GroupComponent({ group }) {
-  const [isInGroup, setIsInGroup] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const { addMemberToGroup, removeMemberFromGroup } = useContext(GoalsContext);
+  const [isInGroup, setIsInGroup] = useState(group.members.includes("landay"));
+  const [isAdmin, setIsAdmin] = useState(group.admins.includes("landay"));
 
   const [chat, setChat] = useState([
     { id: "1", text: "how should i structure my resume?", sentBy: "Andreea" },
@@ -77,12 +79,16 @@ export default function GroupComponent({ group }) {
           },
           {
             text: "Yes, Leave",
-            onPress: () => setIsInGroup(false),
+            onPress: () => {
+              removeMemberFromGroup(group, "landay");
+              setIsInGroup(false);
+            },
           },
         ],
         { cancelable: true }
       );
     } else {
+      addMemberToGroup(group, "landay");
       setIsInGroup(true); // Directly join the group
     }
   };
