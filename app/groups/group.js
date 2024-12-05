@@ -10,7 +10,9 @@ import {
   Pressable,
 } from "react-native";
 import Theme from "@/assets/theme";
+import Tag from "@/components/Tag";
 import { router } from "expo-router";
+import { BlurView } from "expo-blur";
 import FeedDetails from "@/app/tabs/explore/details";
 import EvilIcons from "@expo/vector-icons/EvilIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -105,16 +107,17 @@ export default function Details(props) {
       <View style={styles.infoContainer}>
         <Text style={styles.infoText}>{group.members.length} members</Text>
         <View style={styles.temp}>
-          <Text style={styles.infoText}>
-            {
+          <Tag
+            title={group.location}
+            style={styles.infoText}
+            icon={
               <EvilIcons
                 name="location"
-                size={Theme.sizes.textMedium}
-                color={Theme.colors.textDark}
+                size={Theme.sizes.iconSmall}
+                color={Theme.colors.iconPrimary}
               />
             }
-            {group.location}
-          </Text>
+          />
           <View style={styles.resourcesContainer}>
             <Pressable
               onPress={() => {
@@ -153,6 +156,9 @@ export default function Details(props) {
               />
               <Text style={styles.infoText}>Resources</Text>
             </Pressable>
+            {!isInGroup && (
+              <BlurView intensity={10} style={styles.absolute}></BlurView>
+            )}
           </View>
         </View>
         <Text style={styles.description}>{group.description}</Text>
@@ -176,6 +182,15 @@ export default function Details(props) {
           />
           <Button title="Send" onPress={handleSendMessage} />
         </View>
+        {!isInGroup && (
+          <>
+            <BlurView intensity={20} style={styles.absolute}></BlurView>
+
+            <Text style={styles.joinGroupText}>
+              Join this group to participate in its chat, events, and resources!
+            </Text>
+          </>
+        )}
       </View>
     </View>
   );
@@ -185,6 +200,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.colors.backgroundPrimary,
+  },
+  absolute: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
+  joinGroupText: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    paddingHorizontal: "10%",
+    paddingTop: "40%",
+    textAlign: "center",
+    fontSize: Theme.sizes.textLarge,
+    color: Theme.colors.textPrimary,
+    fontFamily: "PTSansCaption",
   },
   header: {
     flexDirection: "row",
