@@ -160,7 +160,7 @@ const CustomCallout = ({ group }) => {
   const handleJoinPress = () => {
     if (calloutRef.current) {
       router.push({
-        pathname: "/tabs/explore/details",
+        pathname: "/tabs/feed",
         params: {
           groupName: group.name,
           groupDescription: group.description,
