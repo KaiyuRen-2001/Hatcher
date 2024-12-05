@@ -4,10 +4,11 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  Modal,
+  TextInput,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import Feather from "@expo/vector-icons/Feather";
 import { useState, useContext } from "react";
 import { SelectList } from "react-native-dropdown-select-list";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -180,6 +181,18 @@ export default function ListView() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
+        <View style={styles.goalNameInputText}>
+          <Feather
+            name="search"
+            size={Theme.sizes.iconSmall}
+            color={Theme.colors.textDark}
+          />
+          <TextInput
+            placeholder="Search"
+            placeholderTextColor={Theme.colors.textSecondary}
+            onChangeText={() => {}}
+          />
+        </View>
         <TouchableOpacity
           style={styles.filterIcon}
           onPress={() => setShowFilters(!showFilters)}
@@ -213,15 +226,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.colors.backgroundPrimary,
-    padding: 16,
+  },
+  filterIcon: {
+    paddingRight: 12,
+    paddingBottom: 8,
   },
   header: {
     flexDirection: "row",
     justifyContent: "flex-end",
+    alignItems: "center",
     padding: 16,
   },
   filterIcon: {
-    padding: 8,
+    paddingRight: 12,
+    paddingBottom: 8,
   },
   scrollViewNoFilter: {
     marginTop: 0, // Remove top margin when filters are hidden
@@ -236,9 +254,27 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
+    marginHorizontal: 16,
   },
   cardContent: {
     marginBottom: 12,
+  },
+  goalNameInputText: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: 50,
+    flex: 1,
+    width: "80%",
+    gap: 8,
+    marginBottom: 8,
+    borderWidth: 1,
+    marginRight: 32,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+    backgroundColor: Theme.colors.backgroundWhite,
+    borderColor: Theme.colors.textPrimary,
+    color: Theme.colors.textDark,
   },
   groupName: {
     fontSize: 18,
@@ -305,7 +341,7 @@ const styles = StyleSheet.create({
     color: Theme.colors.textDark,
   },
   scrollView: {
-    marginTop: 50,
+    marginTop: 0,
   },
 });
 
