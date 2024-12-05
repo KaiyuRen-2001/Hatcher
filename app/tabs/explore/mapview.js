@@ -32,11 +32,13 @@ const STANFORD_COORDS = {
 };
 
 const STANFORD_GROUP = {
+  groupId: "2",
   name: "Women in Computer Science",
-  description: "A group for women in computer science at Stanford University",
-  location: "Stanford University",
-  category: "STEM",
-  goals: ["networking", "mentorship", "career advice"],
+  location: "Stanford, CA",
+  description: "talk about being a steminist",
+  admins: ["andreeajitaru", "zoekaputa", "mirandaliu"],
+  members: ["andreeajitaru", "kaiyuren", "mirandaliu", "landay", "zoekaputa"],
+  norms: ["be nice"],
 };
 
 const JAPANTOWN_COORDS = {
@@ -159,25 +161,37 @@ const CustomCallout = ({ group }) => {
 
   const handleJoinPress = () => {
     if (calloutRef.current) {
-      router.push({
-        pathname: "/tabs/feed",
-        params: {
-          groupName: group.name,
-          groupDescription: group.description,
-          groupLocation: group.location,
-          groupCategory: group.category,
-          groupGoals: JSON.stringify(group.goals)
-        }
-      });
+      const a1 = {
+        admins: group.admins,
+        description: group.description,
+        groupId: group.groupId,
+        location: group.location,
+        members: group.members,
+        name: group.name,
+        norms: group.norms,
+      };
+      const navigationPayload = {
+        pathname: "/groups/newgroup",
+        params: { group: JSON.stringify(a1) },
+      };
+      console.log("navigation payload: ", navigationPayload);
+      router.push(navigationPayload);
+
+      // router.push({
+      //   pathname: "/tabs/feed",
+      //   params: {
+      //     groupName: group.name,
+      //     groupDescription: group.description,
+      //     groupLocation: group.location,
+      //     groupCategory: group.category,
+      //     groupGoals: JSON.stringify(group.goals)
+      //   }
+      // });
     }
   };
 
   return (
-    <Callout
-      ref={calloutRef}
-      tooltip={true}
-      onPress={handleJoinPress}
-    >
+    <Callout ref={calloutRef} tooltip={true} onPress={handleJoinPress}>
       <View style={styles.calloutContainer}>
         <View style={styles.cardContent}>
           <Text style={styles.groupName}>{group.name}</Text>
@@ -193,7 +207,10 @@ const CustomCallout = ({ group }) => {
           />
           <Text style={styles.groupDescription}>{group.description}</Text>
           <View style={styles.buttonWrapper}>
-            <TouchableOpacity onPress={handleJoinPress} style={styles.joinButton}>
+            <TouchableOpacity
+              onPress={handleJoinPress}
+              style={styles.joinButton}
+            >
               <Text style={styles.joinButtonText}>Join</Text>
             </TouchableOpacity>
           </View>

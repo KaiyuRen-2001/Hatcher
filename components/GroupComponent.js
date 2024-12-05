@@ -17,7 +17,8 @@ import EvilIcons from "@expo/vector-icons/EvilIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 export default function GroupComponent({ group }) {
-  const [isInGroup, setIsInGroup] = useState(true);
+  const [isInGroup, setIsInGroup] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const [chat, setChat] = useState([
     { id: "1", text: "how should i structure my resume?", sentBy: "Andreea" },
@@ -96,7 +97,7 @@ export default function GroupComponent({ group }) {
         >
           <Text style={styles.pressableText}>
             {" "}
-            {isInGroup ? "Joined" : "Join"}{" "}
+            {isAdmin ? "Edit Group" : isInGroup ? "Joined" : "Join"}{" "}
           </Text>
         </Pressable>
       </View>
@@ -346,5 +347,14 @@ const styles = StyleSheet.create({
   temp: {
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+
+  adminContainer: {
+    borderColor: Theme.colors.backgroundSecondary,
+    borderWidth: 3,
+    borderRadius: 20,
+    padding: 9,
+    padding: 6,
+    borderRadius: 20,
   },
 });
