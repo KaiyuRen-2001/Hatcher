@@ -42,6 +42,10 @@ export default function ResourcesList({ groupName }) {
     return <Loading />;
   }
 
+  if (!groupResources || !groupResources.length) {
+    return <Text style={styles.text}>No resources yet.</Text>;
+  }
+
   return (
     <FlatList
       data={groupResources}
@@ -84,5 +88,16 @@ const styles = StyleSheet.create({
   },
   goals: {
     gap: 8,
+  },
+  text: {
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    paddingTop: "10%",
+    textAlign: "center",
+    fontSize: Theme.sizes.textLarge,
+    color: Theme.colors.textPrimary,
+    fontFamily: "PTSansCaption",
   },
 });

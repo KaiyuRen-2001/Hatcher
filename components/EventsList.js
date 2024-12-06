@@ -102,6 +102,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: Theme.colors.backgroundPrimary,
   },
+  text: {
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    paddingTop: "10%",
+    textAlign: "center",
+    fontSize: Theme.sizes.textLarge,
+    color: Theme.colors.textPrimary,
+    fontFamily: "PTSansCaption",
+  },
   goalsContainer: {
     paddingTop: 60,
     width: "100%",
