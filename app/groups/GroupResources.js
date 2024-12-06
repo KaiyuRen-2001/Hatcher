@@ -14,7 +14,6 @@ export default function GroupResources() {
   const router = useRouter();
   const { groupName } = route.params; // Getting groupName from route params
   const navigation = useNavigation(); // Get navigation object
-  console.log("beg of groupres", groupName);
 
   // Update the header title dynamically when the component mounts
   useEffect(() => {
@@ -40,23 +39,23 @@ export default function GroupResources() {
       >
         <ResourcesList groupName={groupName} />
       </Animated.View>
-      <TouchableOpacity
-        onPress={() => {
-          const navigationPayload = {
-            pathname: "/groups/newResource",
-            params: { groupName },
-          };
-          router.push(navigationPayload);
-        }}
-      >
-        <View style={styles.postButton}>
+      <View style={styles.postButton}>
+        <TouchableOpacity
+          onPress={() => {
+            const navigationPayload = {
+              pathname: "/groups/newResource",
+              params: { groupName },
+            };
+            router.push(navigationPayload);
+          }}
+        >
           <FontAwesome
             size={Theme.sizes.iconLarge}
             name="plus"
             color={Theme.colors.textPrimary}
           />
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -81,8 +80,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
-    bottom: 25,
-    right: 25,
+    bottom: "5%",
+    right: "3%",
     // FontAwesome 'plus' icon is a bit off-center, so we manually center it by
     // tweaking the padding
     paddingTop: 2,
