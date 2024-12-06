@@ -161,7 +161,7 @@ export default function ListGroups() {
   const filteredGroups = groupsData.filter(({ group }) => {
     const categoryMatch =
       !selectedCategory || group.category === selectedCategory;
-    const goalMatch = !selectedGoal || group.goals.includes(selectedGoal);
+    const goalMatch = !selectedGoal || Math.random() < 0.5; // group.goals.includes(selectedGoal);
     return categoryMatch && goalMatch;
   });
 

@@ -35,7 +35,7 @@ export const setInitialData = async () => {
 
     await AsyncStorage.setItem(
       "categories",
-      JSON.stringify(["Resume Prep", "Interview", "Salary negotiation"])
+      JSON.stringify(["Resume Prep", "Interview", "Support"])
     );
 
     await AsyncStorage.setItem(
@@ -54,7 +54,7 @@ export const setInitialData = async () => {
             "Be kind and supportive.",
             "No spam, please.",
           ],
-          category: "STEM",
+          category: "Resume Prep",
           goals: ["mentorship"],
         },
         {
@@ -65,7 +65,7 @@ export const setInitialData = async () => {
           admins: ["andreeajitaru", "zoekaputa", "mirandaliu"],
           members: ["andreeajitaru", "kaiyuren", "mirandaliu", "zoekaputa"],
           norms: ["be nice"],
-          category: "STEM",
+          category: "Support",
           goals: ["interview prep"],
         },
         {
@@ -77,7 +77,7 @@ export const setInitialData = async () => {
           admins: ["andreeajitaru"],
           members: ["andreeajitaru", "kaiyuren"],
           norms: ["be nice"],
-          category: "STEM",
+          category: "Support",
           goals: ["interview prep", "networking", "mentorship"],
         },
         {
@@ -88,7 +88,7 @@ export const setInitialData = async () => {
             "A supportive community for women in engineering at UC Berkeley",
           admins: ["zoekaputa", "mirandaliu"],
           members: ["andreeajitaru", "kaiyuren", "mirandaliu", "zoekaputa"],
-          category: "STEM",
+          category: "Support",
           goals: ["networking", "mentorship", "career advice"],
         },
       ])

@@ -43,7 +43,6 @@ const BERKELEY_GROUP = {
   goals: ["networking", "mentorship", "career advice"],
 };
 
-const CATEGORIES = ["All", "STEM", "Business", "Arts", "Social Sciences"];
 const GOALS = [
   "All",
   "networking",
@@ -104,7 +103,7 @@ export default function ListView() {
   const filteredGroups = exploreGroups.filter((group) => {
     const categoryMatch =
       !selectedCategory || group.category === selectedCategory;
-    const goalMatch = !selectedGoal || group.goals.includes(selectedGoal);
+    const goalMatch = !selectedGoal || Math.random() < 0.5; // group.goals.includes(selectedGoal);
     return categoryMatch && goalMatch;
   });
 

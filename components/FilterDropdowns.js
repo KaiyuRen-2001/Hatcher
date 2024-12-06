@@ -7,12 +7,13 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
+import { useContext } from "react";
 import { SelectList } from "react-native-dropdown-select-list";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { GoalsContext } from "@/components/storageContext";
 
 import Theme from "@/assets/theme";
 
-const CATEGORIES = ["All", "STEM", "Business", "Arts", "Social Sciences"];
 const GOALS = [
   "All",
   "networking",
@@ -27,12 +28,16 @@ export default function FilterDropdowns({
   selectedGoal,
   setSelectedGoal,
 }) {
-  const categoryData = CATEGORIES.map((cat) => ({
+  const { categories, goals } = useContext(GoalsContext);
+
+  const goalTitles = ["All", ...goals.map((goal) => goal.name)];
+
+  const categoryData = ["All", ...categories].map((cat) => ({
     key: cat,
     value: cat,
   }));
 
-  const goalData = GOALS.map((goal) => ({
+  const goalData = goalTitles.map((goal) => ({
     key: goal,
     value: goal,
   }));

@@ -44,7 +44,7 @@ export default function Feed({ searchTerm, selectedCategory, selectedGoal }) {
           const categoryMatch =
             !selectedCategory || group.category === selectedCategory;
 
-          const goalMatch = !selectedGoal || group.goals.includes(selectedGoal);
+          const goalMatch = !selectedGoal || Math.random() < 0.5; // group.goals.includes(selectedGoal);
           return categoryMatch && goalMatch;
         });
         setDisplayedPosts(filteredPosts);
