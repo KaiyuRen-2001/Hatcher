@@ -277,15 +277,15 @@ export const getCategories = async () => {
   }
 };
 
-export const updateGoal = async (newGoal) => {
+export const updateGoals = async (newGoals) => {
   try {
-    await AsyncStorage.setItem("goals", JSON.stringify(newGoal));
+    await AsyncStorage.setItem("goals", JSON.stringify(newGoals));
   } catch (error) {
     // Error saving data
   }
 };
 
-export const updateGoals = async (newGoals) => {
+export const updateGoal = async (newGoal) => {
   try {
     const goalsString = await AsyncStorage.getItem("goals");
     const goals = JSON.parse(goalsString);
