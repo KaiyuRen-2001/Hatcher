@@ -1,6 +1,6 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useState, useEffect, useContext } from "react";
-import { StyleSheet, TouchableOpacity, Text } from "react-native";
+import { StyleSheet, TouchableOpacity, Text, Image } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import { router } from "expo-router";
 import { NavigationIndependentTree } from "@react-navigation/native";
@@ -13,7 +13,7 @@ import { GoalsContext } from "@/components/storageContext";
 
 const Drawer = createDrawerNavigator();
 
-export default function DrawerNav({ name, component }) {
+export default function DrawerNav({ name, component, source }) {
   const session = useSession();
   const { groups } = useContext(GoalsContext);
 
@@ -44,8 +44,10 @@ export default function DrawerNav({ name, component }) {
           component={component}
           options={{
             drawerActiveBackgroundColor: Theme.colors.backgroundSecondary,
-            drawerLabelStyle: {
+            headerTitleStyle: {
               color: Theme.colors.textPrimary,
+              fontSize: Theme.sizes.textLarge,
+              fontFamily: "PTSansCaption-Bold",
             },
           }}
         ></Drawer.Screen>
@@ -84,6 +86,7 @@ export default function DrawerNav({ name, component }) {
               borderWidth: 0,
               borderRadius: 4,
               paddingHorizontal: 0,
+              fontFamily: "PTSansCaption-Bold",
             },
             drawerLabelStyle: {
               fontSize: Theme.sizes.textSmall,
@@ -111,5 +114,6 @@ const styles = StyleSheet.create({
     margin: -8,
     fontSize: Theme.sizes.textMedium,
     color: Theme.colors.textDark,
+    fontFamily: "PTSansCaption-Bold",
   },
 });

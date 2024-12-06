@@ -3,9 +3,7 @@ import Profile from "@/app/tabs/profile/myprofile";
 import { StyleSheet } from "react-native";
 
 export default function DrawerNav() {
-  return (
-    <Nav name={"My Profile"} component={Profile} style={styles.container} />
-  );
+  return <Nav name={"profile"} component={Profile} style={styles.container} />;
 }
 
 const styles = StyleSheet.create({
