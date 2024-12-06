@@ -27,7 +27,7 @@ export default function App() {
 
   return (
     <View onLayout={onLayoutRootView}>
-      <Redirect href="/tabs" />
+      <Redirect href="/tabs/feed" />
     </View>
   );
 }
