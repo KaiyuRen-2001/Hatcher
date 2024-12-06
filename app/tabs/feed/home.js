@@ -124,9 +124,9 @@ const styles = StyleSheet.create({
   },
   searchText: {
     flex: 1,
-    // fontSize: 16, // Match font size to your design
-    // lineHeight: 20, // Ensure line height matches font size
-    // color: Theme.colors.textDark, // Use the desired text color
-    // paddingVertical: 0, // Avoid extra padding that might clip text
+    fontSize: 16, // Match font size to your design
+    lineHeight: 20, // Ensure line height matches font size
+    color: Theme.colors.textDark, // Use the desired text color
+    paddingVertical: 0, // Avoid extra padding that might clip text
   },
 });

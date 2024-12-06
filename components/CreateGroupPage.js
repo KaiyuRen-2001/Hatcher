@@ -7,6 +7,8 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Alert,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Theme from "@/assets/theme";
@@ -89,6 +91,7 @@ export default function CreatGroupPage() {
     router.push(navigationPayload);
   };
   return (
+    // <KeyboardAvoidingView style={styles.keyboardContainer}>
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <View style={styles.nameBox}>
@@ -200,10 +203,14 @@ export default function CreatGroupPage() {
         />
       </View>
     </TouchableWithoutFeedback>
+    // </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
+  keyboardContainer: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     alignItems: "center",
