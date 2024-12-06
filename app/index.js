@@ -1,7 +1,14 @@
 import "@/gesture-handler";
 import { useCallback } from "react";
 import { Redirect } from "expo-router";
-import { Platform, UIManager, View } from "react-native";
+import {
+  Platform,
+  UIManager,
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+} from "react-native";
 import { useFonts } from "expo-font";
 
 if (Platform.OS === "android") {
@@ -12,7 +19,6 @@ if (Platform.OS === "android") {
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    Inter: require("../assets/fonts/Inter-VariableFont_opsz,wght.ttf"),
     PTSansCaption: require("../assets/fonts/PTSansCaption-Regular.ttf"),
     "PTSansCaption-Bold": require("../assets/fonts/PTSansCaption-Bold.ttf"),
   });
@@ -24,6 +30,12 @@ export default function App() {
   }, [fontsLoaded]);
 
   if (!fontsLoaded) return null; // Don't mind/edit the code above; it's there to load the font for you!
+
+  Text.defaultProps = Text.defaultProps || {};
+  Text.defaultProps.style = { fontFamily: "PTSansCaption" };
+
+  TextInput.defaultProps = TextInput.defaultProps || {};
+  TextInput.defaultProps.style = { fontFamily: "PTSansCaption" };
 
   return (
     <View onLayout={onLayoutRootView}>

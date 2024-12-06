@@ -42,23 +42,25 @@ export default function GroupEvents() {
           RSVPed={false}
           groupName={groupName}
         />
-        <TouchableOpacity
-          onPress={() => {
-            const navigationPayload = {
-              pathname: "/groups/newEvent",
-              params: { groupName },
-            };
-            router.push(navigationPayload);
-          }}
-        >
-          <View style={styles.postButton}>
-            <FontAwesome
-              size={Theme.sizes.iconLarge}
-              name="plus"
-              color={Theme.colors.textPrimary}
-            />
-          </View>
-        </TouchableOpacity>
+        <View style={styles.postButton}>
+          <TouchableOpacity
+            onPress={() => {
+              const navigationPayload = {
+                pathname: "/groups/newEvent",
+                params: { groupName },
+              };
+              router.push(navigationPayload);
+            }}
+          >
+            <View>
+              <FontAwesome
+                size={Theme.sizes.iconLarge}
+                name="plus"
+                color={Theme.colors.textPrimary}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
       </Animated.View>
     </View>
   );
@@ -79,8 +81,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
-    bottom: 25,
-    right: 25,
+    bottom: "5%",
+    right: "3%",
     // FontAwesome 'plus' icon is a bit off-center, so we manually center it by
     // tweaking the padding
     paddingTop: 2,
