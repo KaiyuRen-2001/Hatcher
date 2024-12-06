@@ -193,7 +193,12 @@ export default function GroupComponent({ group }) {
             placeholder="Type a message..."
             placeholderTextColor={Theme.colors.textSecondary}
           />
-          <Button title="Send" onPress={handleSendMessage} />
+          <Button
+            title="Send"
+            color={Theme.colors.textDark}
+            disabled={!Boolean(message.trim())}
+            onPress={handleSendMessage}
+          />
         </View>
         {!isInGroup && (
           <>

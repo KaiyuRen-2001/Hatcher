@@ -6,7 +6,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useRouter } from "expo-router";
 import { useRoute } from "@react-navigation/native";
 import { useEffect } from "react";
-import { useNavigation } from "expo-router";
+import { useNavigation, Stack } from "expo-router";
 import ResourcesList from "@/components/ResourcesList";
 
 export default function GroupResources() {
@@ -26,6 +26,12 @@ export default function GroupResources() {
   }, [groupName, navigation]); // Ensure it runs when groupName changes
   return (
     <View style={styles.container}>
+      <Stack.Screen
+        options={{
+          headerBackTitle: "Back",
+          headerTintColor: Theme.colors.textPrimary,
+        }}
+      />
       <Animated.View
         style={styles.feed}
         layout={LinearTransition}

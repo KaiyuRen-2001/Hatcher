@@ -7,7 +7,7 @@ import { useRouter } from "expo-router";
 import { Animated, LinearTransition, FadeIn, FadeOut } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { useEffect } from "react";
-import { useNavigation } from "expo-router";
+import { useNavigation, Stack } from "expo-router";
 
 export default function GroupEvents() {
   const route = useRoute();
@@ -25,6 +25,12 @@ export default function GroupEvents() {
   }, [groupName, navigation]); // Ensure it runs when groupName changes
   return (
     <View style={styles.container}>
+      <Stack.Screen
+        options={{
+          headerBackTitle: "Back",
+          headerTintColor: Theme.colors.textPrimary,
+        }}
+      />
       <Animated.View
         style={styles.feed}
         layout={LinearTransition}
