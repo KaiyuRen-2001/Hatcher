@@ -128,6 +128,7 @@ export default function ListView() {
             placeholder="Search"
             placeholderTextColor={Theme.colors.textSecondary}
             onChangeText={onChangeSearchTerm}
+            style={styles.searchText}
             value={searchTerm}
           />
         </View>
@@ -281,6 +282,9 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     marginTop: 0,
+  },
+  searchText: {
+    flex: 1,
   },
 });
 

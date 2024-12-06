@@ -37,6 +37,7 @@ export default function Home() {
             placeholderTextColor={Theme.colors.textSecondary}
             onChangeText={onChangeSearchTerm}
             value={searchTerm}
+            style={styles.searchText}
           />
         </View>
         <TouchableOpacity
@@ -120,5 +121,8 @@ const styles = StyleSheet.create({
     // tweaking the padding
     paddingTop: 2,
     paddingLeft: 1,
+  },
+  searchText: {
+    width: "100%",
   },
 });
