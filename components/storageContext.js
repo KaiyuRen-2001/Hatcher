@@ -235,6 +235,34 @@ export const StorageContextProvider = ({ children }) => {
     setResources((e) => [...e, newResource]);
   };
 
+  const getGroupByName = (name) => {
+    const ownGroup = groups.reduce((acc, group) => {
+      if (acc) {
+        return acc;
+      }
+      if (group.name == name) {
+        return group;
+      }
+
+      return null;
+    }, null);
+
+    if (ownGroup) {
+      return ownGroup;
+    }
+
+    return exploreGroups.reduce((acc, group) => {
+      if (acc) {
+        return acc;
+      }
+      if (group.name == name) {
+        return group;
+      }
+
+      return null;
+    }, null);
+  };
+
   const storageAddGroup = async (
     name,
     city,
@@ -294,6 +322,7 @@ export const StorageContextProvider = ({ children }) => {
         storageAddResource,
         addMemberToGroup,
         removeMemberFromGroup,
+        getGroupByName,
       }}
     >
       {children}

@@ -18,6 +18,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Tag from "@/components/Tag";
 import Button from "@/components/Button";
 import { router } from "expo-router";
+import FilterDropdowns from "@/components/FilterDropdowns";
 import { useState, useRef, useContext } from "react";
 
 import Theme from "@/assets/theme";
@@ -61,86 +62,6 @@ const DEFAULT_COORDS = {
   latitude: 37.5475,
   longitude: -122.3097,
   title: "default",
-};
-
-const CATEGORIES = ["All", "STEM", "Business", "Arts", "Social Sciences"];
-const GOALS = [
-  "All",
-  "networking",
-  "mentorship",
-  "career advice",
-  "interview prep",
-];
-
-const FilterDropdowns = ({
-  selectedCategory,
-  setSelectedCategory,
-  selectedGoal,
-  setSelectedGoal,
-}) => {
-  const categoryData = CATEGORIES.map((cat) => ({
-    key: cat,
-    value: cat,
-  }));
-
-  const goalData = GOALS.map((goal) => ({
-    key: goal,
-    value: goal,
-  }));
-
-  const handleCategorySelect = (val) => {
-    setSelectedCategory(val === "All" ? null : val);
-  };
-
-  const handleGoalSelect = (val) => {
-    setSelectedGoal(val === "All" ? null : val);
-  };
-
-  return (
-    <View style={styles.filterContainer}>
-      <View style={styles.dropdownContainer}>
-        <SelectList
-          placeholder="Category"
-          boxStyles={styles.dropdownButton}
-          dropdownStyles={styles.dropdownList}
-          inputStyles={styles.dropdownButtonText}
-          dropdownTextStyles={styles.dropdownItemText}
-          setSelected={handleCategorySelect}
-          data={categoryData}
-          save="value"
-          search={false}
-          arrowicon={
-            <FontAwesome
-              name="chevron-down"
-              size={Theme.sizes.iconSmall}
-              color={Theme.colors.iconSecondary}
-            />
-          }
-        />
-      </View>
-
-      <View style={styles.dropdownContainer}>
-        <SelectList
-          placeholder="Goal"
-          boxStyles={styles.dropdownButton}
-          dropdownStyles={styles.dropdownList}
-          inputStyles={styles.dropdownButtonText}
-          dropdownTextStyles={styles.dropdownItemText}
-          setSelected={handleGoalSelect}
-          data={goalData}
-          save="value"
-          search={false}
-          arrowicon={
-            <FontAwesome
-              name="chevron-down"
-              size={Theme.sizes.iconSmall}
-              color={Theme.colors.iconSecondary}
-            />
-          }
-        />
-      </View>
-    </View>
-  );
 };
 
 const CustomCallout = ({ group }) => {

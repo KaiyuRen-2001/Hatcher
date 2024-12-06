@@ -54,6 +54,8 @@ export const setInitialData = async () => {
             "Be kind and supportive.",
             "No spam, please.",
           ],
+          category: "STEM",
+          goals: ["mentorship"],
         },
         {
           groupId: "2",
@@ -63,6 +65,8 @@ export const setInitialData = async () => {
           admins: ["andreeajitaru", "zoekaputa", "mirandaliu"],
           members: ["andreeajitaru", "kaiyuren", "mirandaliu", "zoekaputa"],
           norms: ["be nice"],
+          category: "STEM",
+          goals: ["interview prep"],
         },
         {
           groupId: "3",

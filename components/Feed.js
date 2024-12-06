@@ -9,11 +9,9 @@ import Event from "@/components/Event";
 import Resource from "@/components/Resource";
 import { GoalsContext } from "@/components/storageContext";
 
-import timeAgo from "@/utils/timeAgo";
-
-export default function Feed({ searchTerm }) {
+export default function Feed({ searchTerm, selectedCategory, selectedGoal }) {
   const session = useSession();
-  const { events, resources, getOrderedEventsAndResources } =
+  const { events, resources, getOrderedEventsAndResources, getGroupByName } =
     useContext(GoalsContext);
 
   const [posts, setPosts] = useState(null);
@@ -30,9 +28,7 @@ export default function Feed({ searchTerm }) {
   }, [events, resources]);
 
   useEffect(() => {
-    if (!searchTerm) {
-      setDisplayedPosts(posts);
-    } else {
+    if (searchTerm) {
       const searchResults = posts.reduce((acc, post) => {
         if (post.title.toLowerCase().startsWith(searchTerm.toLowerCase())) {
           return [...acc, post];
@@ -40,8 +36,23 @@ export default function Feed({ searchTerm }) {
         return acc;
       }, []);
       setDisplayedPosts(searchResults);
+    } else {
+      if (selectedCategory || selectedGoal) {
+        const filteredPosts = posts.filter((post) => {
+          const group = getGroupByName(post.groupName);
+
+          const categoryMatch =
+            !selectedCategory || group.category === selectedCategory;
+
+          const goalMatch = !selectedGoal || group.goals.includes(selectedGoal);
+          return categoryMatch && goalMatch;
+        });
+        setDisplayedPosts(filteredPosts);
+      } else {
+        setDisplayedPosts(posts);
+      }
     }
-  }, [posts, searchTerm]);
+  }, [posts, searchTerm, selectedCategory, selectedGoal]);
 
   if (isLoading && !isRefreshing) {
     return <Loading />;

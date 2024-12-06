@@ -11,12 +11,17 @@ import { StatusBar } from "expo-status-bar";
 import { Link } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
 import { MaterialIcons } from "@expo/vector-icons";
+import FilterDropdowns from "@/components/FilterDropdowns";
 
 import Theme from "@/assets/theme";
 import Feed from "@/components/Feed";
 
 export default function Home() {
+  const [showFilters, setShowFilters] = useState(false);
   const [searchTerm, onChangeSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedGoal, setSelectedGoal] = useState(null);
+
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
@@ -34,7 +39,10 @@ export default function Home() {
             value={searchTerm}
           />
         </View>
-        <TouchableOpacity style={styles.filterIcon} onPress={() => {}}>
+        <TouchableOpacity
+          style={styles.filterIcon}
+          onPress={() => setShowFilters(!showFilters)}
+        >
           <MaterialIcons
             name="filter-list"
             size={24}
@@ -42,7 +50,19 @@ export default function Home() {
           />
         </TouchableOpacity>
       </View>
-      <Feed searchTerm={searchTerm} />
+      {showFilters && (
+        <FilterDropdowns
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+          selectedGoal={selectedGoal}
+          setSelectedGoal={setSelectedGoal}
+        />
+      )}
+      <Feed
+        searchTerm={searchTerm}
+        selectedCategory={selectedCategory}
+        selectedGoal={selectedGoal}
+      />
     </View>
   );
 }
