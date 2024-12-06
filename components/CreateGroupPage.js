@@ -85,6 +85,7 @@ export default function CreatGroupPage() {
       params: { group: JSON.stringify(group) },
     };
     console.log("navigation payload: ", navigationPayload);
+    router.back();
     router.push(navigationPayload);
   };
   return (
