@@ -69,7 +69,7 @@ export default function GoalDetails() {
           maximumValue={3}
           step={1}
           value={sliderValue}
-          onValueChange={onValueChange}
+          onSlidingComplete={onValueChange}
           minimumTrackTintColor={Theme.colors.iconHighlighted}
           maximumTrackTintColor={Theme.colors.iconPrimary}
           thumbTintColor={Theme.colors.iconHighlighted}
@@ -108,7 +108,9 @@ const styles = StyleSheet.create({
   eggPicture: {
     height: "40%",
     aspectRatio: 1,
-    margin: "auto",
+    marginHorizontal: "auto",
+    marginTop: 20,
+    marginBottom: 8,
     padding: 32,
   },
   name: {
