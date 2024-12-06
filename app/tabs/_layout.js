@@ -2,10 +2,11 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Tabs } from "expo-router";
+import { Tabs, useRouter } from "expo-router";
 import Theme from "@/assets/theme";
 
 export default function Layout() {
+  const router = useRouter();
   // Override default layout to ensure that our screen background bleeds
   // into the status bar.
   return (
@@ -29,6 +30,13 @@ export default function Layout() {
         },
         headerTitleStyle: {
           color: Theme.colors.textPrimary,
+        },
+      }}
+      screenListeners={{
+        tabPress: () => {
+          while (router.canGoBack()) {
+            router.back();
+          }
         },
       }}
     >
