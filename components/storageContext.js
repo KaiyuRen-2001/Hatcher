@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import {
   updateGoal,
+  updateGoals,
   setUpdatedEvents,
   getGoals,
   getEvents,
@@ -161,16 +162,16 @@ export const StorageContextProvider = ({ children }) => {
     try {
       // Get current goals
       const currentGoals = await getGoals();
-      
+
       // Filter out the goal to delete
-      const updatedGoals = currentGoals.filter((goal) => goal.id !== goalId);
-      
+      const updatedGoals = currentGoals.filter((goal) => goal.id != goalId);
+
       // Update the goals in storage
-      await updateGoal(updatedGoals);
-      
+      await updateGoals(updatedGoals);
+
       // Update state
       setGoals(updatedGoals);
-      
+
       console.log(`Goal with ID ${goalId} deleted successfully.`);
       return true;
     } catch (error) {
