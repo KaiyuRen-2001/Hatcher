@@ -3,6 +3,7 @@ import {
   Alert,
   StyleSheet,
   Text,
+  Platform,
   View,
   Button,
   FlatList,
@@ -170,7 +171,11 @@ export default function GroupComponent({ group }) {
               <Text style={styles.infoText}>Resources</Text>
             </Pressable>
             {!isInGroup && (
-              <BlurView intensity={10} style={styles.absolute}></BlurView>
+              <BlurView
+                intensity={10}
+                experimentalBlurMethod={"blur"}
+                style={styles.absolute}
+              ></BlurView>
             )}
           </View>
         </View>
@@ -183,9 +188,19 @@ export default function GroupComponent({ group }) {
           data={chat}
           renderItem={renderMessage}
           keyExtractor={(item) => item.id}
-          style={styles.chatList}
+          style={
+            Platform.OS === "ios"
+              ? styles.chatList
+              : [styles.chatList, { marginBottom: 50 }]
+          }
         />
-        <View style={styles.inputContainer}>
+        <View
+          style={
+            Platform.OS === "ios"
+              ? styles.inputContainer
+              : [styles.inputContainer, { top: -50 }]
+          }
+        >
           <TextInput
             style={styles.textInput}
             value={message}
@@ -202,7 +217,11 @@ export default function GroupComponent({ group }) {
         </View>
         {!isInGroup && (
           <>
-            <BlurView intensity={20} style={styles.absolute}></BlurView>
+            <BlurView
+              intensity={20}
+              experimentalBlurMethod={"blur"}
+              style={styles.absolute}
+            ></BlurView>
 
             <Text style={styles.joinGroupText}>
               Join this group to participate in its chat, events, and resources!
@@ -320,6 +339,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flexDirection: "row",
+    marginTop: 8,
     alignItems: "center",
     fontFamily: "PTSansCaption-Bold",
   },
