@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.colors.iconHighlighted,
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 12,
+    paddingVertical: 32,
     borderRadius: 20,
     elevation: 3,
   },
