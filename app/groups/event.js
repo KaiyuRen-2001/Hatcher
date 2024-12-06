@@ -72,9 +72,9 @@ export default function GoalDetails() {
         style={styles.dateTime}
         date={date}
         time={time}
-        textMonth={58}
-        textDay={64}
-        textTime={30}
+        textMonth={50}
+        textDay={62}
+        textTime={24}
       />
       <Text style={styles.confidenceText}>{description}</Text>
       <Button
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   },
   dateTime: {
     height: "30%",
-    aspectRatio: 1,
+    aspectRatio: 0.8,
     margin: 32,
     padding: 32,
   },
