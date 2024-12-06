@@ -48,6 +48,7 @@ export default function FilterDropdowns({
   return (
     <View style={styles.filterContainer}>
       <View style={styles.dropdownContainer}>
+        <Text style={styles.dropDownLabel}>Catagory</Text>
         <SelectList
           placeholder="Category"
           boxStyles={styles.dropdownButton}
@@ -67,8 +68,8 @@ export default function FilterDropdowns({
           }
         />
       </View>
-
       <View style={styles.dropdownContainer}>
+        <Text style={styles.dropDownLabel}>Goal</Text>
         <SelectList
           placeholder="Goal"
           boxStyles={styles.dropdownButton}
@@ -93,66 +94,9 @@ export default function FilterDropdowns({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Theme.colors.backgroundPrimary,
-  },
-  map: {
-    width: Dimensions.get("window").width,
-    height: "100%",
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    padding: 16,
-  },
-  calloutContainer: {
-    zIndex: 1,
-    width: 250,
-    backgroundColor: Theme.colors.backgroundPrimary,
-    borderRadius: 12,
-    padding: 16,
-    elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    marginBottom: 32,
-  },
-  cardContent: {
-    marginBottom: 12,
-  },
-  groupName: {
+  dropDownLabel: {
     fontSize: Theme.sizes.textMedium,
-    fontWeight: "bold",
-    color: Theme.colors.textPrimary,
-    marginBottom: 8,
-  },
-  groupLocation: {
-    fontSize: 14,
-    color: Theme.colors.textSecondary,
-    marginBottom: 8,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  groupDescription: {
-    paddingTop: 8,
-    fontSize: Theme.sizes.textSmall,
     color: Theme.colors.textdark,
-    lineHeight: 20,
-  },
-  joinButton: {
-    marginTop: 16,
-    width: "60%",
-    marginHorizontal: "auto",
-  },
-  customCallout: {
-    backgroundColor: "transparent",
-    padding: 0,
-  },
-  filterIcon: {
-    paddingRight: 12,
     paddingBottom: 8,
   },
   goalNameInputText: {
@@ -172,28 +116,12 @@ const styles = StyleSheet.create({
     borderColor: Theme.colors.textPrimary,
     color: Theme.colors.textDark,
   },
-  toggleContainer: {
-    position: "absolute",
-    bottom: 20,
-    left: 20,
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: Theme.colors.backgroundPrimary,
-    padding: 8,
-    borderRadius: 20,
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-  },
-  toggle: {
-    marginHorizontal: 8,
-  },
   filterContainer: {
+    gap: 16,
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 16,
+    paddingTop: 0,
     zIndex: 1,
   },
   dropdownContainer: {
@@ -224,8 +152,5 @@ const styles = StyleSheet.create({
   },
   dropdownItemText: {
     color: Theme.colors.textDark,
-  },
-  scrollView: {
-    marginTop: 50,
   },
 });

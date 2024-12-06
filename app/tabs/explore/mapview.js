@@ -344,41 +344,6 @@ const styles = StyleSheet.create({
   toggle: {
     marginHorizontal: 8,
   },
-  filterContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 16,
-    zIndex: 1,
-  },
-  dropdownContainer: {
-    width: "48%",
-    alignItems: "center",
-  },
-  dropdownButton: {
-    height: 50,
-    width: "100%",
-    backgroundColor: Theme.colors.backgroundWhite,
-    borderWidth: 1,
-    borderColor: Theme.colors.textPrimary,
-    borderRadius: 10,
-  },
-  dropdownList: {
-    width: "100%",
-    backgroundColor: Theme.colors.backgroundWhite,
-    color: Theme.colors.textDark,
-    marginTop: 50,
-    position: "absolute",
-    zIndex: 999,
-    borderWidth: 2,
-    borderColor: Theme.colors.iconSecondary,
-  },
-  dropdownButtonText: {
-    marginTop: 3,
-    color: Theme.colors.textDark,
-  },
-  dropdownItemText: {
-    color: Theme.colors.textDark,
-  },
   scrollView: {
     marginTop: 50,
   },

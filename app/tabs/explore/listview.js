@@ -10,6 +10,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
 import { useState, useContext } from "react";
+import FilterDropdowns from "@/components/FilterDropdowns";
 import { SelectList } from "react-native-dropdown-select-list";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { GoalsContext } from "@/components/storageContext";
@@ -50,77 +51,6 @@ const GOALS = [
   "career advice",
   "interview prep",
 ];
-
-const FilterDropdowns = ({
-  selectedCategory,
-  setSelectedCategory,
-  selectedGoal,
-  setSelectedGoal,
-}) => {
-  const categoryData = CATEGORIES.map((cat) => ({
-    key: cat,
-    value: cat,
-  }));
-
-  const goalData = GOALS.map((goal) => ({
-    key: goal,
-    value: goal,
-  }));
-
-  const handleCategorySelect = (val) => {
-    setSelectedCategory(val === "All" ? null : val);
-  };
-
-  const handleGoalSelect = (val) => {
-    setSelectedGoal(val === "All" ? null : val);
-  };
-
-  return (
-    <View style={styles.filterContainer}>
-      <View style={styles.dropdownContainer}>
-        <SelectList
-          placeholder="Category"
-          boxStyles={styles.dropdownButton}
-          dropdownStyles={styles.dropdownList}
-          inputStyles={styles.dropdownButtonText}
-          dropdownTextStyles={styles.dropdownItemText}
-          setSelected={handleCategorySelect}
-          data={categoryData}
-          save="value"
-          search={false}
-          arrowicon={
-            <FontAwesome
-              name="chevron-down"
-              size={Theme.sizes.iconSmall}
-              color={Theme.colors.iconSecondary}
-            />
-          }
-        />
-      </View>
-
-      <View style={styles.dropdownContainer}>
-        <SelectList
-          placeholder="Goal"
-          boxStyles={styles.dropdownButton}
-          dropdownStyles={styles.dropdownList}
-          inputStyles={styles.dropdownButtonText}
-          dropdownTextStyles={styles.dropdownItemText}
-          setSelected={handleGoalSelect}
-          data={goalData}
-          save="value"
-          search={false}
-          arrowicon={
-            <FontAwesome
-              name="chevron-down"
-              size={Theme.sizes.iconSmall}
-              color={Theme.colors.iconSecondary}
-            />
-          }
-        />
-      </View>
-    </View>
-  );
-};
 
 const GroupCard = ({ group }) => {
   const navToGroup = () => {
@@ -345,9 +275,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export {
-  FilterDropdowns,
-  STANFORD_GROUP,
-  ANXIOUS_ENGINEERS_GROUP,
-  BERKELEY_GROUP,
-};
+export { STANFORD_GROUP, ANXIOUS_ENGINEERS_GROUP, BERKELEY_GROUP };

@@ -280,6 +280,7 @@ export const StorageContextProvider = ({ children }) => {
       admins: [username],
       members: [username],
       norms: normsList,
+      goals: [],
     };
 
     updateGroups([...exploreGroups, ...groups, newGroup]);
