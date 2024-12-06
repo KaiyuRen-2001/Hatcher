@@ -27,7 +27,7 @@ export default function Feed({ searchTerm, selectedCategory, selectedGoal }) {
 
   useEffect(() => {
     fetchPosts();
-  }, [events, resources]);
+  }, [session, events, resources]);
 
   useEffect(() => {
     if (searchTerm) {
