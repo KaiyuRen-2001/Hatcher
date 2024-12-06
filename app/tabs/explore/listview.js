@@ -233,13 +233,14 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   joinButton: {
-    backgroundColor: Theme.colors.primary,
+    backgroundColor: Theme.colors.backgroundPrimary,
+    marginHorizontal: "35%",
     padding: 12,
-    borderRadius: 8,
+    borderRadius: 4,
     alignItems: "center",
   },
   joinButtonText: {
-    color: "#FFFFFF",
+    color: Theme.colors.textSecondary,
     fontWeight: "bold",
     fontSize: 16,
   },
