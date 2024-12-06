@@ -218,6 +218,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.colors.backgroundPrimary,
+    fontFamily: "PTSansCaption",
   },
   absolute: {
     position: "absolute",
@@ -320,6 +321,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
+    fontFamily: "PTSansCaption-Bold",
   },
   textInput: {
     flex: 1,

@@ -26,5 +26,6 @@ const styles = StyleSheet.create({
     paddingLeft: 4,
     color: Theme.colors.textPrimary,
     fontSize: Theme.sizes.textMedium,
+    fontFamily: "PTSansCaption",
   },
 });

@@ -42,17 +42,17 @@ const styles = StyleSheet.create({
   },
   month: {
     color: Theme.colors.textPrimary,
-    fontWeight: "bold",
     letterSpacing: 0.25,
+    fontFamily: "PTSansCaption-Bold",
   },
   day: {
     color: Theme.colors.textPrimary,
-    fontWeight: "bold",
+    fontFamily: "PTSansCaption-Bold",
     letterSpacing: 0.25,
   },
   time: {
     color: Theme.colors.textPrimary,
-    fontWeight: "bold",
+    fontFamily: "PTSansCaption-Bold",
     letterSpacing: 0.25,
   },
 });

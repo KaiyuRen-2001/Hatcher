@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
   description: {
     color: Theme.colors.textPrimary,
-    fontWeight: "normal",
+    fontFamily: "PTSansCaption",
     fontSize: Theme.sizes.textBody,
     paddingLeft: 8,
   },

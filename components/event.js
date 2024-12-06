@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 8,
   },
-  dateTime: { width: "35%", aspectRatio: 1 },
+  dateTime: { width: "31%", aspectRatio: 1 },
   body: {
     flex: 1,
     height: 75,
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   name: {
     color: Theme.colors.textPrimary,
-    fontWeight: "bold",
+    fontFamily: "PTSansCaption-Bold",
     fontSize: Theme.sizes.textLarge,
   },
   catagory: {
