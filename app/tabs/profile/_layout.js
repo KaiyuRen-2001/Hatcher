@@ -3,14 +3,21 @@ import Theme from "@/assets/theme";
 import { Pressable, Text } from "react-native";
 import { GoalsContext } from "@/components/storageContext";
 import { useContext } from "react";
+import { useRouter } from "expo-router";
 
 export default function Layout() {
   const { storageDeleteGoal } = useContext(GoalsContext);
+  const router = useRouter();
 
-  const handleDelete = () => {
-    console.log("Delete button pressed!");
-    //storageDeleteGoal(id);
+  const handleDelete = (id) => {
+    if (id) {
+      storageDeleteGoal(id);
+      router.back();
+    } else {
+      console.error("No goal ID provided for deletion");
+    }
   };
+
   return (
     <Stack
       screenOptions={{
@@ -33,15 +40,15 @@ export default function Layout() {
       />
       <Stack.Screen
         name="goaldetails"
-        options={{
+        options={({ route }) => ({
           title: "Goal",
           headerBackTitle: "Back",
           headerTintColor: Theme.colors.textPrimary,
           headerRight: () => (
             <Pressable
-              onPress={handleDelete}
+              onPress={() => handleDelete(route.params?.id)}
               style={{
-                marginRight: 10, // Adjust for spacing
+                marginRight: 10,
               }}
             >
               <Text style={{ color: Theme.colors.textPrimary, fontSize: 16 }}>
@@ -49,7 +56,7 @@ export default function Layout() {
               </Text>
             </Pressable>
           ),
-        }}
+        })}
       />
       <Stack.Screen
         name="event"

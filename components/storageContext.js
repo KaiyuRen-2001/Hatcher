@@ -159,20 +159,23 @@ export const StorageContextProvider = ({ children }) => {
 
   const storageDeleteGoal = async (goalId) => {
     try {
-      // Retrieve the existing goals from AsyncStorage
-      const goals = getGoals();
-
-      // Filter out the goal to delete by its ID
-      const updatedGoals = goals.filter((goal) => goal.id !== goalId);
-
-      // Save the updated list back to AsyncStorage
-      await AsyncStorage.setItem("goals", JSON.stringify(updatedGoals));
-
+      // Get current goals
+      const currentGoals = await getGoals();
+      
+      // Filter out the goal to delete
+      const updatedGoals = currentGoals.filter((goal) => goal.id !== goalId);
+      
+      // Update the goals in storage
+      await updateGoal(updatedGoals);
+      
+      // Update state
+      setGoals(updatedGoals);
+      
       console.log(`Goal with ID ${goalId} deleted successfully.`);
-      return true; // Indicate success
+      return true;
     } catch (error) {
       console.error("Error deleting goal:", error);
-      return false; // Indicate failure
+      return false;
     }
   };
 
