@@ -169,9 +169,12 @@ export default function CreatGroupPage() {
               {isPublic ? "Public" : "Private"}
             </Text>
             <Switch
-              trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={isPublic ? "#f5dd4b" : "#f4f3f4"}
-              ios_backgroundColor="#3e3e3e"
+              trackColor={{
+                false: Theme.colors.textDark,
+                true: Theme.colors.textDark,
+              }}
+              ios_backgroundColor={Theme.colors.textDark}
+              thumbColor={"#ffffff"}
               onValueChange={() => setIsPublic((p) => !p)}
               value={isPublic}
             />
