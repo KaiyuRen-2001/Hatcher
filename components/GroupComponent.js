@@ -245,6 +245,7 @@ const styles = StyleSheet.create({
     fontFamily: "PTSansCaption-Bold",
     fontSize: Theme.sizes.textMedium,
     color: Theme.colors.textPrimary,
+    width: "75%",
   },
   infoContainer: {
     padding: 16,
@@ -328,8 +329,11 @@ const styles = StyleSheet.create({
   resourcesContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-evenly",
+    justifyContent: "flex-end",
+    gap: 4,
     marginTop: -30,
+    paddingRight: 4,
+    width: "100%",
   },
 
   pressableContainer: {
@@ -361,6 +365,7 @@ const styles = StyleSheet.create({
   temp: {
     flexDirection: "row",
     justifyContent: "space-between",
+    width: "60%",
   },
 
   adminContainer: {
