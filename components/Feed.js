@@ -19,6 +19,8 @@ export default function Feed({ searchTerm, selectedCategory, selectedGoal }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
+  console.log(posts);
+
   const fetchPosts = () => {
     setPosts(getOrderedEventsAndResources());
   };

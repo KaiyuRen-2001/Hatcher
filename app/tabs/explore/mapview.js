@@ -196,6 +196,7 @@ export default function ListGroups() {
                 placeholderTextColor={Theme.colors.textSecondary}
                 onChangeText={onChangeSearchTerm}
                 value={searchTerm}
+                style={styles.searchText}
               />
             </View>
             <TouchableOpacity
@@ -356,5 +357,8 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     marginTop: 50,
+  },
+  searchText: {
+    flex: 1,
   },
 });
