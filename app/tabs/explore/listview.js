@@ -96,16 +96,24 @@ export default function ListView() {
   const [selectedGoal, setSelectedGoal] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
   const { exploreGroups } = useContext(GoalsContext);
+  const [searchTerm, onChangeSearchTerm] = useState("");
 
   // if (!session) {
   //   return <Loading />;
   // }
-  const filteredGroups = exploreGroups.filter((group) => {
-    const categoryMatch =
-      !selectedCategory || group.category === selectedCategory;
-    const goalMatch = !selectedGoal || Math.random() < 0.5; // group.goals.includes(selectedGoal);
-    return categoryMatch && goalMatch;
-  });
+  const filteredGroups = searchTerm
+    ? exploreGroups.reduce((acc, group) => {
+        if (group.name.toLowerCase().startsWith(searchTerm.toLowerCase())) {
+          return [...acc, group];
+        }
+        return acc;
+      }, [])
+    : exploreGroups.filter((group) => {
+        const categoryMatch =
+          !selectedCategory || group.category === selectedCategory;
+        const goalMatch = !selectedGoal || Math.random() < 0.5; // group.goals.includes(selectedGoal);
+        return categoryMatch && goalMatch;
+      });
 
   return (
     <View style={styles.container}>
@@ -119,7 +127,8 @@ export default function ListView() {
           <TextInput
             placeholder="Search"
             placeholderTextColor={Theme.colors.textSecondary}
-            onChangeText={() => {}}
+            onChangeText={onChangeSearchTerm}
+            value={searchTerm}
           />
         </View>
         <TouchableOpacity

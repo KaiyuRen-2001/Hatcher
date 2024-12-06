@@ -134,6 +134,7 @@ export default function ListGroups() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedGoal, setSelectedGoal] = useState(null);
   const { exploreGroups } = useContext(GoalsContext);
+  const [searchTerm, onChangeSearchTerm] = useState("");
 
   const getGroupsWithCoordinates = () => {
     return exploreGroups.map((group) => {
@@ -156,14 +157,22 @@ export default function ListGroups() {
 
   // Add this filtering logic
   const groupsData = getGroupsWithCoordinates();
-  console.log(groupsData);
 
-  const filteredGroups = groupsData.filter(({ group }) => {
-    const categoryMatch =
-      !selectedCategory || group.category === selectedCategory;
-    const goalMatch = !selectedGoal || Math.random() < 0.5; // group.goals.includes(selectedGoal);
-    return categoryMatch && goalMatch;
-  });
+  const filteredGroups = searchTerm
+    ? groupsData.reduce((acc, group) => {
+        if (
+          group.group.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+        ) {
+          return [...acc, group];
+        }
+        return acc;
+      }, [])
+    : groupsData.filter(({ group }) => {
+        const categoryMatch =
+          !selectedCategory || group.category === selectedCategory;
+        const goalMatch = !selectedGoal || Math.random() < 0.5; // group.goals.includes(selectedGoal);
+        return categoryMatch && goalMatch;
+      });
 
   if (!session) {
     return <Loading />;
@@ -185,7 +194,8 @@ export default function ListGroups() {
               <TextInput
                 placeholder="Search"
                 placeholderTextColor={Theme.colors.textSecondary}
-                onChangeText={() => {}}
+                onChangeText={onChangeSearchTerm}
+                value={searchTerm}
               />
             </View>
             <TouchableOpacity
