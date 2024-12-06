@@ -157,6 +157,25 @@ export const StorageContextProvider = ({ children }) => {
     setGoals(newGoals);
   };
 
+  const storageDeleteGoal = async (goalId) => {
+    try {
+      // Retrieve the existing goals from AsyncStorage
+      const goals = getGoals();
+
+      // Filter out the goal to delete by its ID
+      const updatedGoals = goals.filter((goal) => goal.id !== goalId);
+
+      // Save the updated list back to AsyncStorage
+      await AsyncStorage.setItem("goals", JSON.stringify(updatedGoals));
+
+      console.log(`Goal with ID ${goalId} deleted successfully.`);
+      return true; // Indicate success
+    } catch (error) {
+      console.error("Error deleting goal:", error);
+      return false; // Indicate failure
+    }
+  };
+
   const getOrderedEventsAndResources = () => {
     const groupNames = groups.map((g) => g.name);
 
@@ -315,6 +334,7 @@ export const StorageContextProvider = ({ children }) => {
         storageUpdateCategories,
         storageAddGoal,
         storageAddGroup,
+        storageDeleteGoal,
         removeUserFromEvent,
         addUserToEvent,
         exploreGroups,

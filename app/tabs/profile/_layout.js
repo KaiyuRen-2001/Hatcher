@@ -1,12 +1,15 @@
-import { Stack, useLocal } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import Theme from "@/assets/theme";
 import { Pressable, Text } from "react-native";
+import { GoalsContext } from "@/components/storageContext";
+import { useContext } from "react";
 
 export default function Layout() {
+  const { storageDeleteGoal } = useContext(GoalsContext);
+
   const handleDelete = () => {
     console.log("Delete button pressed!");
-    //const { id } = useLocalSearchParams();
-    //storageDeleteGoal();
+    //storageDeleteGoal(id);
   };
   return (
     <Stack
