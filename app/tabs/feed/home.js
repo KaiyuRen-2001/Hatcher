@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginRight: 32,
     borderRadius: 10,
-    paddingVertical: 10,
+    //paddingVertical: 10,
     paddingHorizontal: 8,
     backgroundColor: Theme.colors.backgroundWhite,
     borderColor: Theme.colors.textPrimary,
@@ -123,6 +123,10 @@ const styles = StyleSheet.create({
     paddingLeft: 1,
   },
   searchText: {
-    width: "100%",
+    flex: 1,
+    // fontSize: 16, // Match font size to your design
+    // lineHeight: 20, // Ensure line height matches font size
+    // color: Theme.colors.textDark, // Use the desired text color
+    // paddingVertical: 0, // Avoid extra padding that might clip text
   },
 });

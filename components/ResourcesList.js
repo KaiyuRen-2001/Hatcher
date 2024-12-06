@@ -24,7 +24,7 @@ export default function ResourcesList({ groupName }) {
       }
       return acc;
     }, []);
-    console.log(filteredResources);
+    //console.log(filteredResources);
     setGroupResources(filteredResources);
   };
 
