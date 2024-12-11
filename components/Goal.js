@@ -7,9 +7,9 @@ import Tag from "@/components/Tag";
 import Theme from "@/assets/theme";
 import getImages from "@/utils/images";
 
-export default function Goal({ id, name, catagory, confidence }) {
+export default function Goal({ id, name, category, confidence }) {
   const images = getImages();
-  //console.log(id, name, catagory, confidence);
+  //console.log(id, name, category, confidence);
 
   return (
     <Link
@@ -18,7 +18,7 @@ export default function Goal({ id, name, catagory, confidence }) {
         params: {
           id: id,
           name: name,
-          catagory: catagory,
+          category: category,
           confidence: confidence,
         },
       }}
@@ -28,9 +28,9 @@ export default function Goal({ id, name, catagory, confidence }) {
       <TouchableOpacity style={styles.container}>
         <View style={styles.body}>
           <Text style={styles.name}>{name}</Text>
-          <View style={styles.catagory}>
+          <View style={styles.category}>
             <Tag
-              title={catagory}
+              title={category}
               icon={
                 <FontAwesome
                   name="files-o"
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: Theme.sizes.textLarge,
   },
-  catagory: {
+  category: {
     paddingLeft: 8,
     paddingTop: 4,
   },

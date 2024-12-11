@@ -34,10 +34,10 @@ AppState.addEventListener("change", (state) => {
 
 // Utility functions for interacting with Supabase
 const fetchFromTable = async (table) => {
-  console.log("fetching from table: ", table);
+  //console.log("fetching from table: ", table);
   const { data, error } = await db.from(table).select();
   if (error) throw new Error(error.message);
-  console.log(data);
+  //console.log(data);
   return data;
 };
 
@@ -90,18 +90,19 @@ export const getUsersGroups = async (username) => {
 };
 
 export const getEvents = async () => {
-  (async () => {
-    try {
-      const events = await fetchFromTable("events");
-      console.log("Test fetch successful:", events);
-      return events;
-    } catch (error) {
-      console.error("Test fetch failed:", error.message);
-    }
-  })();
+  // (async () => {
+  //   try {
+  //     const events = await fetchFromTable("events");
+  //     console.log("Test fetch successful:", events);
+  //     return events;
+  //   } catch (error) {
+  //     console.error("Test fetch failed:", error.message);
+  //   }
+  // })();
   /*const events = await fetchFromTable("events");
   console.log(events);
   return events;*/
+  return await fetchFromTable("events");
 };
 
 export const getResources = async () => {
@@ -113,7 +114,10 @@ export const getGoals = async () => {
 };
 
 export const getCategories = async () => {
-  return await fetchFromTable("categories");
+  const categories = await fetchFromTable("categories");
+
+  // Map the result to extract only the 'name' fields
+  return categories.map((category) => category.name);
 };
 
 export const updateGoals = async (newGoals) => {

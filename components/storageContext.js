@@ -37,6 +37,7 @@ export const StorageContextProvider = ({ children }) => {
       const eventsData = await getEvents();
       if (eventsData) {
         setEvents(eventsData);
+        //console.log("line 40:", events);
       }
 
       const resourcesData = await getResources();
@@ -133,13 +134,18 @@ export const StorageContextProvider = ({ children }) => {
 
   const getOrderedEventsAndResources = () => {
     const groupNames = groups.map((g) => g.name);
+    console.log("groupNames: ", groupNames);
+    console.log("events: ", events);
 
-    const eventsForUser = events.filter((event) =>
-      groupNames.includes(event.groupName)
-    );
-    const resourcesForUser = resources.filter((resource) =>
-      groupNames.includes(resource.groupName)
-    );
+    const eventsForUser = events
+      .filter((event) => groupNames.includes(event.groupName))
+      .map((event) => ({ ...event, type: "event" })); // Add `type: "event"`
+
+    console.log("eventsForUser in getOrdered", eventsForUser);
+
+    const resourcesForUser = resources
+      .filter((resource) => groupNames.includes(resource.groupName))
+      .map((resource) => ({ ...resource, type: "resource" })); // Add `type: "resource"`
 
     return [...eventsForUser, ...resourcesForUser].sort(
       (a, b) => a.timestamp - b.timestamp

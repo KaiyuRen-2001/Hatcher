@@ -20,13 +20,13 @@ export const setInitialData = async () => {
         {
           id: 1,
           name: "Add skills section",
-          catagory: "Resume Prep",
+          category: "Resume Prep",
           confidence: 0,
         },
         {
           id: 2,
           name: "Learn my greatest weakness",
-          catagory: "Interview",
+          category: "Interview",
           confidence: 2,
         },
       ])

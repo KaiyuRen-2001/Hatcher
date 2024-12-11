@@ -51,13 +51,16 @@ export default function DrawerNav({ name, component, source }) {
           }}
         ></Drawer.Screen>
         {groups &&
-          groups.map((group) => (
-            <Drawer.Screen
-              name={group.name}
-              key={group.groupId}
-              children={() => <GroupPage group={group} />}
-            />
-          ))}
+          groups.map((group) => {
+            //console.log("groups in nav: ", groups);
+            return (
+              <Drawer.Screen
+                name={group.name}
+                key={group.id}
+                children={() => <GroupPage group={group} />}
+              />
+            );
+          })}
         <Drawer.Screen
           options={{
             headerBackTitle: "Back",

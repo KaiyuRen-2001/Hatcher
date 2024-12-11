@@ -11,8 +11,13 @@ import { GoalsContext } from "@/components/storageContext";
 
 export default function Feed({ searchTerm, selectedCategory, selectedGoal }) {
   const session = useSession();
-  const { events, resources, getOrderedEventsAndResources, getGroupByName } =
-    useContext(GoalsContext);
+  const {
+    events,
+    resources,
+    getOrderedEventsAndResources,
+    getGroupByName,
+    storageInitialized,
+  } = useContext(GoalsContext);
   //console.log(events);
 
   const [posts, setPosts] = useState(null);
@@ -22,13 +27,20 @@ export default function Feed({ searchTerm, selectedCategory, selectedGoal }) {
 
   //console.log(posts);
 
-  const fetchPosts = () => {
-    setPosts(getOrderedEventsAndResources());
+  /*const fetchPosts = () => {
+    //setPosts(getOrderedEventsAndResources());
+    const fetchedPosts = getOrderedEventsAndResources();
+    setPosts(fetchedPosts); // Update posts state
+    setDisplayedPosts(fetchedPosts);
   };
 
   useEffect(() => {
     fetchPosts();
   }, [session, events, resources]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   useEffect(() => {
     if (searchTerm) {
@@ -54,6 +66,46 @@ export default function Feed({ searchTerm, selectedCategory, selectedGoal }) {
       } else {
         setDisplayedPosts(posts);
       }
+    }
+  }, [posts, searchTerm, selectedCategory, selectedGoal]);*/
+  const fetchPosts = async () => {
+    setIsLoading(true);
+    try {
+      const fetchedPosts = await getOrderedEventsAndResources();
+      setPosts(fetchedPosts);
+      setDisplayedPosts(fetchedPosts);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    //console.log("empty dependency array fetchposts");
+    fetchPosts();
+    //console.log(posts);
+  }, [storageInitialized, events, resources]);
+
+  useEffect(() => {
+    if (posts) {
+      let filteredPosts = posts;
+
+      if (searchTerm) {
+        filteredPosts = posts.filter((post) =>
+          post.title.toLowerCase().startsWith(searchTerm.toLowerCase())
+        );
+      } else if (selectedCategory || selectedGoal) {
+        filteredPosts = posts.filter((post) => {
+          const group = getGroupByName(post.groupName);
+          const categoryMatch =
+            !selectedCategory || group.category === selectedCategory;
+          const goalMatch = !selectedGoal || Math.random() < 0.5; // Replace Math.random
+          return categoryMatch && goalMatch;
+        });
+      }
+
+      setDisplayedPosts(filteredPosts);
     }
   }, [posts, searchTerm, selectedCategory, selectedGoal]);
 
@@ -105,6 +157,7 @@ export default function Feed({ searchTerm, selectedCategory, selectedGoal }) {
           tintColor={Theme.colors.textPrimary} // only applies to iOS
         />
       }
+      keyExtractor={(item) => `${item.title}`}
     />
   );
 }

@@ -10,9 +10,20 @@ export default function DateTimeDisplay({
   textDay,
   textTime,
 }) {
-  const month = date.substring(0, date.indexOf(" "));
+  /*const month = date.substring(0, date.indexOf(" "));
   const day = date.substring(date.indexOf(" ") + 1, date.indexOf(","));
-  const startTime = time;
+  const startTime = time;*/
+  const dateTimeString = `${date} ${time}`; // Combine date and time
+  const dateTime = new Date(dateTimeString); // Parse it into a Date object
+
+  // Extract month, day, and time from the Date object
+  const month = dateTime.toLocaleString("en-US", { month: "short" }); // Get short month (e.g., 'Dec')
+  const day = dateTime.getDate(); // Get day of the month
+  const startTime = dateTime.toLocaleString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
 
   return (
     <View style={[styles.container, style]}>

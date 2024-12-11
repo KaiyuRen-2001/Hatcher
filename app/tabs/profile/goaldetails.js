@@ -12,7 +12,7 @@ import Button from "@/components/Button";
 
 export default function GoalDetails() {
   const router = useRouter();
-  const { id, name, catagory, confidence } = useLocalSearchParams();
+  const { id, name, category, confidence } = useLocalSearchParams();
   const { storageUpdateGoal } = useContext(GoalsContext);
   // parsed to float
   const confidenceN = parseFloat(confidence);
@@ -32,7 +32,7 @@ export default function GoalDetails() {
     const newGoal = {
       id: id,
       name: name,
-      catagory: catagory,
+      category: category,
       confidence: sliderValue,
     };
 
@@ -46,7 +46,7 @@ export default function GoalDetails() {
       <Text style={styles.name}>{name}</Text>
       <View style={styles.catagory}>
         <Tag
-          title={catagory}
+          title={category}
           icon={
             <FontAwesome
               name="files-o"

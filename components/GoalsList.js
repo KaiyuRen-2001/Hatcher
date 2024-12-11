@@ -42,7 +42,7 @@ export default function GoalsList({ goalsExpanded }) {
         <Goal
           id={item.id}
           name={item.name}
-          catagory={item.catagory}
+          category={item.category}
           confidence={item.confidence}
         />
       )}

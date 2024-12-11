@@ -127,20 +127,15 @@ export default function ListGroups() {
 
   const getGroupsWithCoordinates = () => {
     return exploreGroups.map((group) => {
-      if (group.groupId == "2") {
-        return { coords: STANFORD_COORDS, group };
-      } else if (group.groupId == "3") {
-        return { coords: JAPANTOWN_COORDS, group };
-      } else if (group.groupId == "4") {
-        return { coords: BERKELEY_COORDS, group };
-      } else if (group.groupId == "1") {
-        return { coords: BAY_COORDS, group };
-      } else {
-        return {
-          coords: { ...DEFAULT_COORDS, title: DEFAULT_COORDS.title + "_" },
-          group,
-        };
+      const { latitude, longitude } = group;
+      if (latitude && longitude) {
+        return { coords: { latitude, longitude }, group };
       }
+      // Fallback to default coordinates if latitude or longitude is missing
+      return {
+        coords: { ...DEFAULT_COORDS, title: DEFAULT_COORDS.title + "_" },
+        group,
+      };
     });
   };
 
@@ -213,7 +208,7 @@ export default function ListGroups() {
           >
             {filteredGroups.map(({ coords, group }) => (
               <Marker
-                key={coords.title}
+                key={group.id}
                 coordinate={{
                   latitude: coords.latitude,
                   longitude: coords.longitude,
