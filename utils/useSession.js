@@ -6,7 +6,7 @@
 
 import { useEffect, useState } from "react";
 
-import { getUser, setInitialData } from "@/database/db";
+import { getUser, setInitialData } from "@/database/dbSupabase";
 
 export default function useSession() {
   const [session, setSession] = useState(null);
@@ -21,3 +21,27 @@ export default function useSession() {
 
   return session;
 }
+/*
+import { useEffect, useState } from "react";
+
+import db from "@/database/dbSupabase";
+
+export default function useSession() {
+  const [session, setSession] = useState(null);
+
+  useEffect(() => {
+    db.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const {
+      data: { subscription },
+    } = db.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  return session;
+}*/
