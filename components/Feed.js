@@ -13,13 +13,14 @@ export default function Feed({ searchTerm, selectedCategory, selectedGoal }) {
   const session = useSession();
   const { events, resources, getOrderedEventsAndResources, getGroupByName } =
     useContext(GoalsContext);
+  //console.log(events);
 
   const [posts, setPosts] = useState(null);
   const [displayedPosts, setDisplayedPosts] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  console.log(posts);
+  //console.log(posts);
 
   const fetchPosts = () => {
     setPosts(getOrderedEventsAndResources());

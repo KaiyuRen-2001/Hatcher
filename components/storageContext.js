@@ -1,23 +1,18 @@
 import { createContext, useState, useEffect } from "react";
 import {
-  updateGoal,
-  updateGoals,
-  setUpdatedEvents,
   getGoals,
   getEvents,
   getResources,
-  setInitialData,
   getCategories,
-  updateCategories,
-  addGoal,
-  getAndIncrementNextGoalId,
   getUsersGroups,
-  updateGroups,
-  getGroupResources,
+  getOtherGroups,
+  insertGoal,
   updateEvents,
   updateResources,
-  getOtherGroups,
-} from "@/database/db";
+  updateGroups,
+  updateCategories,
+  updateGoals,
+} from "@/database/dbSupabase";
 
 export const GoalsContext = createContext({});
 
@@ -30,20 +25,9 @@ export const StorageContextProvider = ({ children }) => {
   const [exploreGroups, setExploreGroups] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  /* useEffect(() => {
-    setInitialData().then(() => {
-      getGoals().then((data) => {
-        if (data) {
-          setGoals(data);
-        }
-        setStorageInitialized(true);
-      });
-    });
-  }, []);*/
-
   useEffect(() => {
     const initializeStorage = async () => {
-      await setInitialData();
+      //await initializeData();
 
       const data = await getGoals();
       if (data) {
@@ -82,128 +66,84 @@ export const StorageContextProvider = ({ children }) => {
   }, []);
 
   const addUserToEvent = async (id, username) => {
-    const updateEvents = events.reduce((acc, event) => {
-      if (event.id == id) {
-        const currMembers = event.members;
-        console.log([
-          ...acc,
-          { members: [...currMembers, username], ...event },
-        ]);
-        return [...acc, { ...event, members: [...currMembers, username] }];
-      }
-      return [...acc, event];
-    }, []);
+    const updatedEvents = events.map((event) =>
+      event.id === id
+        ? { ...event, members: [...event.members, username] }
+        : event
+    );
 
-    await setUpdatedEvents(updateEvents);
-    setEvents(updateEvents);
+    await updateEvents(updatedEvents);
+    setEvents(updatedEvents);
   };
 
   const removeMemberFromGroup = async (group, username) => {
-    const currMembers = group.members;
-    const userIndex = currMembers.indexOf(username);
-    currMembers.splice(userIndex, 1);
+    const updatedGroup = {
+      ...group,
+      members: group.members.filter((member) => member !== username),
+    };
 
-    const updatedGroup = { ...group, members: currMembers };
+    const updatedGroups = groups.filter((g) => g.groupId !== group.groupId);
     const updatedExploreGroups = [...exploreGroups, updatedGroup];
 
-    const updatedGroups = groups.reduce((acc, currGroup) => {
-      if (currGroup.groupId == group.groupId) {
-        return acc;
-      }
-      return [...acc, currGroup];
-    }, []);
-
-    updateGroups([...updatedExploreGroups, ...updatedGroups]);
+    await updateGroups([...updatedGroups, ...updatedExploreGroups]);
     setGroups(updatedGroups);
     setExploreGroups(updatedExploreGroups);
   };
 
   const addMemberToGroup = async (group, username) => {
-    const currMembers = group.members;
-    const updatedGroup = { ...group, members: [...currMembers, username] };
+    const updatedGroup = { ...group, members: [...group.members, username] };
+
     const updatedGroups = [...groups, updatedGroup];
+    const updatedExploreGroups = exploreGroups.filter(
+      (g) => g.groupId !== group.groupId
+    );
 
-    const updatedExploreGroups = exploreGroups.reduce((acc, currGroup) => {
-      if (currGroup.groupId == group.groupId) {
-        return acc;
-      }
-      return [...acc, currGroup];
-    }, []);
-    console.log(updatedExploreGroups);
-
-    updateGroups([...updatedExploreGroups, ...updatedGroups]);
+    await updateGroups([...updatedGroups, ...updatedExploreGroups]);
     setGroups(updatedGroups);
     setExploreGroups(updatedExploreGroups);
   };
 
   const removeUserFromEvent = async (id, username) => {
-    const updateEvents = events.reduce((acc, event) => {
-      if (event.id == id) {
-        const currMembers = event.members;
-        const userIndex = currMembers.indexOf(username);
-        currMembers.splice(userIndex, 1);
-        return [...acc, { members: currMembers, ...event }];
-      }
-      return [...acc, event];
-    }, []);
+    const updatedEvents = events.map((event) =>
+      event.id === id
+        ? {
+            ...event,
+            members: event.members.filter((member) => member !== username),
+          }
+        : event
+    );
 
-    console.log(updateEvents);
-    await setUpdatedEvents(updateEvents);
-    setEvents(updateEvents);
+    await updateEvents(updatedEvents);
+    setEvents(updatedEvents);
   };
 
   const storageUpdateGoal = async (newGoal) => {
-    await updateGoal(newGoal);
-    const newGoals = await getGoals();
-    setGoals(newGoals);
+    const updatedGoals = goals.map((goal) =>
+      goal.id === newGoal.id ? newGoal : goal
+    );
+    await updateGoals(updatedGoals);
+    setGoals(updatedGoals);
   };
 
   const storageDeleteGoal = async (goalId) => {
-    try {
-      // Get current goals
-      const currentGoals = await getGoals();
-
-      // Filter out the goal to delete
-      const updatedGoals = currentGoals.filter((goal) => goal.id != goalId);
-
-      // Update the goals in storage
-      await updateGoals(updatedGoals);
-
-      // Update state
-      setGoals(updatedGoals);
-
-      console.log(`Goal with ID ${goalId} deleted successfully.`);
-      return true;
-    } catch (error) {
-      console.error("Error deleting goal:", error);
-      return false;
-    }
+    const updatedGoals = goals.filter((goal) => goal.id !== goalId);
+    await updateGoals(updatedGoals);
+    setGoals(updatedGoals);
   };
 
   const getOrderedEventsAndResources = () => {
     const groupNames = groups.map((g) => g.name);
 
-    const eventsForUser = events.reduce((acc, event) => {
-      if (groupNames.includes(event.groupName)) {
-        return [...acc, { type: "event", ...event }];
-      }
-      return acc;
-    }, []);
+    const eventsForUser = events.filter((event) =>
+      groupNames.includes(event.groupName)
+    );
+    const resourcesForUser = resources.filter((resource) =>
+      groupNames.includes(resource.groupName)
+    );
 
-    const resourcesForUser = resources.reduce((acc, resource) => {
-      if (groupNames.includes(resource.groupName)) {
-        return [...acc, { type: "resource", ...resource }];
-      }
-      return acc;
-    }, []);
-
-    const all = [...eventsForUser, ...resourcesForUser];
-
-    const sorted = all.sort(function (a, b) {
-      return a.timestamp - b.timestamp;
-    });
-
-    return sorted;
+    return [...eventsForUser, ...resourcesForUser].sort(
+      (a, b) => a.timestamp - b.timestamp
+    );
   };
 
   const storageAddEvent = async (
@@ -219,17 +159,18 @@ export const StorageContextProvider = ({ children }) => {
     const newEvent = {
       id: events.length + 1,
       timestamp: Date.now(),
-      groupName: groupName,
-      title: title,
+      groupName,
+      title,
       location: loc,
-      date: month.substring(0, 3) + " " + day + ", " + year,
-      time: time,
-      description: description,
+      date: `${month.substring(0, 3)} ${day}, ${year}`,
+      time,
+      description,
       members: [],
     };
 
-    updateEvents([...events, newEvent]);
-    setEvents((e) => [...e, newEvent]);
+    const updatedEvents = [...events, newEvent];
+    await updateEvents(updatedEvents);
+    setEvents(updatedEvents);
   };
 
   const storageAddResource = async (
@@ -239,51 +180,27 @@ export const StorageContextProvider = ({ children }) => {
     groupName,
     userName
   ) => {
-    const timestamp = Date.now();
-    const date = "Dec 4, 2024";
-    const time = "11:12pm";
-
     const newResource = {
       id: resources.length + 101,
-      groupName: groupName,
-      title: title,
-      userName: userName,
-      description: description,
+      groupName,
+      title,
+      userName,
+      description,
       resourceUrl: link,
-      date: date,
-      time: time,
+      date: new Date().toLocaleDateString(),
+      time: new Date().toLocaleTimeString(),
     };
 
-    updateResources([...resources, newResource]);
-    setResources((e) => [...e, newResource]);
+    const updatedResources = [...resources, newResource];
+    await updateResources(updatedResources);
+    setResources(updatedResources);
   };
 
   const getGroupByName = (name) => {
-    const ownGroup = groups.reduce((acc, group) => {
-      if (acc) {
-        return acc;
-      }
-      if (group.name == name) {
-        return group;
-      }
-
-      return null;
-    }, null);
-
-    if (ownGroup) {
-      return ownGroup;
-    }
-
-    return exploreGroups.reduce((acc, group) => {
-      if (acc) {
-        return acc;
-      }
-      if (group.name == name) {
-        return group;
-      }
-
-      return null;
-    }, null);
+    return (
+      groups.find((group) => group.name === name) ||
+      exploreGroups.find((group) => group.name === name)
+    );
   };
 
   const storageAddGroup = async (
@@ -294,35 +211,37 @@ export const StorageContextProvider = ({ children }) => {
     username,
     norms
   ) => {
-    const normsList = norms.split(/\r?\n/);
     const newGroup = {
       groupId: groups.length + exploreGroups.length + 1,
-      name: name,
-      location: city + ", " + state,
-      description: description,
+      name,
+      location: `${city}, ${state}`,
+      description,
       admins: [username],
       members: [username],
-      norms: normsList,
+      norms: norms.split(/\r?\n/),
       goals: [],
     };
 
-    updateGroups([...exploreGroups, ...groups, newGroup]);
-    setGroups((g) => [...g, newGroup]);
+    const updatedGroups = [...groups, newGroup];
+    const updatedExploreGroups = [...exploreGroups];
+
+    await updateGroups([...updatedGroups, ...updatedExploreGroups]);
+    setGroups(updatedGroups);
   };
 
   const storageAddGoal = async (newGoal) => {
-    const id = await getAndIncrementNextGoalId();
-    newGoal.id = id;
-    console.log(newGoal.id);
-    await addGoal(newGoal);
-    const goals = await getGoals();
-    if (goals) {
-      setGoals(goals);
-    }
+    /*const id = await fetchAndIncrementNextGoalId();
+    newGoal.id = id;*/
+    await insertGoal(newGoal);
+
+    const updatedGoals = await getGoals();
+    setGoals(updatedGoals);
   };
 
-  const storageUpdateCategories = async (newCategory) => {
-    await updateCategories(newCategory);
+  const storageUpdateCategories = async (newCategories) => {
+    await updateCategoryList(newCategories);
+    const updatedCategories = await fetchCategories();
+    setCategories(updatedCategories);
   };
 
   return (
@@ -354,3 +273,349 @@ export const StorageContextProvider = ({ children }) => {
     </GoalsContext.Provider>
   );
 };
+
+// import { createContext, useState, useEffect } from "react";
+// import {
+//   updateGoal,
+//   updateGoals,
+//   setUpdatedEvents,
+//   getGoals,
+//   getEvents,
+//   getResources,
+//   setInitialData,
+//   getCategories,
+//   updateCategories,
+//   addGoal,
+//   getAndIncrementNextGoalId,
+//   getUsersGroups,
+//   updateGroups,
+//   getGroupResources,
+//   updateEvents,
+//   updateResources,
+//   getOtherGroups,
+// } from "@/database/db";
+
+// export const GoalsContext = createContext({});
+
+// export const StorageContextProvider = ({ children }) => {
+//   const [storageInitialized, setStorageInitialized] = useState(false);
+//   const [goals, setGoals] = useState([]);
+//   const [events, setEvents] = useState([]);
+//   const [resources, setResources] = useState([]);
+//   const [groups, setGroups] = useState([]);
+//   const [exploreGroups, setExploreGroups] = useState([]);
+//   const [categories, setCategories] = useState([]);
+
+//   useEffect(() => {
+//     const initializeStorage = async () => {
+//       await setInitialData();
+
+//       const data = await getGoals();
+//       if (data) {
+//         setGoals(data);
+//       }
+
+//       const eventsData = await getEvents();
+//       if (eventsData) {
+//         setEvents(eventsData);
+//       }
+
+//       const resourcesData = await getResources();
+//       if (resourcesData) {
+//         setResources(resourcesData);
+//       }
+
+//       const myGroups = await getUsersGroups("landay");
+//       if (myGroups) {
+//         setGroups(myGroups);
+//       }
+
+//       const otherGroups = await getOtherGroups("landay");
+//       if (otherGroups) {
+//         setExploreGroups(otherGroups);
+//       }
+
+//       const categoriesData = await getCategories();
+//       if (categoriesData) {
+//         setCategories(categoriesData);
+//       }
+
+//       setStorageInitialized(true);
+//     };
+
+//     initializeStorage();
+//   }, []);
+
+//   const addUserToEvent = async (id, username) => {
+//     const updateEvents = events.reduce((acc, event) => {
+//       if (event.id == id) {
+//         const currMembers = event.members;
+//         console.log([
+//           ...acc,
+//           { members: [...currMembers, username], ...event },
+//         ]);
+//         return [...acc, { ...event, members: [...currMembers, username] }];
+//       }
+//       return [...acc, event];
+//     }, []);
+
+//     await setUpdatedEvents(updateEvents);
+//     setEvents(updateEvents);
+//   };
+
+//   const removeMemberFromGroup = async (group, username) => {
+//     const currMembers = group.members;
+//     const userIndex = currMembers.indexOf(username);
+//     currMembers.splice(userIndex, 1);
+
+//     const updatedGroup = { ...group, members: currMembers };
+//     const updatedExploreGroups = [...exploreGroups, updatedGroup];
+
+//     const updatedGroups = groups.reduce((acc, currGroup) => {
+//       if (currGroup.groupId == group.groupId) {
+//         return acc;
+//       }
+//       return [...acc, currGroup];
+//     }, []);
+
+//     updateGroups([...updatedExploreGroups, ...updatedGroups]);
+//     setGroups(updatedGroups);
+//     setExploreGroups(updatedExploreGroups);
+//   };
+
+//   const addMemberToGroup = async (group, username) => {
+//     const currMembers = group.members;
+//     const updatedGroup = { ...group, members: [...currMembers, username] };
+//     const updatedGroups = [...groups, updatedGroup];
+
+//     const updatedExploreGroups = exploreGroups.reduce((acc, currGroup) => {
+//       if (currGroup.groupId == group.groupId) {
+//         return acc;
+//       }
+//       return [...acc, currGroup];
+//     }, []);
+//     console.log(updatedExploreGroups);
+
+//     updateGroups([...updatedExploreGroups, ...updatedGroups]);
+//     setGroups(updatedGroups);
+//     setExploreGroups(updatedExploreGroups);
+//   };
+
+//   const removeUserFromEvent = async (id, username) => {
+//     const updateEvents = events.reduce((acc, event) => {
+//       if (event.id == id) {
+//         const currMembers = event.members;
+//         const userIndex = currMembers.indexOf(username);
+//         currMembers.splice(userIndex, 1);
+//         return [...acc, { members: currMembers, ...event }];
+//       }
+//       return [...acc, event];
+//     }, []);
+
+//     console.log(updateEvents);
+//     await setUpdatedEvents(updateEvents);
+//     setEvents(updateEvents);
+//   };
+
+//   const storageUpdateGoal = async (newGoal) => {
+//     await updateGoal(newGoal);
+//     const newGoals = await getGoals();
+//     setGoals(newGoals);
+//   };
+
+//   const storageDeleteGoal = async (goalId) => {
+//     try {
+//       // Get current goals
+//       const currentGoals = await getGoals();
+
+//       // Filter out the goal to delete
+//       const updatedGoals = currentGoals.filter((goal) => goal.id != goalId);
+
+//       // Update the goals in storage
+//       await updateGoals(updatedGoals);
+
+//       // Update state
+//       setGoals(updatedGoals);
+
+//       console.log(`Goal with ID ${goalId} deleted successfully.`);
+//       return true;
+//     } catch (error) {
+//       console.error("Error deleting goal:", error);
+//       return false;
+//     }
+//   };
+
+//   const getOrderedEventsAndResources = () => {
+//     const groupNames = groups.map((g) => g.name);
+
+//     const eventsForUser = events.reduce((acc, event) => {
+//       if (groupNames.includes(event.groupName)) {
+//         return [...acc, { type: "event", ...event }];
+//       }
+//       return acc;
+//     }, []);
+
+//     const resourcesForUser = resources.reduce((acc, resource) => {
+//       if (groupNames.includes(resource.groupName)) {
+//         return [...acc, { type: "resource", ...resource }];
+//       }
+//       return acc;
+//     }, []);
+
+//     const all = [...eventsForUser, ...resourcesForUser];
+
+//     const sorted = all.sort(function (a, b) {
+//       return a.timestamp - b.timestamp;
+//     });
+
+//     return sorted;
+//   };
+
+//   const storageAddEvent = async (
+//     title,
+//     description,
+//     month,
+//     day,
+//     year,
+//     time,
+//     loc,
+//     groupName
+//   ) => {
+//     const newEvent = {
+//       id: events.length + 1,
+//       timestamp: Date.now(),
+//       groupName: groupName,
+//       title: title,
+//       location: loc,
+//       date: month.substring(0, 3) + " " + day + ", " + year,
+//       time: time,
+//       description: description,
+//       members: [],
+//     };
+
+//     updateEvents([...events, newEvent]);
+//     setEvents((e) => [...e, newEvent]);
+//   };
+
+//   const storageAddResource = async (
+//     title,
+//     description,
+//     link,
+//     groupName,
+//     userName
+//   ) => {
+//     const timestamp = Date.now();
+//     const date = "Dec 4, 2024";
+//     const time = "11:12pm";
+
+//     const newResource = {
+//       id: resources.length + 101,
+//       groupName: groupName,
+//       title: title,
+//       userName: userName,
+//       description: description,
+//       resourceUrl: link,
+//       date: date,
+//       time: time,
+//     };
+
+//     updateResources([...resources, newResource]);
+//     setResources((e) => [...e, newResource]);
+//   };
+
+//   const getGroupByName = (name) => {
+//     const ownGroup = groups.reduce((acc, group) => {
+//       if (acc) {
+//         return acc;
+//       }
+//       if (group.name == name) {
+//         return group;
+//       }
+
+//       return null;
+//     }, null);
+
+//     if (ownGroup) {
+//       return ownGroup;
+//     }
+
+//     return exploreGroups.reduce((acc, group) => {
+//       if (acc) {
+//         return acc;
+//       }
+//       if (group.name == name) {
+//         return group;
+//       }
+
+//       return null;
+//     }, null);
+//   };
+
+//   const storageAddGroup = async (
+//     name,
+//     city,
+//     state,
+//     description,
+//     username,
+//     norms
+//   ) => {
+//     const normsList = norms.split(/\r?\n/);
+//     const newGroup = {
+//       groupId: groups.length + exploreGroups.length + 1,
+//       name: name,
+//       location: city + ", " + state,
+//       description: description,
+//       admins: [username],
+//       members: [username],
+//       norms: normsList,
+//       goals: [],
+//     };
+
+//     updateGroups([...exploreGroups, ...groups, newGroup]);
+//     setGroups((g) => [...g, newGroup]);
+//   };
+
+//   const storageAddGoal = async (newGoal) => {
+//     const id = await getAndIncrementNextGoalId();
+//     newGoal.id = id;
+//     console.log(newGoal.id);
+//     await addGoal(newGoal);
+//     const goals = await getGoals();
+//     if (goals) {
+//       setGoals(goals);
+//     }
+//   };
+
+//   const storageUpdateCategories = async (newCategory) => {
+//     await updateCategories(newCategory);
+//   };
+
+//   return (
+//     <GoalsContext.Provider
+//       value={{
+//         goals,
+//         categories,
+//         events,
+//         resources,
+//         groups,
+//         storageInitialized,
+//         storageUpdateGoal,
+//         storageUpdateCategories,
+//         storageAddGoal,
+//         storageAddGroup,
+//         storageDeleteGoal,
+//         removeUserFromEvent,
+//         addUserToEvent,
+//         exploreGroups,
+//         getOrderedEventsAndResources,
+//         storageAddEvent,
+//         storageAddResource,
+//         addMemberToGroup,
+//         removeMemberFromGroup,
+//         getGroupByName,
+//       }}
+//     >
+//       {children}
+//     </GoalsContext.Provider>
+//   );
+// };

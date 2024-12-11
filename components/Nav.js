@@ -6,7 +6,6 @@ import { router } from "expo-router";
 import { NavigationIndependentTree } from "@react-navigation/native";
 import Theme from "@/assets/theme";
 import GroupPage from "@/app/groups/group";
-import { getUsersGroups } from "@/database/db";
 import useSession from "@/utils/useSession";
 import CreateGroupPage from "./CreateGroupPage";
 import { GoalsContext } from "@/components/storageContext";

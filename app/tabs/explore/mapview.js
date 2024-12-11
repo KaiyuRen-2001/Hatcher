@@ -84,17 +84,6 @@ const CustomCallout = ({ group }) => {
       };
       console.log("navigation payload: ", navigationPayload);
       router.push(navigationPayload);
-
-      // router.push({
-      //   pathname: "/tabs/feed",
-      //   params: {
-      //     groupName: group.name,
-      //     groupDescription: group.description,
-      //     groupLocation: group.location,
-      //     groupCategory: group.category,
-      //     groupGoals: JSON.stringify(group.goals)
-      //   }
-      // });
     }
   };
 
