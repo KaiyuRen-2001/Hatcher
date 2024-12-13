@@ -68,10 +68,11 @@ export const StorageContextProvider = ({ children }) => {
 
   const addUserToEvent = async (id, username) => {
     const updatedEvents = events.map((event) =>
-      event.id === id
+      event.id == id
         ? { ...event, members: [...event.members, username] }
         : event
     );
+    console.log(id);
 
     await updateEvents(updatedEvents);
     setEvents(updatedEvents);
@@ -106,7 +107,7 @@ export const StorageContextProvider = ({ children }) => {
 
   const removeUserFromEvent = async (id, username) => {
     const updatedEvents = events.map((event) =>
-      event.id === id
+      event.id == id
         ? {
             ...event,
             members: event.members.filter((member) => member !== username),
@@ -120,14 +121,14 @@ export const StorageContextProvider = ({ children }) => {
 
   const storageUpdateGoal = async (newGoal) => {
     const updatedGoals = goals.map((goal) =>
-      goal.id === newGoal.id ? newGoal : goal
+      goal.id == newGoal.id ? newGoal : goal
     );
     await updateGoals(updatedGoals);
     setGoals(updatedGoals);
   };
 
   const storageDeleteGoal = async (goalId) => {
-    const updatedGoals = goals.filter((goal) => goal.id !== goalId);
+    const updatedGoals = goals.filter((goal) => goal.id != goalId);
     await updateGoals(updatedGoals);
     setGoals(updatedGoals);
   };

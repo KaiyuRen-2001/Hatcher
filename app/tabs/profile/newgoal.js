@@ -34,7 +34,7 @@ export default function NewGoal() {
   const addGoal = () => {
     const newGoal = {
       name: textName,
-      catagory: selected,
+      category: selected,
       confidence: sliderValue,
     };
     storageAddGoal(newGoal);
