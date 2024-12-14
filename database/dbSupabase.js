@@ -48,6 +48,7 @@ const updateTable = async (table, id, updates) => {
 
 const insertIntoTable = async (table, values) => {
   const { error } = await db.from(table).insert(values);
+  console.log(error);
   if (error) throw new Error(error.message);
 };
 
@@ -138,7 +139,7 @@ export const updateGoal = async (newGoal) => {
 //   return nextId;
 // };
 
-export const addGoal = async (newGoal) => {
+export const insertGoal = async (newGoal) => {
   await insertIntoTable("goals", newGoal);
 };
 

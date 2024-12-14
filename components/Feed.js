@@ -121,7 +121,7 @@ export default function Feed({ searchTerm, selectedCategory, selectedGoal }) {
           <Tag style={styles.groupTag} title={item.groupName} />
           {item.type === "event" ? (
             <Event
-              id={`e${item.id}`}
+              id={`${item.id}`}
               title={item.title}
               description={item.description}
               location={item.location}
