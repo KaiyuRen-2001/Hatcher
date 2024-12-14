@@ -8,8 +8,11 @@ import {
   getOtherGroups,
   insertGoal,
   updateEvents,
+  addEvent,
+  addResource,
   updateResources,
   updateGroups,
+  addGroup,
   updateCategories,
   updateGoals,
 } from "@/database/dbSupabase";
@@ -236,7 +239,7 @@ export const StorageContextProvider = ({ children }) => {
     };
 
     const updatedEvents = [...events, newEvent];
-    await updateEvents(updatedEvents);
+    await addEvent(newEvent);
     setEvents(updatedEvents);
   };
 
@@ -255,11 +258,11 @@ export const StorageContextProvider = ({ children }) => {
       description,
       resourceUrl: link,
       date: new Date().toLocaleDateString(),
-      time: new Date().toLocaleTimeString(),
+      time: new Date().toLocaleTimeString().slice(0, -3),
     };
 
     const updatedResources = [...resources, newResource];
-    await updateResources(updatedResources);
+    await addResource(newResource);
     setResources(updatedResources);
   };
 
@@ -292,7 +295,7 @@ export const StorageContextProvider = ({ children }) => {
     const updatedGroups = [...groups, newGroup];
     const updatedExploreGroups = [...exploreGroups];
 
-    await updateGroups([...updatedGroups, ...updatedExploreGroups]);
+    await addGroup(newGroup);
     setGroups(updatedGroups);
   };
 

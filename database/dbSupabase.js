@@ -64,6 +64,18 @@ export const updateEvents = async (newEvents) => {
   }
 };
 
+export const addEvent = async (newEvent) => {
+  insertIntoTable("events", newEvent);
+};
+
+export const addResource = async (newResource) => {
+  insertIntoTable("resources", newResource);
+};
+
+export const addGroup = async (newGroup) => {
+  insertIntoTable("groups", newGroup);
+};
+
 export const updateGroups = async (newGroups) => {
   for (const group of newGroups) {
     await updateTable("groups", group.id, group);
