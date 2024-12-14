@@ -76,7 +76,7 @@ export default function CreatGroupPage() {
     const group = {
       admins: [session.user.username],
       description: description,
-      groupId: 50,
+      //groupId: 50,
       location: `${city}, ${state}`,
       members: [session.user.username],
       name: title,

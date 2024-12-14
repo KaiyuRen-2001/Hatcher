@@ -82,7 +82,9 @@ export const StorageContextProvider = ({ children }) => {
   };
 
   const removeMemberFromGroup = async (group, username) => {
-    const updatedGroup = {
+    const updatedGroup = groups.find((g) => g.groupName === group.groupName);
+
+    /*const updatedGroup = {
       ...group,
       members: group.members.filter((member) => member !== username),
     };
@@ -92,11 +94,37 @@ export const StorageContextProvider = ({ children }) => {
 
     await updateGroups([...updatedGroups, ...updatedExploreGroups]);
     setGroups(updatedGroups);
-    setExploreGroups(updatedExploreGroups);
+    setExploreGroups(updatedExploreGroups);*/
+    if (updatedGroup) {
+      // Remove the member from the group's members list
+      const newMembersList = updatedGroup.members.filter(
+        (member) => member !== username
+      );
+
+      // Update the group's members list
+      updatedGroup.members = newMembersList;
+
+      // Remove the group from the current list and add the updated group
+      const updatedGroups = groups.filter((g) => g.groupName !== groupName);
+      updatedGroups.push(updatedGroup);
+
+      // Update explore groups
+      const updatedExploreGroups = exploreGroups.filter(
+        (g) => g.groupName !== groupName
+      );
+      updatedExploreGroups.push(updatedGroup);
+
+      // Update the state and persist the changes
+      await updateGroups([...updatedGroups, ...updatedExploreGroups]);
+      setGroups(updatedGroups);
+      setExploreGroups(updatedExploreGroups);
+    } else {
+      console.error(`Group with name "${groupName}" not found.`);
+    }
   };
 
   const addMemberToGroup = async (group, username) => {
-    const updatedGroup = { ...group, members: [...group.members, username] };
+    /*const updatedGroup = { ...group, members: [...group.members, username] };
 
     const updatedGroups = [...groups, updatedGroup];
     const updatedExploreGroups = exploreGroups.filter(
@@ -105,7 +133,31 @@ export const StorageContextProvider = ({ children }) => {
 
     await updateGroups([...updatedGroups, ...updatedExploreGroups]);
     setGroups(updatedGroups);
-    setExploreGroups(updatedExploreGroups);
+    setExploreGroups(updatedExploreGroups);*/
+    const updatedGroup = groups.find((g) => g.groupName === group.groupName);
+    if (updatedGroup) {
+      // Add the new member to the group's members list
+      updatedGroup.members = [...updatedGroup.members, username];
+
+      // Update the groups list
+      const updatedGroups = groups.filter((g) => g.groupName !== groupName);
+      updatedGroups.push(updatedGroup);
+
+      // Update explore groups
+      const updatedExploreGroups = exploreGroups.filter(
+        (g) => g.groupName !== groupName
+      );
+      updatedExploreGroups.push(updatedGroup);
+
+      // Update the state and persist the changes
+      await updateGroups([...updatedGroups, ...updatedExploreGroups]);
+
+      setGroups(updatedGroups);
+      setExploreGroups(updatedExploreGroups);
+      console.log("updated groups: ", groups);
+    } else {
+      console.error(`Group with name "${groupName}" not found.`);
+    }
   };
 
   const removeUserFromEvent = async (id, username) => {

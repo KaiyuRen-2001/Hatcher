@@ -89,6 +89,7 @@ export default function GroupComponent({ group }) {
         { cancelable: true }
       );
     } else {
+      console.log("pressed join group");
       addMemberToGroup(group, "landay");
       setIsInGroup(true); // Directly join the group
     }
