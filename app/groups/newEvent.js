@@ -19,12 +19,13 @@ import Button from "@/components/Button";
 import { useRouter } from "expo-router";
 import { useRoute } from "@react-navigation/native";
 import useSession from "@/utils/useSession";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function NewEvent() {
   const router = useRouter();
   const route = useRoute();
   const session = useSession();
-  const { groups, categories, storageAddEvent } = useContext(GoalsContext);
+  const { storageAddEvent } = useContext(GoalsContext);
   const { groupName } = route.params;
 
   const [title, onChangeTitle] = useState("");
@@ -34,6 +35,8 @@ export default function NewEvent() {
   const [year, onChangeYear] = useState("");
   const [loc, onChangeLoc] = useState("");
   const [time, onChangeTime] = useState("");
+  const [sqlTime, setSqlTime] = useState("");
+  const [showTimePicker, setShowTimePicker] = useState(false);
 
   const disableAdd =
     title.trim() === "" ||
@@ -45,25 +48,41 @@ export default function NewEvent() {
     time.trim() === "";
 
   const createEvent = () => {
-    /*const groupNames = groups.map((g) => g.name);
-
-    if (groupNames.includes(title)) {
-      Alert.alert(
-        "Cannot Create Group",
-        "This group already exists. Please give your group a different name.",
-        [
-          {
-            text: "Ok",
-            style: "cancel",
-          },
-        ],
-        { cancelable: true }
-      );
-      return;
-    }*/
-
-    storageAddEvent(title, description, month, day, year, time, loc, groupName);
+    storageAddEvent(
+      title,
+      description,
+      month,
+      day,
+      year,
+      sqlTime,
+      loc,
+      groupName
+    );
     router.back();
+  };
+
+  // Function to handle time selection
+  const handleTimeChange = (event, selectedTime) => {
+    setShowTimePicker(false); // Close the picker
+    if (selectedTime) {
+      const hours = selectedTime.getHours();
+      const minutes = String(selectedTime.getMinutes()).padStart(2, "0");
+      const seconds = "00"; // Default seconds to 00
+
+      // Adjust hours for 24-hour format if necessary
+      const formattedHours = String(hours).padStart(2, "0");
+
+      // Final SQL-compatible time string
+      const formattedSqlTime = `${formattedHours}:${minutes}:${seconds}`;
+      console.log("formattedTime is ", formattedSqlTime);
+      setSqlTime(formattedSqlTime);
+
+      const formattedTime = selectedTime.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      onChangeTime(formattedTime);
+    }
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -88,7 +107,7 @@ export default function NewEvent() {
         <View style={styles.nameBox}>
           <Text style={styles.nameTitle}>Description</Text>
           <TextInput
-            placeholder="Insert rules for your group"
+            placeholder="Insert a description for your event"
             multiline={true}
             returnKeyType={"send"}
             placeholderTextColor={Theme.colors.textSecondary}
@@ -109,17 +128,31 @@ export default function NewEvent() {
         </View>
         <View style={styles.nameBox}>
           <Text style={styles.nameTitle}>Time</Text>
-          <TextInput
-            placeholderTextColor={Theme.colors.textSecondary}
-            style={[styles.goalNameInputText, styles.timeTextBox]}
-            onChangeText={onChangeTime}
-            value={time}
-          />
+          <TouchableWithoutFeedback onPress={() => setShowTimePicker(true)}>
+            <View style={[styles.goalNameInputText, styles.timeTextBox]}>
+              <Text style={styles.timeText}>
+                {time || "Select Time"}{" "}
+                {/* Show selected time or a placeholder */}
+              </Text>
+            </View>
+          </TouchableWithoutFeedback>
+          {showTimePicker && (
+            <DateTimePicker
+              value={new Date()} // Default to current time
+              mode="time"
+              is24Hour={false} // Toggle 12-hour or 24-hour clock
+              display="spinner" // Options: 'default', 'spinner', 'clock'
+              onChange={handleTimeChange}
+            />
+          )}
         </View>
         <View style={styles.locAndToggle}>
           <View style={styles.cityBox}>
             <Text style={styles.nameTitle}>Month</Text>
             <TextInput
+              placeholder="MM"
+              keyboardType="numeric"
+              maxLength={2} // Limit to 2 characters
               placeholderTextColor={Theme.colors.textSecondary}
               style={styles.goalNameInputText}
               onChangeText={onChangeMonth}
@@ -129,6 +162,9 @@ export default function NewEvent() {
           <View style={styles.stateBox}>
             <Text style={styles.nameTitle}>Day</Text>
             <TextInput
+              placeholder="DD"
+              keyboardType="numeric"
+              maxLength={2} // Limit to 2 characters
               placeholderTextColor={Theme.colors.textSecondary}
               style={styles.goalNameInputText}
               onChangeText={onChangeDay}
@@ -138,6 +174,9 @@ export default function NewEvent() {
           <View style={styles.yearBox}>
             <Text style={styles.nameTitle}>Year</Text>
             <TextInput
+              placeholder="YYYY"
+              keyboardType="numeric"
+              maxLength={4} // Limit to 4 characters
               placeholderTextColor={Theme.colors.textSecondary}
               style={styles.goalNameInputText}
               onChangeText={onChangeYear}
@@ -253,7 +292,7 @@ const styles = StyleSheet.create({
     borderColor: Theme.colors.iconSecondary,
   },
   addGoalButton: {
-    marginTop: "auto",
-    marginBottom: 20,
+    //marginTop: "auto",
+    //marginBottom: 20,
   },
 });

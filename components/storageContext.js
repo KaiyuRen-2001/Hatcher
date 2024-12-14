@@ -13,6 +13,7 @@ import {
   updateCategories,
   updateGoals,
 } from "@/database/dbSupabase";
+import useSession from "@/utils/useSession";
 
 export const GoalsContext = createContext({});
 
@@ -24,6 +25,8 @@ export const StorageContextProvider = ({ children }) => {
   const [groups, setGroups] = useState([]);
   const [exploreGroups, setExploreGroups] = useState([]);
   const [categories, setCategories] = useState([]);
+
+  const session = useSession();
 
   useEffect(() => {
     const initializeStorage = async () => {
@@ -162,16 +165,20 @@ export const StorageContextProvider = ({ children }) => {
     loc,
     groupName
   ) => {
+    // Validate and format the date string (ensure it's zero-padded for MM and DD)
+    const formattedMonth = month.padStart(2, "0"); // Ensure MM is zero-padded
+    const formattedDay = day.padStart(2, "0"); // Ensure DD is zero-padded
+    const formattedDate = `${year}-${formattedMonth}-${formattedDay}`;
+
     const newEvent = {
       id: events.length + 1,
-      timestamp: Date.now(),
       groupName,
       title,
       location: loc,
-      date: `${month.substring(0, 3)} ${day}, ${year}`,
+      date: formattedDate,
       time,
       description,
-      members: [],
+      members: [session.user.username],
     };
 
     const updatedEvents = [...events, newEvent];
