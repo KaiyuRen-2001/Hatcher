@@ -157,7 +157,7 @@ export default function Feed({ searchTerm, selectedCategory, selectedGoal }) {
           tintColor={Theme.colors.textPrimary} // only applies to iOS
         />
       }
-      keyExtractor={(item) => `${item.title}`}
+      keyExtractor={(item, index) => "key" + index}
     />
   );
 }
