@@ -82,7 +82,7 @@ export const StorageContextProvider = ({ children }) => {
   };
 
   const removeMemberFromGroup = async (group, username) => {
-    const updatedGroup = groups.find((g) => g.groupName === group.groupName);
+    const updatedGroup = groups.find((g) => g.name === group.name);
 
     /*const updatedGroup = {
       ...group,
@@ -105,12 +105,11 @@ export const StorageContextProvider = ({ children }) => {
       updatedGroup.members = newMembersList;
 
       // Remove the group from the current list and add the updated group
-      const updatedGroups = groups.filter((g) => g.groupName !== groupName);
-      updatedGroups.push(updatedGroup);
+      const updatedGroups = groups.filter((g) => g.name !== group.name);
 
       // Update explore groups
       const updatedExploreGroups = exploreGroups.filter(
-        (g) => g.groupName !== groupName
+        (g) => g.name !== group.name
       );
       updatedExploreGroups.push(updatedGroup);
 
@@ -119,7 +118,7 @@ export const StorageContextProvider = ({ children }) => {
       setGroups(updatedGroups);
       setExploreGroups(updatedExploreGroups);
     } else {
-      console.error(`Group with name "${groupName}" not found.`);
+      console.error(`Group with name "${group.name}" not found.`);
     }
   };
 
@@ -134,26 +133,28 @@ export const StorageContextProvider = ({ children }) => {
     await updateGroups([...updatedGroups, ...updatedExploreGroups]);
     setGroups(updatedGroups);
     setExploreGroups(updatedExploreGroups);*/
-    const updatedGroup = groups.find((g) => g.groupName === group.groupName);
+    const updatedGroup = exploreGroups.find((g) => g.name == group.name);
+    console.log(updatedGroup);
     if (updatedGroup) {
       // Add the new member to the group's members list
       updatedGroup.members = [...updatedGroup.members, username];
 
       // Update the groups list
-      const updatedGroups = groups.filter((g) => g.groupName !== groupName);
-      updatedGroups.push(updatedGroup);
+      const updatedGroups = [...groups, updatedGroup];
+
+      console.log(updatedGroups);
 
       // Update explore groups
       const updatedExploreGroups = exploreGroups.filter(
-        (g) => g.groupName !== groupName
+        (g) => g.name !== group.name
       );
-      updatedExploreGroups.push(updatedGroup);
+
+      console.log(updatedExploreGroups);
 
       // Update the state and persist the changes
-      await updateGroups([...updatedGroups, ...updatedExploreGroups]);
-
       setGroups(updatedGroups);
       setExploreGroups(updatedExploreGroups);
+      await updateGroups([...updatedGroups, ...updatedExploreGroups]);
       console.log("updated groups: ", groups);
     } else {
       console.error(`Group with name "${groupName}" not found.`);
@@ -278,7 +279,7 @@ export const StorageContextProvider = ({ children }) => {
     norms
   ) => {
     const newGroup = {
-      groupId: groups.length + exploreGroups.length + 1,
+      id: groups.length + exploreGroups.length + 1,
       name,
       location: `${city}, ${state}`,
       description,

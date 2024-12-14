@@ -43,6 +43,7 @@ const fetchFromTable = async (table) => {
 
 const updateTable = async (table, id, updates) => {
   const { error } = await db.from(table).update(updates).eq("id", id);
+  console.log(error);
   if (error) throw new Error(error.message);
 };
 
@@ -65,7 +66,7 @@ export const updateEvents = async (newEvents) => {
 
 export const updateGroups = async (newGroups) => {
   for (const group of newGroups) {
-    await updateTable("groups", group.groupId, group);
+    await updateTable("groups", group.id, group);
   }
 };
 
