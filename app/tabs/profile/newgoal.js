@@ -36,6 +36,7 @@ export default function NewGoal() {
       name: textName,
       category: selected,
       confidence: sliderValue,
+      username: "landay",
     };
     storageAddGoal(newGoal);
     console.log("added goal!");

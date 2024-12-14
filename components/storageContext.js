@@ -207,9 +207,14 @@ export const StorageContextProvider = ({ children }) => {
       .filter((resource) => groupNames.includes(resource.groupName))
       .map((resource) => ({ ...resource, type: "resource" })); // Add `type: "resource"`
 
-    return [...eventsForUser, ...resourcesForUser].sort(
-      (a, b) => a.timestamp - b.timestamp
-    );
+    return [...eventsForUser, ...resourcesForUser].sort((a, b) => {
+      const dateDiff = new Date(b.date) - new Date(a.date);
+      if (dateDiff != 0) {
+        return dateDiff;
+      }
+
+      return new Date(b.time) - new Date(a.time);
+    });
   };
 
   const storageAddEvent = async (
